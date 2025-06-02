@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <nav>
+        <a href="{{ url_for('home') }}">Home</a>
+        {% if 'usuario_id' in session %}
+            <span>Olá, {{ session['usuario_nome'] }}!</span>
+            <a href="{{ url_for('carrinho') }}">Carrinho</a>
+            <a href="{{ url_for('logout') }}">Sair</a>
+        {% else %}
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('cadastro') }}">Cadastre-se</a>
+        {% endif %}
+    </nav>
+    <title>Cadastro</title>
+</head>
+<body>
+    <h1>Cadastre-se</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form method="POST">
+        <label>Nome:</label>
+        <input type="text" name="nome" required><br>
+        
+        <label>Email:</label>
+        <input type="email" name="email" required><br>
+        
+        <label>Senha:</label>
+        <input type="password" name="senha" required><br>
+        
+        <button type="submit">Cadastrar</button>
+    </form>
+    <p>Já tem conta? <a href="{{ url_for('login') }}">Faça login</a></p>
+</body>
+</html>
