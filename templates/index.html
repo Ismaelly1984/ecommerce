@@ -19,7 +19,7 @@
             <span>Olá, {{ session['usuario_nome'] }}!</span>
             <a href="{{ url_for('ver_carrinho') }}">Carrinho</a>
 
-            <a href="{{ url_for('logout') }}">Sair</a>
+            <a href="{{ url_for('login') }}">Sair</a>
         {% else %}
             <a href="{{ url_for('login') }}">Login</a>
             <a href="{{ url_for('cadastro') }}">Cadastre-se</a>
