@@ -1,0 +1,184 @@
+/* style.css - Histórico de Pedidos */
+
+/* Main content styles */
+.main {
+    padding: 40px 0;
+    min-height: 60vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+.container h1 {
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: var(--black);
+    font-weight: 600;
+}
+
+/* Order list styles */
+.pedidos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.pedido-card {
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.pedido-card:hover {
+    box-shadow: var(--box-shadow-hover);
+    transform: translateY(-2px);
+}
+
+.pedido-header {
+    padding: 16px;
+    background-color: var(--gray-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.pedido-header h3 {
+    font-size: 16px;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.pedido-meta {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 14px;
+}
+
+.pedido-data {
+    color: var(--gray-dark);
+}
+
+.pedido-status {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.pedido-status.completado, 
+.pedido-status.entregue {
+    background-color: rgba(76, 201, 240, 0.1);
+    color: var(--success-color);
+}
+
+.pedido-status.processando {
+    background-color: rgba(255, 197, 77, 0.1);
+    color: var(--warning-color);
+}
+
+.pedido-status.cancelado {
+    background-color: rgba(247, 37, 133, 0.1);
+    color: var(--danger-color);
+}
+
+.pedido-total {
+    font-weight: 600;
+    color: var(--black);
+}
+
+.pedido-itens {
+    padding: 16px;
+}
+
+.pedido-itens h4 {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: var(--gray-dark);
+}
+
+.pedido-itens ul {
+    list-style: none;
+}
+
+.pedido-itens li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--gray-light);
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.pedido-itens li:last-child {
+    border-bottom: none;
+}
+
+/* Empty state styles */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: var(--box-shadow);
+}
+
+.empty-state p {
+    margin-bottom: 20px;
+    color: var(--gray-dark);
+    font-size: 16px;
+}
+
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .pedido-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .pedido-meta {
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .pedido-status {
+        order: 1;
+    }
+    
+    .pedido-total {
+        order: 2;
+        margin-left: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 20px;
+    }
+    
+    .pedido-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+    
+    .pedido-total {
+        margin-left: 0;
+    }
+    
+    .pedido-itens li {
+        flex-direction: column;
+        gap: 4px;
+    }
+}

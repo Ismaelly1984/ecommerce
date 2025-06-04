@@ -1,63 +1,71 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Carrinho de Compras</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/carrinho.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <nav>
         <a href="{{ url_for('home') }}">Home</a>
         {% if 'usuario_id' in session %}
-            <span>Olá, {{ session['usuario_nome'] }}!</span>
-            <a href="{{ url_for('ver_carrinho') }}">Carrinho</a>
-
-            <a href="{{ url_for('logout') }}">Sair</a>
+        <span>Olá, {{ session['usuario_nome'] }}!</span>
+        <a href="{{ url_for('ver_carrinho') }}">Carrinho</a>
+        <a href="{{ url_for('logout') }}">Sair</a>
         {% else %}
-            
+        <a href="{{ url_for('login') }}">Login</a>
         {% endif %}
     </nav>
-    <h1>Seu Carrinho</h1>
-    <a href="{{ url_for('home') }}">Continuar comprando</a>
-    
-    {% if carrinho %}
-    <table>
-        <tr>
-            <th>Produto</th>
-            <th>Preço Unitário</th>
-            <th>Quantidade</th>
-            <th>Subtotal</th>
-            <th>Ações</th>
-        </tr>
-        {% for item in carrinho %}
-        <tr>
-            <td>{{ item['nome'] }}</td>
-            <td>R$ {{ "%.2f"|format(item['preco']) }}</td>
-            <td>{{ item['quantidade'] }}</td>
-            <td>R$ {{ "%.2f"|format(item['preco'] * item['quantidade']) }}</td>
-            <td><a href="{{ url_for('remover_do_carrinho', produto_id=item['produto_id']) }}">Remover</a></td>
-        </tr>
-        {% endfor %}
-        <tr>
-            <td colspan="3" style="text-align: right;"><strong>Total:</strong></td>
-            <td><strong>R$ {{ "%.2f"|format(total) }}</strong></td>
-            <td></td>
-        </tr>
-    </table>
-    {% else %}
-    <p>Seu carrinho está vazio.</p>
-    {% endif %}
+
+    <div class="container">
+        <h1>Seu Carrinho</h1>
+        <a href="{{ url_for('home') }}" class="continue-shopping">Continuar comprando</a>
+
+        {% if carrinho %}
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Preço Unitário</th>
+                    <th>Quantidade</th>
+                    <th>Subtotal</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in carrinho %}
+                <tr>
+                    <td class="product-name">{{ item['nome'] }}</td>
+                    <td class="product-price">R$ {{ "%.2f"|format(item['preco']) }}</td>
+                    <td class="product-quantity">{{ item['quantidade'] }}</td>
+                    <td class="product-subtotal">R$ {{ "%.2f"|format(item['preco'] * item['quantidade']) }}</td>
+                    <td><a href="{{ url_for('remover_do_carrinho', produto_id=item['produto_id']) }}"
+                            class="action-link">Remover</a></td>
+                </tr>
+                {% endfor %}
+                <tr class="total-row">
+                    <td colspan="3" class="total-label"><strong>Total:</strong></td>
+                    <td class="total-value"><strong>R$ {{ "%.2f"|format(total) }}</strong></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div style="margin-top: 2rem; text-align: right;">
+            <!-- Substitua o formulário existente por este: -->
+            <form action="{{ url_for('finalizar_compra') }}" method="POST">
+                <button type="submit" class="btn">Finalizar compra</button>
+            </form>
+        </div>
+        {% else %}
+        <div class="empty-cart">
+            <p>Seu carrinho está vazio.</p>
+            <a href="{{ url_for('home') }}" class="btn">Ver Produtos</a>
+        </div>
+        {% endif %}
+    </div>
 </body>
+
 </html>

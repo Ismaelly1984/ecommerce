@@ -2,9 +2,10 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Login | Seu E-commerce</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -64,7 +65,7 @@
             </form>
 
             <div class="auth-footer">
-                <p>Não tem uma conta? <a href="{{ url_for('cadastro') }}">Cadastre-se</a></p>
+                <p>Não tem uma conta?  <a href="{{ url_for('cadastro') }}">Cadastre-se</a></p>
                 <div class="social-login">
                     <p>Ou entre com</p>
                     <div class="social-icons">

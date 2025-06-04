@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmação de Pedido | Seu E-commerce</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="header">
+        <!-- Inclua o mesmo header do seu site -->
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="confirmation-container">
+                <div class="confirmation-header">
+                    <i class="fas fa-check-circle"></i>
+                    <h1>Compra realizada com sucesso!</h1>
+                    <p>Obrigado por comprar conosco. Aqui estão os detalhes do seu pedido.</p>
+                </div>
+                
+                <div class="order-details">
+                    <div class="order-summary">
+                        <h3>Resumo do Pedido</h3>
+                        <div class="detail">
+                            <span>Número do Pedido:</span>
+                            <strong>#{{ pedido.id }}</strong>
+                        </div>
+                        <div class="detail">
+                            <span>Data:</span>
+                            <strong>{{ pedido.data }}</strong>
+                        </div>
+                        <div class="detail">
+                            <span>Status:</span>
+                            <span class="status {{ pedido.status|lower }}">{{ pedido.status }}</span>
+                        </div>
+                        <div class="detail">
+                            <span>Total:</span>
+                            <strong>R$ {{ "%.2f"|format(pedido.total) }}</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="order-items">
+                        <h3>Itens do Pedido</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Quantidade</th>
+                                    <th>Preço Unitário</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in pedido.itens %}
+                                <tr>
+                                    <td>{{ item[2] }}</td>
+                                    <td>{{ item[0] }}</td>
+                                    <td>R$ {{ "%.2f"|format(item[1]) }}</td>
+                                    <td>R$ {{ "%.2f"|format(item[0] * item[1]) }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="confirmation-actions">
+                    <a href="{{ url_for('home') }}" class="btn btn-primary">Continuar Comprando</a>
+                    <a href="{{ url_for('historico_pedidos') }}" class="btn btn-outline">Ver Histórico</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <!-- Inclua o mesmo footer do seu site -->
+    </footer>
+</body>
+</html>

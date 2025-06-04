@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produtos Premium | Seu E-commerce</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <title>Histórico de Pedidos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/historico.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header class="header">
@@ -44,53 +42,32 @@
             </nav>
         </div>
     </header>
-
-    <main class="main">
-        <div class="container">
-            <div class="page-header">
-                <h1>Coleção Premium</h1>
-                <div class="search-container">
-                    <form action="{{ url_for('buscar_produtos') }}" method="GET" class="search-form">
-                        <input type="text" name="q" placeholder="Buscar produtos premium..." class="search-input">
-                        <button type="submit" class="search-button">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </form>
-                </div>
+    <main class="container">
+        <h1>Seu Histórico de Pedidos</h1>
+        
+        {% if historico %}
+        <div class="pedidos-list">
+            {% for pedido in historico %}
+            <div class="pedido-card">
+                <h3>Pedido #{{ pedido.id }} - {{ pedido.status }}</h3>
+                <p>Data: {{ pedido.data }}</p>
+                <p>Total: R$ {{ "%.2f"|format(pedido.total) }}</p>
+                
+                <h4>Itens:</h4>
+                <ul>
+                    {% for item in pedido.itens %}
+                    <li>
+                        {{ item.quantidade }}x {{ item.nome }} - 
+                        R$ {{ "%.2f"|format(item.preco_unitario) }}
+                    </li>
+                    {% endfor %}
+                </ul>
             </div>
-
-            <div class="products-grid">
-                {% for produto in produtos %}
-                <div class="product-card">
-                    {% if produto[3] < 10 %}  <!-- Exibe badge se estoque baixo -->
-                    <span class="product-badge">Últimas unidades</span>
-                    {% endif %}
-                    
-                    <div class="product-image">
-                        <img src="{{ url_for('static', filename='images/produtos/' + produto[5]) if produto[5] else url_for('static', filename='images/produtos/default.jpg') }}" alt="{{ produto[1] }}">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">{{ produto[1] }}</h3>
-                        <p class="product-description">{{ produto[4]|truncate(100) }}</p>
-                        <div class="product-meta">
-                            <span class="product-price">R$ {{ "%.2f"|format(produto[2]) }}</span>
-                            <span class="product-rating">
-                                <i class="fas fa-star"></i> 4.8
-                            </span>
-                        </div>
-                        <div class="product-actions">
-                            <a href="{{ url_for('detalhes_produto', id=produto[0]) }}" class="btn btn-outline">
-                                <i class="fas fa-eye"></i> Detalhes
-                            </a>
-                            <a href="{{ url_for('adicionar_ao_carrinho', produto_id=produto[0]) }}" class="btn btn-primary">
-                                <i class="fas fa-shopping-cart"></i> Comprar
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
+            {% endfor %}
         </div>
+        {% else %}
+        <p>Nenhum pedido encontrado.</p>
+        {% endif %}
     </main>
 
     <footer class="footer">
