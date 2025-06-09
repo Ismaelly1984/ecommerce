@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 <body>
     <header class="header">
         <div class="container">
@@ -16,39 +18,7 @@
                 <i class="fas fa-crown"></i>
                 <span>PremiumStore</span>
             </a>
-            
-            <nav class="nav">
-                <a href="{{ url_for('home') }}" class="nav-link active">
-                    <i class="fas fa-home"></i> Home
-                </a>
-                
-                {% if 'usuario_id' in session %}
-                    <a href="{{ url_for('ver_carrinho') }}" class="nav-link">
-                        <i class="fas fa-shopping-cart"></i> 
-                        <span class="cart-count">0</span>
-                    </a>
-                    <div class="user-dropdown">
-                        <button class="user-avatar">
-                            <i class="fas fa-user-circle"></i>
-                        </button>
-                        <div class="dropdown-menu">
-                            <a href="{{ url_for('historico_pedidos') }}">Meus pedidos</a>
-                            <a href="{{ url_for('logout') }}">Sair</a>
-                        </div>
-                    </div>
-                {% else %}
-                    <a href="{{ url_for('login') }}" class="nav-link">
-                        <i class="fas fa-sign-in-alt"></i> Login
-                    </a>
-                {% endif %}
-            </nav>
-        </div>
-    </header>
-
-    <main class="main">
-        <div class="container">
             <div class="page-header">
-                <h1>Coleção Premium</h1>
                 <div class="search-container">
                     <form action="{{ url_for('buscar_produtos') }}" method="GET" class="search-form">
                         <input type="text" name="q" placeholder="Buscar produtos premium..." class="search-input">
@@ -58,40 +28,80 @@
                     </form>
                 </div>
             </div>
+            <nav class="nav">
+                <a href="{{ url_for('home') }}" class="nav-link active">
+                    <i class="fas fa-home"></i> Home
+                </a>
+
+                {% if 'usuario_id' in session %}
+                <a href="{{ url_for('ver_carrinho') }}" class="nav-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+                <div class="user-dropdown">
+                    <button class="user-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="{{ url_for('historico_pedidos') }}">Meus pedidos</a>
+                        <a href="{{ url_for('logout') }}">Sair</a>
+                    </div>
+                </div>
+                {% else %}
+                <a href="{{ url_for('login') }}" class="nav-link">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+
 
             <div class="products-grid">
                 {% for produto in produtos %}
                 <div class="product-card">
-                    {% if produto[3] < 10 %}  <!-- Exibe badge se estoque baixo -->
-                    <span class="product-badge">Últimas unidades</span>
-                    {% endif %}
-                    
-                    <div class="product-image">
-                        <img src="{{ url_for('static', filename='images/produtos/' + produto[5]) if produto[5] else url_for('static', filename='images/produtos/default.jpg') }}" alt="{{ produto[1] }}">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">{{ produto[1] }}</h3>
-                        <p class="product-description">{{ produto[4]|truncate(100) }}</p>
-                        <div class="product-meta">
-                            <span class="product-price">R$ {{ "%.2f"|format(produto[2]) }}</span>
-                            <span class="product-rating">
-                                <i class="fas fa-star"></i> 4.8
-                            </span>
+                    {% if produto[3] < 10 %} <span class="product-badge">Últimas unidades</span>
+                        {% endif %}
+
+                        <div class="product-image">
+                            <img src="{{ url_for('static', filename='images/produtos/' + produto[5]) if produto[5] else url_for('static', filename='images/produtos/default.jpg') }}"
+                                alt="{{ produto[1] }}">
                         </div>
-                        <div class="product-actions">
-                            <a href="{{ url_for('detalhes_produto', id=produto[0]) }}" class="btn btn-outline">
-                                <i class="fas fa-eye"></i> Detalhes
-                            </a>
-                            <a href="{{ url_for('adicionar_ao_carrinho', produto_id=produto[0]) }}" class="btn btn-primary">
-                                <i class="fas fa-shopping-cart"></i> Comprar
-                            </a>
+                        <div class="product-info">
+                            <h3 class="product-title">{{ produto[1] }}</h3>
+                            <p class="product-description">{{ produto[4] | default('') | truncate(100) }}</p>
+                            <div class="product-meta">
+                                <span class="product-price">R$ {{ "%.2f"|format(produto[2]) }}</span>
+                                <span class="product-rating">
+                                    <i class="fas fa-star"></i> 4.8
+                                </span>
+                            </div>
+                            <div class="product-actions">
+                                <a href="{{ url_for('detalhes_produto', id=produto[0]) }}" class="btn btn-outline">
+                                    <i class="fas fa-eye"></i> Detalhes
+                                </a>
+                                <a href="{{ url_for('adicionar_ao_carrinho', produto_id=produto[0]) }}"
+                                    class="btn btn-primary">
+                                    <i class="fas fa-shopping-cart"></i> Comprar
+                                </a>
+                            </div>
                         </div>
-                    </div>
                 </div>
                 {% endfor %}
             </div>
+
         </div>
-    </main>
+        {% if tem_mais %}
+        <div class="load-more-container">
+            <a href="{{ url_for('home') }}?pagina={{ pagina + 1 }}" class="btn btn-primary">
+                Ver Mais 10 Produtos
+            </a>
+        </div>
+        {% endif %}
+        
 
     <footer class="footer">
         <div class="container">
@@ -122,4 +132,5 @@
         </div>
     </footer>
 </body>
+
 </html>

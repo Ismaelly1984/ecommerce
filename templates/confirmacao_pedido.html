@@ -8,9 +8,39 @@
 </head>
 <body>
     <header class="header">
-        <!-- Inclua o mesmo header do seu site -->
+        <div class="container">
+            <a href="{{ url_for('home') }}" class="logo">
+                <i class="fas fa-crown"></i>
+                <span>PremiumStore</span>
+            </a>
+            
+            <nav class="nav">
+                <a href="{{ url_for('home') }}" class="nav-link active">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                
+                {% if 'usuario_id' in session %}
+                    <a href="{{ url_for('ver_carrinho') }}" class="nav-link">
+                        <i class="fas fa-shopping-cart"></i> 
+                        <span class="cart-count">0</span>
+                    </a>
+                    <div class="user-dropdown">
+                        <button class="user-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="{{ url_for('historico_pedidos') }}">Meus pedidos</a>
+                            <a href="{{ url_for('logout') }}">Sair</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="nav-link">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </a>
+                {% endif %}
+            </nav>
+        </div>
     </header>
-
     <main class="main">
         <div class="container">
             <div class="confirmation-container">

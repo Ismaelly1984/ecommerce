@@ -1,22 +1,24 @@
-/* login.css */
+/* Auth Container */
 .auth-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     padding: 20px;
+    background-color: var(--gray-light);
 }
 
 .auth-card {
     background: var(--white);
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--box-shadow);
     width: 100%;
     max-width: 450px;
     padding: 40px;
-    transition: all 0.3s ease;
+    transition: var(--transition);
 }
 
+/* Auth Header */
 .auth-header {
     text-align: center;
     margin-bottom: 30px;
@@ -48,6 +50,7 @@
     font-size: 14px;
 }
 
+/* Auth Form */
 .auth-form .form-group {
     margin-bottom: 20px;
 }
@@ -86,18 +89,19 @@
 .auth-form input {
     width: 100%;
     padding: 12px 12px 12px 40px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--gray-medium);
     border-radius: 6px;
     font-size: 14px;
-    transition: all 0.3s;
+    transition: var(--transition);
 }
 
 .auth-form input:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+    box-shadow: 0 0 0 3px rgba(108, 74, 182, 0.1);
     outline: none;
 }
 
+/* Form Options */
 .form-options {
     display: flex;
     justify-content: space-between;
@@ -126,6 +130,7 @@
     color: var(--primary-color);
 }
 
+/* Auth Button */
 .auth-btn {
     width: 100%;
     padding: 12px;
@@ -139,7 +144,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.3s;
+    transition: var(--transition);
 }
 
 .auth-btn i {
@@ -148,8 +153,11 @@
 
 .auth-btn:hover {
     background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--box-shadow-hover);
 }
 
+/* Auth Footer */
 .auth-footer {
     margin-top: 30px;
     text-align: center;
@@ -173,7 +181,7 @@
     height: 1px;
     top: 50%;
     width: 30%;
-    background-color: #ddd;
+    background-color: var(--gray-medium);
 }
 
 .social-login p::before {
@@ -199,7 +207,7 @@
     justify-content: center;
     color: white;
     font-size: 16px;
-    transition: transform 0.3s;
+    transition: var(--transition);
 }
 
 .social-btn:hover {
@@ -218,9 +226,19 @@
     background-color: #1da1f2;
 }
 
-/* Responsive adjustments */
+/* Responsive Adjustments */
 @media (max-width: 576px) {
     .auth-card {
         padding: 30px 20px;
+    }
+    
+    .form-options {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .forgot-password {
+        margin-left: 0;
     }
 }

@@ -839,7 +839,7 @@ def novo_produto():
         if 'imagem' in request.files:
             arquivo = request.files['imagem']
             if arquivo.filename != '':
-                if arquivo and allowed_file(arquivo.filename):
+                if arquivo and arquivo.filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif')):
                     filename = secure_filename(arquivo.filename)
                     filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                     arquivo.save(filepath)
