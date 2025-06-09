@@ -1,0 +1,34 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Logs do Sistema{% endblock %}
+{% block page_title %}Logs do Sistema{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Últimas Atividades</h3>
+    </div>
+    <div class="card-body">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Data/Hora</th>
+                    <th>Usuário</th>
+                    <th>Ação</th>
+                    <th>Detalhes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                <tr>
+                    <td>{{ log[3] }}</td>
+                    <td>{{ log[4] if log[4] else 'Sistema' }}</td>
+                    <td>{{ log[1] }}</td>
+                    <td>{{ log[2] if log[2] else '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

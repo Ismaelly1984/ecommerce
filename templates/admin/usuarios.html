@@ -1,0 +1,38 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Gerenciar Usuários{% endblock %}
+{% block page_title %}Gerenciar Usuários{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Todos os Usuários</h3>
+    </div>
+    <div class="card-body">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Pedidos</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuarios %}
+                <tr>
+                    <td>{{ usuario[0] }}</td>
+                    <td>{{ usuario[1] }}</td>
+                    <td>{{ usuario[2] }}</td>
+                    <td>
+                        <a href="{{ url_for('admin_pedidos') }}?user_id={{ usuario[0] }}" class="btn btn-sm btn-primary">
+                            <i class="fas fa-shopping-bag"></i> Ver Pedidos
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

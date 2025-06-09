@@ -1,0 +1,75 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Detalhes do Pedido #{{ pedido[0] }}{% endblock %}
+{% block page_title %}Detalhes do Pedido #{{ pedido[0] }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Itens do Pedido</h3>
+            </div>
+            <div class="card-body">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Quantidade</th>
+                            <th>Preço Unitário</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in itens %}
+                        <tr>
+                            <td><a href="{{ url_for('detalhes_produto', id=item[3]) }}">{{ item[2] }}</a></td>
+                            <td>{{ item[0] }}</td>
+                            <td>R$ {{ "%.2f"|format(item[1]) }}</td>
+                            <td>R$ {{ "%.2f"|format(item[0] * item[1]) }}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <td colspan="3" class="text-right"><strong>Total:</strong></td>
+                            <td><strong>R$ {{ "%.2f"|format(pedido[3]) }}</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Informações do Pedido</h3>
+            </div>
+            <div class="card-body">
+                <p><strong>Cliente:</strong> {{ pedido[4] }}</p>
+                <p><strong>Email:</strong> {{ pedido[5] }}</p>
+                <p><strong>Data:</strong> {{ pedido[1] }}</p>
+                <p><strong>Status:</strong> 
+                    <span class="badge badge-{{ pedido[2].lower() }}">
+                        {{ pedido[2] }}
+                    </span>
+                </p>
+                
+                <hr>
+                
+                <form method="POST" action="{{ url_for('atualizar_status_pedido', id=pedido[0]) }}">
+                    <div class="form-group">
+                        <label class="form-label">Alterar Status</label>
+                        <select class="form-control" name="status">
+                            <option value="Pendente" {% if pedido[2] == 'Pendente' %}selected{% endif %}>Pendente</option>
+                            <option value="Processando" {% if pedido[2] == 'Processando' %}selected{% endif %}>Processando</option>
+                            <option value="Enviado" {% if pedido[2] == 'Enviado' %}selected{% endif %}>Enviado</option>
+                            <option value="Entregue" {% if pedido[2] == 'Entregue' %}selected{% endif %}>Entregue</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Atualizar Status</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
