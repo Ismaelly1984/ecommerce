@@ -2,6 +2,8 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrinho de Compras</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/carrinho.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
@@ -66,8 +68,11 @@
                     <td class="product-price">R$ {{ "%.2f"|format(item['preco']) }}</td>
                     <td class="product-quantity">{{ item['quantidade'] }}</td>
                     <td class="product-subtotal">R$ {{ "%.2f"|format(item['preco'] * item['quantidade']) }}</td>
-                    <td><a href="{{ url_for('remover_do_carrinho', produto_id=item['produto_id']) }}"
-                            class="action-link">Remover</a></td>
+                    <td>
+                        <form action="{{ url_for('remover_do_carrinho', produto_id=item.id) }}" method="POST">
+                            <button type="submit" class="btn-remover-carrinho">Remover</button>
+                        </form>
+                    </td>
                 </tr>
                 {% endfor %}
                 <tr class="total-row">
@@ -91,6 +96,44 @@
         </div>
         {% endif %}
     </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+          
+          <div class="footer-section">
+            <h3>Sobre Nós</h3>
+            <p>Somos uma loja comprometida com qualidade, confiança e atendimento excepcional aos nossos clientes.</p>
+          </div>
+          
+          <div class="footer-section">
+            <h3>Links Rápidos</h3>
+            <a href="/">Início</a>
+            <a href="/produtos">Produtos</a>
+            <a href="/contato">Contato</a>
+            <a href="/sobre">Sobre</a>
+          </div>
+          
+          <div class="footer-section">
+            <h3>Fale Conosco</h3>
+            <p>WhatsApp: (99) 99999-9999</p>
+            <p>Email: contato@exemplo.com</p>
+            <p>Endereço: Rua Exemplo, 123 - Cidade</p>
+          </div>
+          
+          <div class="footer-section">
+            <h3>Newsletter</h3>
+            <form class="newsletter-form" action="/newsletter" method="POST">
+              <input type="email" name="email" placeholder="Seu e-mail" required>
+              <button type="submit">Inscrever</button>
+            </form>
+          </div>
+        
+        </div>
+        
+        <div class="footer-bottom">
+          &copy; 2025 Sua Loja. Todos os direitos reservados.
+        </div>
+      </footer>
 </body>
 
 </html>

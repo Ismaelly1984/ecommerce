@@ -10,7 +10,7 @@
         <div class="card stat-card bg-primary text-white h-100">
             <div class="card-body">
                 <h5 class="card-title">Produtos</h5>
-                <h2 class="card-text">{{ stats.total_produtos }}</h2>
+                <h2 class="card-text">{{ total_produtos }}</h2>
                 <i class="fas fa-box-open float-end fs-1 opacity-50"></i>
             </div>
         </div>
@@ -20,7 +20,7 @@
         <div class="card stat-card bg-success text-white h-100">
             <div class="card-body">
                 <h5 class="card-title">Usuários</h5>
-                <h2 class="card-text">{{ stats.total_usuarios }}</h2>
+                <h2 class="card-text">{{ total_usuarios }}</h2>
                 <i class="fas fa-users float-end fs-1 opacity-50"></i>
             </div>
         </div>
@@ -30,7 +30,7 @@
         <div class="card stat-card bg-info text-white h-100">
             <div class="card-body">
                 <h5 class="card-title">Pedidos</h5>
-                <h2 class="card-text">{{ stats.total_pedidos }}</h2>
+                <h2 class="card-text">{{ total_pedidos }}</h2>
                 <i class="fas fa-shopping-bag float-end fs-1 opacity-50"></i>
             </div>
         </div>
@@ -40,7 +40,7 @@
         <div class="card stat-card bg-warning text-dark h-100">
             <div class="card-body">
                 <h5 class="card-title">Vendas Totais</h5>
-                <h2 class="card-text">R$ {{ "%.2f"|format(stats.vendas_totais) }}</h2>
+                <h2 class="card-text">R$ {{ "%.2f"|format(vendas_totais) }}</h2>
                 <i class="fas fa-dollar-sign float-end fs-1 opacity-50"></i>
             </div>
         </div>
