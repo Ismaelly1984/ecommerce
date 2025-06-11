@@ -18,7 +18,20 @@
                 <i class="fas fa-crown"></i>
                 <span>PremiumStore</span>
             </a>
-
+            <button class="menu-toggle" aria-label="Abrir menu">
+                <i class="fas fa-bars"></i>
+              </button>
+              
+            <div class="page-header">
+                <div class="search-container">
+                    <form action="{{ url_for('buscar_produtos') }}" method="GET" class="search-form">
+                        <input type="text" name="q" placeholder="Buscar produtos premium..." class="search-input">
+                        <button type="submit" class="search-button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
             <nav class="nav">
                 <a href="{{ url_for('home') }}" class="nav-link active">
                     <i class="fas fa-home"></i> Home
@@ -28,6 +41,7 @@
                 <a href="{{ url_for('ver_carrinho') }}" class="nav-link">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count">{{ total_itens|default(0) }}</span>
+
                 </a>
                 <div class="user-dropdown">
                     <button class="user-avatar">

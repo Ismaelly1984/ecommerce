@@ -420,6 +420,8 @@ def finalizar_compra():
 
         total = sum(item['preco'] * item['quantidade'] for item in carrinho_db_items)
 
+        import datetime
+
         # 1. Create the order
         cursor.execute('''
             INSERT INTO pedidos (usuario_id, data, status, total)
@@ -581,6 +583,7 @@ def confirmacao_pedido(pedido_id):
     itens = cursor.fetchall()
     conn.close()
 
+    # --- THIS IS THE CHANGE ---
     return render_template('confirmacao_pedido.html',
                          pedido={
                              'id': pedido['id'],
@@ -589,6 +592,8 @@ def confirmacao_pedido(pedido_id):
                              'total': pedido['total'],
                              'itens': itens # Itens are already dict-like
                          })
+
+   
 
 # --- Admin Routes ---
 # admin_required decorator is defined correctly above.

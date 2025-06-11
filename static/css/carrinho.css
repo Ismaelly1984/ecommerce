@@ -1,168 +1,274 @@
+/* carrinho.css */
 
-/* Main Content */
-.container {
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 2rem;
+/* Main container adjustment */
+body > .container { /* Target the main container specifically */
+    padding-top: var(--spacing-xl); /* Space below the header */
+    padding-bottom: var(--spacing-xl);
+    flex-grow: 1; /* Allows the content to take available space */
+    min-height: calc(100vh - var(--header-height, 100px) - var(--footer-height, 200px)); /* Ensure it fills height */
 }
 
 h1 {
-    color: #212529;
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: var(--spacing-md);
+    font-weight: 700;
 }
 
 .continue-shopping {
     display: inline-block;
-    margin-bottom: 2rem;
-    color: #6C4AB6;
-    text-decoration: none;
+    margin-bottom: var(--spacing-lg);
+    color: var(--text-light);
     font-weight: 500;
+    transition: color var(--transition-speed) ease;
 }
 
-/* Cart Table */
-.cart-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #ffffff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-}
-
-.cart-table th {
-    background-color: #f8f9fa;
-    padding: 1rem;
-    text-align: left;
-    font-weight: 600;
-    color: #495057;
-}
-
-.cart-table td {
-    padding: 1rem;
-    border-bottom: 1px solid #e9ecef;
-    vertical-align: middle;
-}
-
-.cart-table tr:last-child td {
-    border-bottom: none;
-}
-
-.cart-table tr:hover {
-    background-color: #f8f9fa;
-}
-
-/* Product Info */
-.product-name {
-    font-weight: 500;
-    color: #212529;
-}
-
-.product-price {
-    color: #6C4AB6;
-    font-weight: 500;
-}
-
-.product-quantity {
-    font-weight: 500;
-}
-
-.product-subtotal {
-    font-weight: 600;
-    color: #212529;
-}
-
-/* Actions */
-.action-link {
-    color: #dc3545;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.action-link:hover {
-    color: #bb2d3b;
+.continue-shopping:hover {
+    color: var(--primary-color);
     text-decoration: underline;
 }
 
-/* Total Row */
-.total-row {
-    background-color: #f8f9fa;
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden; /* Ensures rounded corners apply to content */
+    box-shadow: 0 8px 25px var(--shadow-light);
+    margin-bottom: var(--spacing-xl);
+}
+
+.cart-table thead th {
+    background-color: var(--primary-color);
+    color: white;
+    padding: var(--spacing-md);
+    text-align: left;
     font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
 }
 
-.total-row td {
-    padding: 1.25rem 1rem;
+.cart-table tbody td {
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-dark);
+    font-size: 0.95rem;
+    vertical-align: middle; /* Vertically align content in cells */
 }
 
-.total-label {
+.cart-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.cart-table .product-name {
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+.cart-table .product-price,
+.cart-table .product-subtotal {
+    font-weight: 500;
+    color: var(--primary-dark);
+}
+
+.cart-table .product-quantity {
+    font-weight: 500;
+}
+
+.btn-remover-carrinho {
+    background-color: var(--danger);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: var(--border-radius-pill);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease;
+    font-weight: 500;
+}
+
+.btn-remover-carrinho:hover {
+    background-color: #c0392b; /* Darker red */
+}
+
+.total-row {
+    background-color: var(--bg-light);
+    border-top: 2px solid var(--border-color);
+}
+
+.total-row .total-label {
     text-align: right;
-    color: #495057;
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+    padding-right: var(--spacing-md);
 }
 
-.total-value {
-    color: #6C4AB6;
-    font-size: 1.1rem;
+.total-row .total-value {
+    font-size: 1.4rem;
+    color: var(--primary-color);
 }
 
-/* Empty Cart */
+/* Empty Cart Message */
 .empty-cart {
     text-align: center;
-    padding: 3rem;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    padding: var(--spacing-xl);
+    background-color: white;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 8px 25px var(--shadow-light);
+    max-width: 600px;
+    margin: var(--spacing-xl) auto;
 }
 
 .empty-cart p {
-    font-size: 1.1rem;
-    color: #6c757d;
-    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    color: var(--text-light);
+    margin-bottom: var(--spacing-lg);
 }
 
-/* Buttons */
-.btn {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background-color: #6C4AB6;
+.empty-cart .btn {
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    background-color: var(--primary-color);
     color: white;
     border: none;
-    border-radius: 6px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    text-align: center;
+    border-radius: var(--border-radius-pill);
+    transition: background-color var(--transition-speed) ease;
 }
 
-/* Responsive Design */
+.empty-cart .btn:hover {
+    background-color: var(--primary-dark);
+    transform: none; /* Override default button hover */
+    box-shadow: none; /* Override default button hover */
+}
+
+/* Finalize purchase button alignment */
+.container > div[style="margin-top: 2rem; text-align: right;"] {
+    display: flex;
+    justify-content: flex-end; /* Pushes the button to the right */
+    padding-right: var(--spacing-md); /* Add padding for consistency with table */
+    margin-bottom: var(--spacing-xl); /* Space below the button */
+}
+
+.container > div[style="margin-top: 2rem; text-align: right;"] .btn {
+    padding: 15px 35px;
+    font-size: 1.2rem;
+}
+
+
+/* --- Responsive Adjustments --- */
 @media (max-width: 768px) {
-    .cart-table {
-        display: block;
-        overflow-x: auto;
+    h1 {
+        font-size: 2rem;
     }
-    
-    nav {
-        flex-wrap: wrap;
-        gap: 1rem;
-        padding: 1rem;
+
+    .cart-table thead {
+        display: none; /* Hide table headers on small screens */
     }
-    
-    nav span {
-        margin-left: 0;
+
+    .cart-table,
+    .cart-table tbody,
+    .cart-table tr,
+    .cart-table td {
+        display: block; /* Make table elements behave like blocks */
         width: 100%;
-        order: 1;
+    }
+
+    .cart-table tr {
+        margin-bottom: var(--spacing-md);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius-md);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .cart-table td {
+        text-align: right;
+        padding-left: 50%; /* Make space for pseudo-element labels */
+        position: relative;
+    }
+
+    .cart-table td::before {
+        content: attr(data-label); /* Use data-label for content */
+        position: absolute;
+        left: var(--spacing-md);
+        width: calc(50% - var(--spacing-md));
+        text-align: left;
+        font-weight: 600;
+        color: var(--secondary-color);
+    }
+
+    .cart-table td:nth-of-type(1)::before { content: "Produto:"; }
+    .cart-table td:nth-of-type(2)::before { content: "Preço Unitário:"; }
+    .cart-table td:nth-of-type(3)::before { content: "Quantidade:"; }
+    .cart-table td:nth-of-type(4)::before { content: "Subtotal:"; }
+    .cart-table td:nth-of-type(5)::before { content: "Ações:"; }
+
+    /* Hide redundant product-name label on small screens if product name is already the main text */
+    .cart-table .product-name::before {
+        display: none;
+    }
+    
+    .cart-table .total-row {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        border-top: 2px solid var(--border-color);
+        margin-top: var(--spacing-md);
+        background-color: white; /* Ensure total row background matches other cards */
+        box-shadow: none; /* Remove extra shadow */
+    }
+
+    .cart-table .total-row td {
+        text-align: right;
+        border-bottom: none;
+        padding-left: var(--spacing-md); /* Adjust padding */
+    }
+
+    .cart-table .total-row .total-label {
+        font-size: 1.1rem;
+        padding-right: 0;
+    }
+
+    .cart-table .total-row .total-value {
+        font-size: 1.3rem;
+    }
+
+    .container > div[style="margin-top: 2rem; text-align: right;"] {
+        justify-content: center; /* Center the button on small screens */
+        padding-right: 0;
     }
 }
 
 @media (max-width: 480px) {
-    .container {
-        padding: 0 1rem;
+    h1 {
+        font-size: 1.8rem;
     }
-    
-    .cart-table td, 
-    .cart-table th {
-        padding: 0.75rem 0.5rem;
+
+    .cart-table td {
+        padding: 10px var(--spacing-sm);
         font-size: 0.9rem;
+    }
+
+    .cart-table td::before {
+        left: var(--spacing-sm);
+        font-size: 0.85rem;
+    }
+
+    .btn-remover-carrinho {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
+    .empty-cart {
+        padding: var(--spacing-lg);
+    }
+
+    .empty-cart p {
+        font-size: 1.1rem;
+    }
+
+    .empty-cart .btn {
+        padding: 12px 25px;
+        font-size: 1rem;
     }
 }

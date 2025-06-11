@@ -1,184 +1,160 @@
-/* style.css - Histórico de Pedidos */
 
-/* Main content styles */
-.main {
-    padding: 40px 0;
-    min-height: 60vh;
+ /* historico.css */
+
+/* Main content adjustments for this page */
+main.container {
+    padding-top: var(--spacing-xl); /* Ensure space below header */
+    padding-bottom: var(--spacing-xl);
+    min-height: calc(100vh - var(--header-height, 100px) - var(--footer-height, 200px)); /* Adjust heights as needed */
+    flex-grow: 1; /* Allows main to take available space */
 }
 
-.container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 30px;
+h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    font-weight: 700;
 }
 
-.container h1 {
-    font-size: 28px;
-    margin-bottom: 30px;
-    color: var(--black);
-    font-weight: 600;
-}
-
-/* Order list styles */
 .pedidos-list {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: var(--spacing-lg); /* Space between order cards */
+    max-width: 800px; /* Constrain width for better readability */
+    margin: 0 auto;
 }
 
 .pedido-card {
-    background-color: var(--white);
-    border-radius: 8px;
-    box-shadow: var(--box-shadow);
-    overflow: hidden;
-    transition: var(--transition);
+    background-color: white;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 5px 20px var(--shadow-light);
+    padding: var(--spacing-lg);
+    border-left: 5px solid var(--primary-color); /* Highlight with primary color */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .pedido-card:hover {
-    box-shadow: var(--box-shadow-hover);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px var(--shadow-medium);
 }
 
-.pedido-header {
-    padding: 16px;
-    background-color: var(--gray-light);
+.pedido-card h3 {
+    font-size: 1.6rem;
+    color: var(--text-dark);
+    margin-bottom: var(--spacing-xs);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
+    font-weight: 600;
 }
 
-.pedido-header h3 {
-    font-size: 16px;
+.pedido-card h3::after {
+    content: ''; /* No content, used for alignment or future icon */
+}
+
+.pedido-card p {
+    font-size: 1rem;
+    color: var(--text-light);
+    margin-bottom: var(--spacing-xs);
+}
+
+.pedido-card p:last-of-type { /* Style for the total */
+    font-weight: 600;
     color: var(--primary-color);
-    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-md);
 }
 
-.pedido-meta {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    font-size: 14px;
+.pedido-card h4 {
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: var(--spacing-xs);
 }
 
-.pedido-data {
-    color: var(--gray-dark);
+.pedido-card ul {
+    list-style: none; /* Remove default list style */
+    padding-left: 0;
 }
 
-.pedido-status {
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 500;
-    text-transform: capitalize;
-}
-
-.pedido-status.completado, 
-.pedido-status.entregue {
-    background-color: rgba(76, 201, 240, 0.1);
-    color: var(--success-color);
-}
-
-.pedido-status.processando {
-    background-color: rgba(255, 197, 77, 0.1);
-    color: var(--warning-color);
-}
-
-.pedido-status.cancelado {
-    background-color: rgba(247, 37, 133, 0.1);
-    color: var(--danger-color);
-}
-
-.pedido-total {
-    font-weight: 600;
-    color: var(--black);
-}
-
-.pedido-itens {
-    padding: 16px;
-}
-
-.pedido-itens h4 {
-    font-size: 14px;
-    margin-bottom: 10px;
-    color: var(--gray-dark);
-}
-
-.pedido-itens ul {
-    list-style: none;
-}
-
-.pedido-itens li {
-    padding: 8px 0;
-    border-bottom: 1px solid var(--gray-light);
-    font-size: 14px;
+.pedido-card ul li {
+    background-color: var(--bg-light);
+    padding: 10px 15px;
+    border-radius: var(--border-radius-sm);
+    margin-bottom: 8px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    border: 1px solid var(--border-color);
 }
 
-.pedido-itens li:last-child {
-    border-bottom: none;
+.pedido-card ul li:last-child {
+    margin-bottom: 0;
 }
 
-/* Empty state styles */
-.empty-state {
+/* No orders message */
+main.container > p {
     text-align: center;
-    padding: 40px 20px;
-    background-color: var(--white);
-    border-radius: 8px;
-    box-shadow: var(--box-shadow);
+    font-size: 1.2rem;
+    color: var(--text-light);
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background-color: white;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 5px 20px var(--shadow-light);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.empty-state p {
-    margin-bottom: 20px;
-    color: var(--gray-dark);
-    font-size: 16px;
-}
 
-
-
-/* Responsive adjustments */
+/* --- Responsive Adjustments --- */
 @media (max-width: 768px) {
-    .pedido-header {
-        flex-direction: column;
-        align-items: flex-start;
+    h1 {
+        font-size: 2rem;
+        margin-bottom: var(--spacing-lg);
     }
-    
-    .pedido-meta {
-        width: 100%;
-        flex-wrap: wrap;
-        gap: 8px;
+
+    .pedido-card {
+        padding: var(--spacing-md);
     }
-    
-    .pedido-status {
-        order: 1;
+
+    .pedido-card h3 {
+        font-size: 1.4rem;
     }
-    
-    .pedido-total {
-        order: 2;
-        margin-left: auto;
+
+    .pedido-card p {
+        font-size: 0.9rem;
+    }
+
+    .pedido-card h4 {
+        font-size: 1.1rem;
+    }
+
+    .pedido-card ul li {
+        padding: 8px 12px;
+        font-size: 0.9rem;
     }
 }
 
 @media (max-width: 480px) {
-    .container {
-        padding: 0 20px;
+    h1 {
+        font-size: 1.8rem;
     }
-    
-    .pedido-meta {
-        flex-direction: column;
+
+    .pedido-card h3 {
+        flex-direction: column; /* Stack order ID and status */
         align-items: flex-start;
-        gap: 6px;
+        gap: 5px;
+        font-size: 1.3rem;
     }
-    
-    .pedido-total {
-        margin-left: 0;
-    }
-    
-    .pedido-itens li {
-        flex-direction: column;
-        gap: 4px;
+
+    .pedido-card p {
+        font-size: 0.85rem;
     }
 }

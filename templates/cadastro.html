@@ -1,40 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro</title>
+    <title>Cadastro - Seu E-commerce</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        
+    </style>
 </head>
+
 <body>
-    
     <main>
-       
-        <div class="container">
-            <h1>Cadastre-se</h1>
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }}">{{ message }}</div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
+        <div class="container_cadastro">
+            <h1><i class="fas fa-user-plus"></i> Cadastre-se</h1>
+
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i>
+                <span>Bem-vindo! Preencha seus dados para criar sua conta.</span>
+            </div>
+
             <form method="POST">
-                <label for="nome">Nome:</label>
-                <input type="text" id="nome" name="nome" required>
-                
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-                
-                <label for="senha">Senha:</label>
-                <input type="password" id="senha" name="senha" required>
-                
-                <button type="submit">Cadastrar</button>
+                <div class="form-group">
+                    <label for="nome"><i class="fas fa-user"></i> Nome:</label>
+                    <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email"><i class="fas fa-envelope"></i> Email:</label>
+                    <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="senha"><i class="fas fa-lock"></i> Senha:</label>
+                    <div class="password-container">
+                        <input type="password" id="senha" name="senha" placeholder="••••••••" required>
+                        <i class="fas fa-eye toggle-password" onclick="togglePassword()"></i>
+                    </div>
+                </div>
+
+                <button type="submit">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Cadastrar</span>
+                </button>
             </form>
+
             <p>Já tem conta? <a href="{{ url_for('login') }}">Faça login</a></p>
         </div>
     </main>
+
+    <script>
+        function togglePassword() {
+            const password = document.getElementById('senha');
+            const icon = document.querySelector('.toggle-password');
+            if (password.type === 'password') {
+                password.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                password.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+    </script>
 </body>
+
 </html>

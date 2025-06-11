@@ -20,8 +20,8 @@
             </a>
             <button class="menu-toggle" aria-label="Abrir menu">
                 <i class="fas fa-bars"></i>
-              </button>
-              
+            </button>
+
             <div class="page-header">
                 <div class="search-container">
                     <form action="{{ url_for('buscar_produtos') }}" method="GET" class="search-form">
@@ -33,9 +33,6 @@
                 </div>
             </div>
             <nav class="nav">
-                <a href="{{ url_for('home') }}" class="nav-link active">
-                    <i class="fas fa-home"></i> Home
-                </a>
 
                 {% if 'usuario_id' in session %}
                 <a href="{{ url_for('ver_carrinho') }}" class="nav-link">
@@ -70,11 +67,9 @@
                 <div class="product-card">
                     {% if produto[3] < 10 %} <span class="product-badge">Últimas unidades</span>
                         {% endif %}
+                        <img src="{{ url_for('static', filename='uploads/' + produto.imagem) if produto.imagem else url_for('static', filename='images/produtos/default.jpg') }}"
+                            alt="{{ produto.nome }}" class="img-fluid">
 
-                        <div class="product-image">
-                            <img src="{{ url_for('static', filename='uploads/' + produto.imagem) if produto.imagem else url_for('static', filename='images/produtos/default.jpg') }}"
-                        alt="{{ produto.nome }}" class="img-fluid">
-                        </div>
                         <div class="product-info">
                             <h3 class="product-title">{{ produto[1] }}</h3>
                             <p class="product-description">{{ produto[4] | default('') | truncate(100) }}</p>
@@ -88,7 +83,8 @@
                                 <a href="{{ url_for('detalhes_produto', id=produto[0]) }}" class="btn btn-outline">
                                     <i class="fas fa-eye"></i> Detalhes
                                 </a>
-                                <form action="{{ url_for('adicionar_ao_carrinho', produto_id=produto.id) }}" method="POST">
+                                <form action="{{ url_for('adicionar_ao_carrinho', produto_id=produto.id) }}"
+                                    method="POST">
                                     <button type="submit" class="btn-adicionar-carrinho">Adicionar ao Carrinho</button>
                                 </form>
                             </div>
@@ -106,54 +102,56 @@
         </div>
         {% endif %}
 
-        <footer class="footer">
-            <div class="footer-content">
+       
+    </main>
+    <footer class="footer">
+        <div class="footer-content">
 
-                <div class="footer-section">
-                    <h3>Sobre Nós</h3>
-                    <p>Somos uma loja comprometida com qualidade, confiança e atendimento excepcional aos nossos
-                        clientes.</p>
-                </div>
-
-                <div class="footer-section">
-                    <h3>Links Rápidos</h3>
-                    <a href="/">Início</a>
-                    <a href="/produtos">Produtos</a>
-                    <a href="/contato">Contato</a>
-                    <a href="/sobre">Sobre</a>
-                </div>
-
-                <div class="footer-section">
-                    <h3>Fale Conosco</h3>
-                    <p>WhatsApp: (99) 99999-9999</p>
-                    <p>Email: contato@exemplo.com</p>
-                    <p>Endereço: Rua Exemplo, 123 - Cidade</p>
-                </div>
-
-                <div class="footer-section">
-                    <h3>Newsletter</h3>
-                    <form class="newsletter-form" action="/newsletter" method="POST">
-                        <input type="email" name="email" placeholder="Seu e-mail" required>
-                        <button type="submit">Inscrever</button>
-                    </form>
-                </div>
-
+            <div class="footer-section">
+                <h3>Sobre Nós</h3>
+                <p>Somos uma loja comprometida com qualidade, confiança e atendimento excepcional aos nossos
+                    clientes.
+                </p>
             </div>
 
-            <div class="footer-bottom">
-                &copy; 2025 Sua Loja. Todos os direitos reservados.
+            <div class="footer-section">
+                <h3>Links Rápidos</h3>
+                <a href="/">Início</a>
+                <a href="/produtos">Produtos</a>
+                <a href="/contato">Contato</a>
+                <a href="/sobre">Sobre</a>
             </div>
-        </footer>
 
+            <div class="footer-section">
+                <h3>Fale Conosco</h3>
+                <p>WhatsApp: (99) 99999-9999</p>
+                <p>Email: contato@exemplo.com</p>
+                <p>Endereço: Rua Exemplo, 123 - Cidade</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <form class="newsletter-form" action="/newsletter" method="POST">
+                    <input type="email" name="email" placeholder="Seu e-mail" required>
+                    <button type="submit">Inscrever</button>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            &copy; 2025 Sua Loja. Todos os direitos reservados.
+        </div>
+    </footer>
 </body>
 <script>
     const toggleButton = document.querySelector('.menu-toggle');
     const navMenu = document.querySelector('.nav');
-  
+
     toggleButton.addEventListener('click', () => {
-      navMenu.classList.toggle('open');
+        navMenu.classList.toggle('open');
     });
-  </script>
-  
+</script>
+
 
 </html>

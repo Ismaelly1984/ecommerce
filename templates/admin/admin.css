@@ -1,0 +1,214 @@
+/* admin.css */
+
+/* Custom Variables (if needed, otherwise rely on Bootstrap) */
+/* You can define custom colors here if you want to override Bootstrap's defaults,
+   or add new ones specific to your admin theme. */
+
+:root {
+    --admin-sidebar-bg: #2c3e50;
+    --admin-text-color: #ecf0f1;
+    --admin-active-bg: #34495e;
+    --admin-hover-bg: #3a536b;
+    --admin-card-shadow: rgba(0, 0, 0, 0.1);
+}
+
+
+body {
+    background-color: #f8f9fa; /* Light background for the whole page */
+    color: #333; /* Default text color */
+}
+
+/* Sidebar Customizations */
+.sidebar {
+    background: #343a40; /* Dark background from Bootstrap */
+    padding-top: 1rem; /* Space above sidebar content */
+    border-right: 1px solid rgba(0, 0, 0, 0.1); /* Subtle right border */
+    position: fixed; /* Keep sidebar fixed */
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000; /* Ensure it's above other content */
+    overflow-y: auto; /* Enable scrolling for long content */
+    display: flex; /* Use flex to push nav to top and sticky */
+    flex-direction: column;
+}
+
+.sidebar .position-sticky {
+    /* Adjustments for sticky behavior within the flex column */
+    height: calc(100vh - 1rem); /* Full viewport height minus top padding */
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.75); /* Lighter text for links */
+    padding: 0.75rem 1rem; /* Comfortable padding */
+    display: flex; /* For icon and text alignment */
+    align-items: center;
+    transition: all 0.2s ease-in-out; /* Smooth transition for hover/active */
+    border-radius: 0.25rem; /* Slightly rounded corners */
+    margin: 0.25rem 0.5rem; /* Small margin for visual separation */
+}
+
+.sidebar .nav-link i {
+    font-size: 1.1rem; /* Slightly larger icons */
+}
+
+.sidebar .nav-link:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.15); /* Slightly lighter hover background */
+}
+
+.sidebar .nav-link.active {
+    color: white;
+    background: rgba(255, 255, 255, 0.25); /* More distinct active background */
+    font-weight: 600; /* Bolder active text */
+}
+
+.sidebar .nav-item.mt-3 {
+    margin-top: 1.5rem !important; /* More space for the "Back to Store" link */
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Separator line */
+    padding-top: 1rem;
+}
+
+/* Main Content Area */
+main {
+    margin-left: 25%; /* Offset for sidebar width (col-md-3) */
+    background-color: #f8f9fa; /* Ensure main content has light background */
+}
+
+/* On medium and large screens, adjust margin */
+@media (min-width: 768px) {
+    main {
+        margin-left: 16.666667%; /* col-lg-2 width */
+    }
+}
+
+
+/* Dashboard Header */
+.d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pt-3.pb-2.mb-3.border-bottom {
+    background-color: white; /* White background for the top bar */
+    padding: 1rem 1.5rem !important; /* Adjust padding */
+    margin-bottom: 0 !important; /* Remove bottom margin */
+    border-bottom: 1px solid #dee2e6; /* Standard Bootstrap border color */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+    position: sticky; /* Sticky header */
+    top: 0;
+    z-index: 999; /* Below sidebar, above content */
+}
+
+.d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pt-3.pb-2.mb-3.border-bottom h1 {
+    font-size: 1.75rem; /* Slightly smaller heading */
+    color: #343a40; /* Dark text */
+    margin-bottom: 0;
+}
+
+/* User Dropdown */
+.dropdown-toggle {
+    background-color: white;
+    color: #495057;
+    border-color: #ced4da;
+    transition: all 0.2s ease-in-out;
+}
+.dropdown-toggle:hover {
+    background-color: #e2e6ea;
+    border-color: #dae0e5;
+    color: #495057;
+}
+
+.dropdown-menu {
+    border-radius: 0.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+.dropdown-item {
+    color: #343a40;
+    padding: 0.75rem 1rem;
+}
+.dropdown-item:hover {
+    background-color: #e9ecef;
+    color: #0d6efd; /* Bootstrap primary color */
+}
+
+/* Stat Cards (from original snippet) */
+.stat-card {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Add box-shadow to transition */
+    border-radius: 0.75rem; /* More rounded corners */
+    overflow: hidden; /* Ensure content respects border-radius */
+}
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12); /* More prominent shadow on hover */
+}
+
+/* Alert Messages (from original snippet) */
+.alert {
+    margin-top: 1.5rem; /* Space after the header */
+    border-radius: 0.5rem; /* Rounded corners for alerts */
+}
+
+/* Bootstrap Overrides (Optional - if you want more specific control) */
+/* Example: Adjust font sizes or spacing if default Bootstrap isn't quite right */
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+}
+
+
+
+/* Media Queries for Responsiveness */
+
+/* Small devices (landscape phones, 576px and up) */
+@media (max-width: 767.98px) {
+    .sidebar {
+        position: fixed; /* Keep fixed position for overlay effect */
+        width: 250px; /* Fixed width when collapsed */
+        transform: translateX(-100%); /* Hide sidebar by default */
+        transition: transform 0.3s ease-in-out;
+        z-index: 1050; /* Higher z-index to overlay content */
+    }
+
+    .sidebar.show { /* Class added by Bootstrap JS when toggled */
+        transform: translateX(0%); /* Show sidebar */
+    }
+
+    main {
+        margin-left: 0; /* No margin when sidebar is collapsed */
+    }
+
+    .d-md-block {
+        display: none !important; /* Hide on small screens unless explicitly shown by JS */
+    }
+
+    /* Add an overlay when sidebar is open */
+    body.sidebar-open::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+        z-index: 1040; /* Below sidebar, above content */
+        transition: opacity 0.3s ease-in-out;
+        opacity: 1;
+    }
+    body:not(.sidebar-open)::before {
+        opacity: 0;
+        pointer-events: none; /* Disable interaction with overlay when hidden */
+    }
+
+    /* Bootstrap toggle button for sidebar (if you add one) */
+    .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    /* You might want to adjust main content padding for smaller screens if needed */
+    main {
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+    }
+}
