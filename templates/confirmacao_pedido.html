@@ -100,10 +100,10 @@
                             <tbody>
                                 {% for item in pedido.itens %}
                                 <tr>
-                                    <td>{{ item[2] }}</td>
-                                    <td>{{ item[0] }}</td>
-                                    <td>R$ {{ "%.2f"|format(item[1]) }}</td>
-                                    <td>R$ {{ "%.2f"|format(item[0] * item[1]) }}</td>
+                                    <td data-label="Produto:">{{ item[2] }}</td>
+                                    <td data-label="Quantidade:">{{ item[0] }}</td>
+                                    <td data-label="Preço Unitário:">R$ {{ "%.2f"|format(item[1]) }}</td>
+                                    <td data-label="Subtotal:">R$ {{ "%.2f"|format(item[0] * item[1]) }}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>

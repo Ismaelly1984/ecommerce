@@ -1,267 +1,233 @@
-:root {
-    --primary: #e67e22;
-    --primary-dark: #d35400;
-    --secondary: #2c3e50;
-    --success: #27ae60;
-    --danger: #e74c3c;
-    --light-bg: #f8f9fa;
-    --text: #555;
-    --text-light: #777;
-    --border: #eee;
-    --shadow: rgba(0, 0, 0, 0.08);
-}
+/* cadastro.css */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+/* Main container for authentication forms (login/register) */
 body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #f5f7fa, #e4e7eb);
-    color: var(--text);
-    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+    background-color: var(--bg-light); /* Use a light background for the page */
+    font-family: 'Poppins', sans-serif; /* Use Poppins as specified in HTML */
+    color: var(--text-dark);
 }
 
-main {
+/* Reusing auth-container styles for consistency with login */
+.container_cadastro { /* This is your main card container */
+    padding: var(--spacing-lg); /* General padding around the card */
     width: 100%;
-    max-width: 1200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 0;
-}
-
-.container_cadastro {
-    background: white;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
-    width: 100%;
-    max-width: 500px;
-    padding: 40px;
-    position: relative;
-}
-
-.container_cadastro::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 8px;
-    background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-    z-index: 2;
-}
-
-.container_cadastro h1 {
+    max-width: 450px; /* Max width for the card, consistent with login */
+    background-color: white;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 10px 30px var(--shadow-light);
+    padding: var(--spacing-xl);
     text-align: center;
+    position: relative; /* For potential absolute positioning of alerts */
+    overflow: hidden; /* Ensures shadows and rounded corners are respected */
+}
+
+/* Header for the Cadastro page */
+.container_cadastro h1 {
     font-size: 2.2rem;
-    color: var(--secondary);
-    margin-bottom: 25px;
-    position: relative;
-    padding-bottom: 15px;
-}
-
-.container_cadastro h1::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 4px;
-    background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-    border-radius: 2px;
-}
-
-/* Alertas */
-.alert {
-    padding: 15px 20px;
-    border-radius: 10px;
-    margin-bottom: 25px;
+    color: var(--primary-dark);
+    margin-bottom: var(--spacing-md);
+    font-weight: 700;
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 0.95rem;
-    animation: fadeIn 0.5s ease;
+    justify-content: center;
+    gap: 10px; /* Space between icon and text */
+}
+
+.container_cadastro h1 i {
+    font-size: 2rem;
+    color: var(--secondary-color);
+}
+
+
+/* Alert Message Styling (consistent with login.css) */
+.alert {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    border-radius: var(--border-radius-md);
+    font-size: 0.9rem;
+    text-align: left;
+    gap: 8px; /* Space between icon and text */
+    border: 1px solid transparent; /* Default transparent border */
 }
 
 .alert-success {
-    background: rgba(39, 174, 96, 0.15);
-    border: 1px solid rgba(39, 174, 96, 0.25);
-    color: #27ae60;
+    background-color: #e6ffed; /* Light green */
+    color: #1a7e37; /* Dark green text */
+    border-color: #b3f0c3; /* Green border */
 }
 
-.alert-danger {
-    background: rgba(231, 76, 60, 0.15);
-    border: 1px solid rgba(231, 76, 60, 0.25);
-    color: #e74c3c;
+.alert-success .fas {
+    color: #28a745; /* Deeper green icon */
 }
 
-.alert i {
-    font-size: 1.3rem;
-}
-
-/* Formulário */
-form {
-    margin-bottom: 25px;
-}
-
+/* Form Group Styling (consistent with login.css) */
 .form-group {
-    margin-bottom: 25px;
-    position: relative;
+    margin-bottom: var(--spacing-md);
+    text-align: left;
+    position: relative; /* Added for icon positioning */
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    margin-bottom: 6px;
     font-weight: 500;
-    color: var(--secondary);
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
 }
 
-.form-group label i {
-    color: var(--primary);
-    font-size: 1.1rem;
+/* Icons within labels for Cadastro page */
+.form-group label .fas {
+    margin-right: 8px; /* Space between icon and label text */
+    color: var(--text-light);
+    font-size: 1rem; /* Adjust icon size if needed */
 }
 
-.form-group input {
+
+/* Input styling */
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
     width: 100%;
-    padding: 16px 20px;
-    border: 1px solid var(--border);
-    border-radius: 50px;
+    padding: 12px 15px; /* Standard padding */
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
     font-size: 1rem;
-    transition: all 0.3s ease;
-    background: var(--light-bg);
+    color: var(--text-dark);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background-color: white;
+    /* Added padding-left for the leading icon from HTML structure if present */
+    padding-left: 45px;
 }
 
 .form-group input:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.2);
-    background: white;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(106, 5, 114, 0.15); /* Light primary shadow on focus */
 }
 
+/* Positioning for the leading icons within form-group */
+.form-group > .fas { /* Targeting the direct .fas child of .form-group for leading icons */
+    position: absolute;
+    left: 15px;
+    top: calc(50% + 10px); /* Adjust top to be vertically centered with input, accounting for label */
+    transform: translateY(-50%); /* Fine-tune vertical alignment */
+    color: var(--text-light);
+    font-size: 1rem;
+    z-index: 2;
+}
+
+
+/* Password Container for toggle icon */
 .password-container {
     position: relative;
+    display: flex;
+    align-items: center;
 }
 
-.password-container i {
+.password-container input {
+    padding-right: 45px; /* Make space for the toggle icon */
+}
+
+.password-container .toggle-password {
     position: absolute;
-    right: 18px;
-    top: 50%;
-    transform: translateY(-50%);
+    right: 15px;
     cursor: pointer;
     color: var(--text-light);
-    transition: color 0.3s;
+    transition: color 0.2s ease;
+    z-index: 3; /* Ensure it's above the input */
 }
 
-.password-container i:hover {
-    color: var(--primary);
+.password-container .toggle-password:hover {
+    color: var(--secondary-color);
 }
 
+/* Submit Button Styling (consistent with auth-btn from login.css) */
 button[type="submit"] {
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
     color: white;
     border: none;
-    border-radius: 50px;
-    padding: 16px;
+    border-radius: var(--border-radius-pill); /* More rounded button */
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    box-shadow: 0 6px 20px rgba(230, 126, 34, 0.3);
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-    margin-top: 20px;
-}
-
-button[type="submit"]::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: -1;
+    transition: all var(--transition-speed) ease;
+    box-shadow: 0 6px 20px rgba(106, 5, 114, 0.3);
+    gap: 10px; /* Space between icon and text */
+    margin-top: var(--spacing-lg); /* Space above the button */
 }
 
 button[type="submit"]:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(230, 126, 34, 0.4);
+    box-shadow: 0 8px 25px rgba(106, 5, 114, 0.4);
 }
 
-button[type="submit"]:hover::before {
-    opacity: 1;
-}
-
-button[type="submit"] i {
-    font-size: 1.3rem;
-}
-
-/* Rodapé */
-.container_cadastro>p {
-    text-align: center;
-    padding-top: 25px;
-    border-top: 1px solid var(--border);
+/* Footer Link (consistent with login.css) */
+.container_cadastro p {
+    font-size: 0.9rem;
     color: var(--text-light);
+    margin-top: var(--spacing-xl);
+    margin-bottom: 0; /* Remove default paragraph margin */
 }
 
-.container_cadastro a {
-    color: var(--primary);
+.container_cadastro p a {
+    color: var(--secondary-color);
     text-decoration: none;
     font-weight: 600;
-    transition: color 0.3s;
+    transition: color 0.2s ease;
 }
 
-.container_cadastro a:hover {
+.container_cadastro p a:hover {
     color: var(--primary-dark);
     text-decoration: underline;
 }
 
-/* Animações */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Responsividade */
+/* --- Responsive Adjustments --- */
 @media (max-width: 576px) {
     .container_cadastro {
-        padding: 30px 20px;
+        padding: var(--spacing-lg);
+        margin: var(--spacing-md); /* Add margin on very small screens */
     }
 
     .container_cadastro h1 {
         font-size: 1.8rem;
     }
 
-    .container_cadastro>p {
-        font-size: 0.95rem;
+    .container_cadastro h1 i {
+        font-size: 1.8rem;
+    }
+
+    button[type="submit"] {
+        font-size: 1rem;
+        padding: 12px 15px;
+    }
+
+    .form-group label,
+    .container_cadastro p {
+        font-size: 0.85rem;
+    }
+
+    /* Adjust icon positioning for smaller screens if needed */
+    .form-group > .fas {
+        left: 10px; /* Slightly less padding on smaller screens */
+    }
+
+    /* Adjust input padding for the leading icon */
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="password"] {
+        padding-left: 40px;
     }
 }
