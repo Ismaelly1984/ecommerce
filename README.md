@@ -87,36 +87,6 @@ Certifique-se de ter o Python 3 e o `pip` (gerenciador de pacotes do Python) ins
 
     Você verá uma mensagem no terminal indicando que o servidor está rodando, geralmente em `http://127.0.0.1:5001`.
 
-## 📂 Estrutura do Projeto
-
-A estrutura do projeto é modular e segue as boas práticas do Flask:
-
-seu_ecommerce/
-├── venv/                   # Ambiente virtual Python
-├── app.py                  # Ponto de entrada principal da aplicação (fábrica de apps)
-├── config.py               # Configurações da aplicação (chaves secretas, DB URI, etc.)
-├── database.py             # Lógica de conexão e operações com SQLite3
-├── ecommerce.db            # Arquivo do banco de dados SQLite
-├── requirements.txt        # Lista de dependências Python
-├── routes/                 # Contém os Blueprints para modularizar as rotas
-│   ├── auth.py             # Rotas de autenticação (login, cadastro)
-│   ├── main.py             # Rotas principais (home, produtos, detalhes)
-│   ├── cart.py             # Rotas do carrinho de compras
-│   ├── checkout.py         # Rotas de finalização de compra
-│   ├── user.py             # Rotas do perfil do usuário
-│   └── admin.py            # Rotas para funcionalidades de administração
-├── static/                 # Arquivos estáticos (CSS, JS, imagens, uploads de usuários)
-│   ├── css/                # Arquivos CSS
-│   ├── js/                 # Arquivos JavaScript
-│   ├── images/             # Imagens gerais da UI
-│   └── uploads/            # Pasta para arquivos enviados por usuários (ignorada pelo Git)
-├── templates/              # Arquivos HTML (templates Jinja2)
-│   ├── base.html           # Layout base para todas as páginas
-│   └── ...                 # Outros templates HTML
-├── utils/                  # Funções de ajuda e utilitários
-├── .gitignore              # Arquivos e pastas ignorados pelo Git
-└── README.md               # Este arquivo!
-
 ## 🌐 Uso
 
 Após iniciar o servidor, abra seu navegador e acesse:
