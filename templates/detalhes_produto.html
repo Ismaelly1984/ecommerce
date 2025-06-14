@@ -14,17 +14,18 @@
 <body>
     <header class="header">
         <div class="container">
-            <a href="{{ url_for('home') }}" class="logo">
+            <a href="{{ url_for('main.home') }}" class="logo"> {# CORRECTED: Added 'main.' prefix #}
                 <i class="fas fa-crown"></i>
                 <span>PremiumStore</span>
             </a>
             <button class="menu-toggle" aria-label="Abrir menu">
                 <i class="fas fa-bars"></i>
-              </button>
-              
+            </button>
+
             <div class="page-header">
                 <div class="search-container">
-                    <form action="{{ url_for('buscar_produtos') }}" method="GET" class="search-form">
+                    {# CORRECTED: Added 'main.' prefix #}
+                    <form action="{{ url_for('main.buscar_produtos') }}" method="GET" class="search-form">
                         <input type="text" name="q" placeholder="Buscar produtos premium..." class="search-input">
                         <button type="submit" class="search-button">
                             <i class="fas fa-search"></i>
@@ -33,27 +34,26 @@
                 </div>
             </div>
             <nav class="nav">
-                <a href="{{ url_for('home') }}" class="nav-link active">
+                <a href="{{ url_for('main.home') }}" class="nav-link active"> {# CORRECTED: Added 'main.' prefix #}
                     <i class="fas fa-home"></i> Home
                 </a>
 
                 {% if 'usuario_id' in session %}
-                <a href="{{ url_for('ver_carrinho') }}" class="nav-link">
+                <a href="{{ url_for('cart.ver_carrinho') }}" class="nav-link"> {# CORRECTED: Added 'cart.' prefix #}
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count">{{ total_itens|default(0) }}</span>
-
                 </a>
                 <div class="user-dropdown">
                     <button class="user-avatar">
                         <i class="fas fa-user-circle"></i>
                     </button>
                     <div class="dropdown-menu">
-                        <a href="{{ url_for('historico_pedidos') }}">Meus pedidos</a>
-                        <a href="{{ url_for('logout') }}">Sair</a>
+                        <a href="{{ url_for('user.historico_pedidos') }}">Meus pedidos</a> {# CORRECTED: Added 'user.' prefix #}
+                        <a href="{{ url_for('auth.logout') }}">Sair</a> {# CORRECTED: Added 'auth.' prefix #}
                     </div>
                 </div>
                 {% else %}
-                <a href="{{ url_for('login') }}" class="nav-link">
+                <a href="{{ url_for('auth.login') }}" class="nav-link"> {# CORRECTED: Added 'auth.' prefix #}
                     <i class="fas fa-sign-in-alt"></i> Login
                 </a>
                 {% endif %}
@@ -73,13 +73,11 @@
                     <p class="price">R$ {{ "%.2f"|format(produto.preco) }}</p>
                     <p class="stock">{{ produto.estoque }} unidades disponíveis</p>
                     <p class="description">{{ produto.descricao }}</p>
-                    <form action="{{ url_for('adicionar_ao_carrinho', produto_id=produto.id) }}" method="POST">
+                    <form action="{{ url_for('cart.adicionar_ao_carrinho', produto_id=produto.id) }}" method="POST"> {# CORRECTED: Added 'cart.' prefix #}
                         <button type="submit" class="btn-adicionar-carrinho">Adicionar ao Carrinho</button>
                     </form>
                 </div>
             </div>
-
-
         </div>
     </main>
     <footer class="footer">
@@ -93,7 +91,8 @@
 
             <div class="footer-section">
                 <h3>Links Rápidos</h3>
-                <a href="/">Início</a>
+                <a href="{{ url_for('main.home') }}">Início</a> {# CORRECTED: Added 'main.' prefix #}
+                {# For these, if they are Flask routes, they also need blueprint prefixes. Otherwise, keep them as direct paths if they are static or handled differently. #}
                 <a href="/produtos">Produtos</a>
                 <a href="/contato">Contato</a>
                 <a href="/sobre">Sobre</a>
@@ -108,7 +107,7 @@
 
             <div class="footer-section">
                 <h3>Newsletter</h3>
-                <form class="newsletter-form" action="/newsletter" method="POST">
+                <form class="newsletter-form" action="/newsletter" method="POST"> {# For this, if it's a Flask route, it needs a blueprint prefix. #}
                     <input type="email" name="email" placeholder="Seu e-mail" required>
                     <button type="submit">Inscrever</button>
                 </form>

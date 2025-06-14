@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/                  # Seu ambiente virtual Python
+*.egg-info/
+.pytest_cache/         # Cache de testes, se você usar pytest
+
+# Específicos do Flask
+instance/              # Pasta de instância para configurações locais, logs, etc.
+.flaskenv              # Arquivo de variáveis de ambiente local do Flask
+.env                   # Outros arquivos .env para variáveis de ambiente
+
+# Banco de dados (SQLite)
+ecommerce.db           # Seu arquivo de banco de dados SQLite
+*.db                   # Para garantir que outros arquivos .db temporários também sejam ignorados
+
+# Uploads de usuários (assumindo que você terá uma pasta 'uploads' dentro de 'static')
+static/uploads/        # Pasta para uploads de arquivos de usuários
+
+
+# Configurações de IDEs
+.vscode/               # Configurações do Visual Studio Code
+

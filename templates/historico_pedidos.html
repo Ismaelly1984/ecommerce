@@ -14,7 +14,7 @@
 <body>
     <header class="header">
         <div class="container">
-            <a href="{{ url_for('home') }}" class="logo">
+            <a href="{{ url_for('main.home') }}" class="logo"> {# CORRECTED: Added 'main.' prefix #}
                 <i class="fas fa-crown"></i>
                 <span>PremiumStore</span>
             </a>
@@ -24,7 +24,8 @@
 
             <div class="page-header">
                 <div class="search-container">
-                    <form action="{{ url_for('buscar_produtos') }}" method="GET" class="search-form">
+                    {# CORRECTED: Added 'main.' prefix for buscar_produtos #}
+                    <form action="{{ url_for('main.buscar_produtos') }}" method="GET" class="search-form">
                         <input type="text" name="q" placeholder="Buscar produtos premium..." class="search-input">
                         <button type="submit" class="search-button">
                             <i class="fas fa-search"></i>
@@ -35,7 +36,8 @@
             <nav class="nav">
 
                 {% if 'usuario_id' in session %}
-                <a href="{{ url_for('ver_carrinho') }}" class="nav-link">
+                {# CORRECTED: Added 'cart.' prefix for ver_carrinho #}
+                <a href="{{ url_for('cart.ver_carrinho') }}" class="nav-link">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count">{{ total_itens|default(0) }}</span>
 
@@ -45,12 +47,15 @@
                         <i class="fas fa-user-circle"></i>
                     </button>
                     <div class="dropdown-menu">
-                        <a href="{{ url_for('historico_pedidos') }}">Meus pedidos</a>
-                        <a href="{{ url_for('logout') }}">Sair</a>
+                        {# CORRECTED: Added 'user.' prefix for historico_pedidos #}
+                        <a href="{{ url_for('user.historico_pedidos') }}">Meus pedidos</a>
+                        {# CORRECTED: Added 'auth.' prefix for logout #}
+                        <a href="{{ url_for('auth.logout') }}">Sair</a>
                     </div>
                 </div>
                 {% else %}
-                <a href="{{ url_for('login') }}" class="nav-link">
+                {# CORRECTED: Added 'auth.' prefix for login #}
+                <a href="{{ url_for('auth.login') }}" class="nav-link">
                     <i class="fas fa-sign-in-alt"></i> Login
                 </a>
                 {% endif %}
@@ -60,7 +65,7 @@
 
     <main class="container">
 
-    <h1>Seu Histórico de Pedidos</h1>
+        <h1>Seu Histórico de Pedidos</h1>
         {% if historico %}
         <div class="pedidos-list">
             {% for pedido in historico %}
@@ -97,10 +102,10 @@
 
             <div class="footer-section">
                 <h3>Links Rápidos</h3>
-                <a href="/">Início</a>
-                <a href="/produtos">Produtos</a>
-                <a href="/contato">Contato</a>
-                <a href="/sobre">Sobre</a>
+                <a href="{{ url_for('main.home') }}">Início</a> {# CORRECTED: Added 'main.' prefix #}
+                <a href="/produtos">Produtos</a> {# Consider changing to url_for if this is a Flask route #}
+                <a href="/contato">Contato</a> {# Consider changing to url_for if this is a Flask route #}
+                <a href="/sobre">Sobre</a> {# Consider changing to url_for if this is a Flask route #}
             </div>
 
             <div class="footer-section">
@@ -112,7 +117,7 @@
 
             <div class="footer-section">
                 <h3>Newsletter</h3>
-                <form class="newsletter-form" action="/newsletter" method="POST">
+                <form class="newsletter-form" action="/newsletter" method="POST"> {# Consider changing to url_for if this is a Flask route #}
                     <input type="email" name="email" placeholder="Seu e-mail" required>
                     <button type="submit">Inscrever</button>
                 </form>

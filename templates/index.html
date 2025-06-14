@@ -14,7 +14,7 @@
 <body>
     <header class="header">
         <div class="container">
-            <a href="{{ url_for('home') }}" class="logo">
+            <a href="{{ url_for('main.home') }}" class="logo"> {# CORRECTED: Added 'main.' prefix #}
                 <i class="fas fa-crown"></i>
                 <span>PremiumStore</span>
             </a>
@@ -24,7 +24,8 @@
 
             <div class="page-header">
                 <div class="search-container">
-                    <form action="{{ url_for('buscar_produtos') }}" method="GET" class="search-form">
+                    {# Corrected: Assuming 'buscar_produtos' is in 'main' blueprint #}
+                    <form action="{{ url_for('main.buscar_produtos') }}" method="GET" class="search-form">
                         <input type="text" name="q" placeholder="Buscar produtos premium..." class="search-input">
                         <button type="submit" class="search-button">
                             <i class="fas fa-search"></i>
@@ -33,24 +34,26 @@
                 </div>
             </div>
             <nav class="nav">
-
                 {% if 'usuario_id' in session %}
-                <a href="{{ url_for('ver_carrinho') }}" class="nav-link">
+                {# Corrected: Assuming 'ver_carrinho' is in 'cart' blueprint #}
+                <a href="{{ url_for('cart.ver_carrinho') }}" class="nav-link">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count">{{ total_itens|default(0) }}</span>
-
                 </a>
                 <div class="user-dropdown">
                     <button class="user-avatar">
                         <i class="fas fa-user-circle"></i>
                     </button>
                     <div class="dropdown-menu">
-                        <a href="{{ url_for('historico_pedidos') }}">Meus pedidos</a>
-                        <a href="{{ url_for('logout') }}">Sair</a>
+                        {# Corrected: Assuming 'historico_pedidos' is in 'user' blueprint #}
+                        <a href="{{ url_for('user.historico_pedidos') }}">Meus pedidos</a>
+                        {# Corrected: Assuming 'logout' is in 'auth' blueprint #}
+                        <a href="{{ url_for('auth.logout') }}">Sair</a>
                     </div>
                 </div>
                 {% else %}
-                <a href="{{ url_for('login') }}" class="nav-link">
+                {# Corrected: Assuming 'login' is in 'auth' blueprint #}
+                <a href="{{ url_for('auth.login') }}" class="nav-link">
                     <i class="fas fa-sign-in-alt"></i> Login
                 </a>
                 {% endif %}
@@ -60,53 +63,51 @@
 
     <main class="main">
         <div class="container">
-
-
             <div class="products-grid">
                 {% for produto in produtos %}
                 <div class="product-card">
-                    {% if produto[3] < 10 %} <span class="product-badge">Últimas unidades</span>
-                        {% endif %}
-                        <img src="{{ url_for('static', filename='uploads/' + produto.imagem) if produto.imagem else url_for('static', filename='images/produtos/default.jpg') }}"
-                            alt="{{ produto.nome }}" class="img-fluid">
+                    {% if produto[3] < 10 %}
+                    <span class="product-badge">Últimas unidades</span>
+                    {% endif %}
+                    <img src="{{ url_for('static', filename='uploads/' + produto.imagem) if produto.imagem else url_for('static', filename='images/produtos/default.jpg') }}"
+                        alt="{{ produto.nome }}" class="img-fluid">
 
-                        <div class="product-info">
-                            <h3 class="product-title">{{ produto[1] }}</h3>
-                            <p class="product-description">{{ produto[4] | default('') | truncate(100) }}</p>
-                            <div class="product-meta">
-                                <span class="product-price">R$ {{ "%.2f"|format(produto[2]) }}</span>
-                                <span class="product-rating">
-                                    <i class="fas fa-star"></i> 4.8
-                                </span>
-                            </div>
-                            <div class="product-actions">
-                                <a href="{{ url_for('detalhes_produto', id=produto[0]) }}" class="btn btn-outline">
-                                    <i class="fas fa-eye"></i> Detalhes
-                                </a>
-                                <form action="{{ url_for('adicionar_ao_carrinho', produto_id=produto.id) }}"
-                                    method="POST">
-                                    <button type="submit" class="btn-adicionar-carrinho">Adicionar ao Carrinho</button>
-                                </form>
-                            </div>
+                    <div class="product-info">
+                        <h3 class="product-title">{{ produto[1] }}</h3>
+                        <p class="product-description">{{ produto[4] | default('') | truncate(100) }}</p>
+                        <div class="product-meta">
+                            <span class="product-price">R$ {{ "%.2f"|format(produto[2]) }}</span>
+                            <span class="product-rating">
+                                <i class="fas fa-star"></i> 4.8
+                            </span>
                         </div>
+                        <div class="product-actions">
+                            {# Corrected: Assuming 'detalhes_produto' is in 'main' blueprint #}
+                            <a href="{{ url_for('main.detalhes_produto', id=produto[0]) }}" class="btn btn-outline">
+                                <i class="fas fa-eye"></i> Detalhes
+                            </a>
+                            {# Corrected: Assuming 'adicionar_ao_carrinho' is in 'cart' blueprint #}
+                            <form action="{{ url_for('cart.adicionar_ao_carrinho', produto_id=produto.id) }}"
+                                method="POST">
+                                <button type="submit" class="btn-adicionar-carrinho">Adicionar ao Carrinho</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 {% endfor %}
             </div>
-
         </div>
         {% if tem_mais %}
         <div class="load-more-container">
-            <a href="{{ url_for('home') }}?pagina={{ pagina + 1 }}" class="btn btn-primary">
+            {# Corrected: Added 'main.' prefix #}
+            <a href="{{ url_for('main.home') }}?pagina={{ pagina + 1 }}" class="btn btn-primary">
                 Ver Mais 10 Produtos
             </a>
         </div>
         {% endif %}
-
-       
     </main>
     <footer class="footer">
         <div class="footer-content">
-
             <div class="footer-section">
                 <h3>Sobre Nós</h3>
                 <p>Somos uma loja comprometida com qualidade, confiança e atendimento excepcional aos nossos
@@ -116,7 +117,11 @@
 
             <div class="footer-section">
                 <h3>Links Rápidos</h3>
-                <a href="/">Início</a>
+                {# Corrected: Added 'main.' prefix for home #}
+                <a href="{{ url_for('main.home') }}">Início</a>
+                {# Assuming /produtos, /contato, /sobre are also in 'main' or are static routes #}
+                {# If they are separate routes not yet in blueprints, keep as /produtos, /contato, /sobre #}
+                {# If they will be in 'main' blueprint, change to url_for('main.produtos') etc. #}
                 <a href="/produtos">Produtos</a>
                 <a href="/contato">Contato</a>
                 <a href="/sobre">Sobre</a>
@@ -136,7 +141,6 @@
                     <button type="submit">Inscrever</button>
                 </form>
             </div>
-
         </div>
 
         <div class="footer-bottom">
@@ -152,6 +156,4 @@
         navMenu.classList.toggle('open');
     });
 </script>
-
-
 </html>

@@ -46,7 +46,7 @@
                         <input type="checkbox" name="remember">
                         <span>Lembrar-me</span>
                     </label>
-                    <a href="#" class="forgot-password">Esqueceu a senha?</a>
+                    <a href="#" class="forgot-password">Esqueceu a senha?</a> {# If this is a Flask route, it needs url_for as well. E.g., url_for('auth.forgot_password') #}
                 </div>
 
                 <button type="submit" class="auth-btn">
@@ -56,9 +56,7 @@
             </form>
 
             <div class="auth-footer">
-                <p>Não tem uma conta? <a href="{{ url_for('cadastro') }}">Cadastre-se</a></p>
-
-
+                <p>Não tem uma conta? <a href="{{ url_for('auth.cadastro') }}">Cadastre-se</a></p> {# CORRECTED: Added 'auth.' prefix #}
             </div>
         </div>
     </div>
