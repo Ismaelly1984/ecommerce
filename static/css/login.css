@@ -1,32 +1,33 @@
 /* login.css */
 
-/* Main container for authentication forms (login/register) */
+/* são definidos em 'global.css'. Mantido o layout flex para centralizar o conteúdo */
+/* de autenticação na tela. */
 body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background-color: var(--bg-light); /* Use a light background for the page */
-    font-family: 'Poppins', sans-serif; /* Use Poppins as specified in HTML */
-    color: var(--text-dark);
+    min-height: 100vh; /* Garante que o corpo ocupe a altura total da viewport */
 }
 
+/* Contêiner principal para os formulários de autenticação (login/registro) */
 .auth-container {
-    padding: var(--spacing-lg); /* General padding around the card */
+    padding: var(--spacing-lg); /* Espaçamento geral ao redor do cartão */
     width: 100%;
-    max-width: 450px; /* Max width for the login card */
+    max-width: 450px; /* Largura máxima para o cartão de login */
 }
 
+/* Cartão de Autenticação */
+/* Propriedades como 'background-color', 'border-radius' e 'box-shadow' */
+/* já são assumidas como definidas em 'global.css' para elementos de cartão ou usando variáveis. */
+/* Mantido o padding e alinhamento específicos. */
 .auth-card {
-    background-color: white;
-    border-radius: var(--border-radius-lg);
-    box-shadow: 0 10px 30px var(--shadow-light);
     padding: var(--spacing-xl);
     text-align: center;
-    position: relative; /* For potential absolute positioning of alerts */
-    overflow: hidden; /* Ensures shadows and rounded corners are respected */
+    position: relative; /* Para potencial posicionamento absoluto de alertas */
+    overflow: hidden; /* Garante que sombras e cantos arredondados sejam respeitados */
 }
 
+/* Cabeçalho do Cartão de Autenticação */
 .auth-header {
     margin-bottom: var(--spacing-lg);
 }
@@ -38,29 +39,32 @@ body {
     margin-bottom: var(--spacing-md);
     font-size: 1.8rem;
     font-weight: 700;
-    color: var(--primary-color);
+    color: var(--primary-color); /* Assumindo que a cor primária é definida globalmente */
 }
 
 .auth-header .logo i {
     margin-right: 8px;
     font-size: 2rem;
-    color: var(--secondary-color);
+    color: var(--secondary-color); /* Assumindo que a cor secundária é definida globalmente */
 }
 
 .auth-header h1 {
     font-size: 2.2rem;
-    color: var(--primary-dark);
+    color: var(--primary-dark); /* Assumindo que a cor primária escura é definida globalmente */
     margin-bottom: var(--spacing-xs);
     font-weight: 700;
 }
 
 .auth-header p {
     font-size: 0.95rem;
-    color: var(--text-light);
+    color: var(--text-light); /* Assumindo que a cor de texto claro é definida globalmente */
     margin-bottom: 0;
 }
 
-/* Alert Message Styling - Kept for potential future use or if dynamic alerts are added */
+/* Estilo das Mensagens de Alerta */
+/* Embora existam estilos de '.alert' em 'global.css', estas são mantidas para */
+/* permitir sobreposições específicas ou se esta página tiver um tratamento de alerta único. */
+/* Se forem idênticas às de global.css, podem ser removidas. */
 .alert {
     display: flex;
     align-items: center;
@@ -70,25 +74,30 @@ body {
     border-radius: var(--border-radius-md);
     font-size: 0.9rem;
     text-align: left;
-    gap: 8px; /* Space between icon and text */
-    border: 1px solid transparent; /* Default transparent border */
+    gap: 8px; /* Espaço entre ícone e texto */
+    border: 1px solid transparent; /* Borda transparente padrão */
 }
 
 .alert-success {
-    background-color: #e6ffed; /* Light green */
-    color: #1a7e37; /* Dark green text */
-    border-color: #b3f0c3; /* Green border */
+    background-color: #e6ffed; /* Verde claro */
+    color: #1a7e37; /* Texto verde escuro */
+    border-color: #b3f0c3; /* Borda verde */
 }
 
 .alert-success .fas {
-    color: #28a745; /* Deeper green icon */
+    color: #28a745; /* Ícone verde mais profundo */
 }
+/* Se houver outras classes de alerta como 'alert-danger', 'alert-info' etc., */
+/* elas também deveriam ter suas definições aqui ou em global.css. */
 
-/* Form Group Styling */
+
+/* Estilo do Grupo de Formulário */
+/* As propriedades de 'label' e 'input' são amplamente cobertas por 'global.css', */
+/* mas algumas sobreposições de layout são específicas para esta página. */
 .form-group {
     margin-bottom: var(--spacing-md);
     text-align: left;
-    position: relative; /* Added for icon positioning */
+    position: relative; /* Adicionado para posicionamento de ícone */
 }
 
 .form-group label {
@@ -99,56 +108,56 @@ body {
     font-weight: 500;
 }
 
-/* Adjust icon position when it's a direct child of form-group */
-.form-group > .fas { /* Target immediate child .fas */
+/* Ajusta a posição do ícone quando é filho direto de form-group */
+.form-group > .fas { /* Alvo: filho imediato .fas */
     position: absolute;
     left: 15px;
-    top: calc(50% + 10px); /* Adjust top to be vertically centered with input, accounting for label */
-    transform: translateY(-50%); /* Fine-tune vertical alignment */
+    top: calc(50% + 10px); /* Ajusta a parte superior para centralizar verticalmente com o input, considerando o label */
+    transform: translateY(-50%); /* Ajuste fino de alinhamento vertical */
     color: var(--text-light);
     font-size: 1rem;
     z-index: 2;
 }
 
 .input-with-icon {
-    /* This div now primarily wraps the input, not the leading icon */
+    /* Esta div agora principalmente envolve o input, não o ícone inicial */
     position: relative;
-    display: flex; /* Keep flex for password toggle alignment */
+    display: flex; /* Mantém flex para alinhamento do toggle de senha */
     align-items: center;
 }
 
 .input-with-icon input {
     width: 100%;
-    padding: 12px 15px 12px 45px; /* Adjust padding for leading icon */
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-md);
+    padding: 12px 15px 12px 45px; /* Ajusta o padding para o ícone inicial */
+    border: 1px solid var(--border-color); /* Borda base do input */
+    border-radius: var(--border-radius-md); /* Cantos arredondados do input */
     font-size: 1rem;
     color: var(--text-dark);
-    outline: none;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    outline: none; /* Remove o contorno padrão no foco */
+    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
     background-color: white;
 }
 
 .input-with-icon input:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(106, 5, 114, 0.15); /* Light primary shadow on focus */
+    box-shadow: 0 0 0 3px rgba(106, 5, 114, 0.15); /* Sombra suave da cor primária no foco */
 }
 
-/* Password Toggle Icon */
+/* Ícone de Exibir/Ocultar Senha */
 .input-with-icon .toggle-password {
     position: absolute;
     right: 15px;
     cursor: pointer;
     color: var(--text-light);
-    transition: color 0.2s ease;
-    z-index: 3; /* Ensure it's above the input */
+    transition: color var(--transition-speed) ease;
+    z-index: 3; /* Garante que esteja acima do input */
 }
 
 .input-with-icon .toggle-password:hover {
     color: var(--secondary-color);
 }
 
-/* Form Options (Remember Me & Forgot Password) */
+/* Opções do Formulário (Lembrar-me e Esqueceu a Senha) */
 .form-options {
     display: flex;
     justify-content: space-between;
@@ -168,13 +177,13 @@ body {
     margin-right: 8px;
     width: 16px;
     height: 16px;
-    accent-color: var(--primary-color); /* Styles checkbox color */
+    accent-color: var(--primary-color); /* Estiliza a cor do checkbox */
 }
 
 .forgot-password {
     color: var(--secondary-color);
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color var(--transition-speed) ease;
 }
 
 .forgot-password:hover {
@@ -182,31 +191,32 @@ body {
     text-decoration: underline;
 }
 
-/* Auth Button */
+/* Botão de Autenticação */
+/* Este é um botão primário com um gradiente e sombra específicos para esta página. */
 .auth-btn {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     padding: 15px 20px;
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); /* Gradiente de fundo */
     color: white;
     border: none;
-    border-radius: var(--border-radius-pill); /* More rounded button */
+    border-radius: var(--border-radius-pill); /* Botão mais arredondado */
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all var(--transition-speed) ease;
-    box-shadow: 0 6px 20px rgba(106, 5, 114, 0.3);
-    gap: 10px; /* Space between icon and text */
+    box-shadow: 0 6px 20px rgba(106, 5, 114, 0.3); /* Sombra para o botão */
+    gap: 10px; /* Espaço entre ícone e texto */
 }
 
 .auth-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(106, 5, 114, 0.4);
+    transform: translateY(-3px); /* Move ligeiramente para cima no hover */
+    box-shadow: 0 8px 25px rgba(106, 5, 114, 0.4); /* Sombra mais profunda no hover */
 }
 
-/* Auth Footer (Register link only) */
+/* Rodapé de Autenticação (apenas link de Registro) */
 .auth-footer {
     margin-top: var(--spacing-xl);
     border-top: 1px solid var(--border-color);
@@ -216,14 +226,14 @@ body {
 .auth-footer p {
     font-size: 0.9rem;
     color: var(--text-light);
-    margin-bottom: 0; /* No social login, so reduce margin */
+    margin-bottom: 0;
 }
 
 .auth-footer p a {
     color: var(--secondary-color);
     text-decoration: none;
     font-weight: 600;
-    transition: color 0.2s ease;
+    transition: color var(--transition-speed) ease;
 }
 
 .auth-footer p a:hover {
@@ -231,14 +241,12 @@ body {
     text-decoration: underline;
 }
 
-/* Removed social login specific styles as they are no longer in the HTML */
 
-
-/* --- Responsive Adjustments --- */
+/* --- Ajustes Responsivos --- */
 @media (max-width: 576px) {
     .auth-card {
         padding: var(--spacing-lg);
-        margin: var(--spacing-md); /* Add margin on very small screens */
+        margin: var(--spacing-md); /* Adiciona margem em telas muito pequenas */
     }
 
     .auth-header h1 {
@@ -258,16 +266,16 @@ body {
     }
 
     .form-options,
-    .auth-footer p { /* Adjusted for p tag directly */
+    .auth-footer p {
         font-size: 0.85rem;
     }
 
-    /* Adjust icon positioning for smaller screens if needed */
+    /* Ajusta o posicionamento do ícone para telas menores */
     .form-group > .fas {
-        left: 10px; /* Slightly less padding on smaller screens */
+        left: 10px; /* Menos padding em telas menores */
     }
 
     .input-with-icon input {
-        padding: 12px 10px 12px 40px; /* Adjust padding for icon */
+        padding: 12px 10px 12px 40px; /* Ajusta o padding para o ícone */
     }
 }

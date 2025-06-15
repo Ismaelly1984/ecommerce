@@ -1,38 +1,74 @@
-{% extends "admin/base.html" %}
+{% extends "base_admin.html" %}
 
-{% block title %}Gerenciar Usuários{% endblock %}
-{% block page_title %}Gerenciar Usuários{% endblock %}
+{% block title %}Gerenciar Usuários - Admin{% endblock %}
+{# Removendo {% block page_title %}, pois o admin/base.base.html não o define para o conteúdo principal #}
 
-{% block content %}
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title">Todos os Usuários</h3>
+{% block admin_content %} {# Usar admin_content para o bloco dentro de admin/base.html #}
+<div class="card shadow-sm">
+    <div class="card-header bg-dark text-white">
+        <h3 class="card-title mb-0">Todos os Usuários</h3>
     </div>
     <div class="card-body">
-        <table class="admin-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Email</th>
-                    <th>Pedidos</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for usuario in usuarios %}
-                <tr>
-                    <td>{{ usuario[0] }}</td>
-                    <td>{{ usuario[1] }}</td>
-                    <td>{{ usuario[2] }}</td>
-                    <td>
-                        <a href="{{ url_for('admin_pedidos') }}?user_id={{ usuario[0] }}" class="btn btn-sm btn-primary">
-                            <i class="fas fa-shopping-bag"></i> Ver Pedidos
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Status Admin</th> {# Nova coluna #}
+                        <th scope="col">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if usuarios %}
+                        {% for usuario in usuarios %}
+                        <tr>
+                            <td>{{ usuario.id }}</td> {# Acessando por nome #}
+                            <td>{{ usuario.nome }}</td> {# Acessando por nome #}
+                            <td>{{ usuario.email }}</td> {# Acessando por nome #}
+                            <td>
+                                {% if usuario.is_admin %}
+                                    <span class="badge bg-success">Admin</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Utilizador Comum</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {# Botão para alternar status de administrador #}
+                                {% if usuario.id != session.get('usuario_id') %} {# Não permite alterar o próprio status #}
+                                <form action="{{ url_for('admin.toggle_admin_status', user_id=usuario.id) }}" method="POST" class="d-inline"
+                                    onsubmit="return confirmToggleAdminStatus('{{ usuario.is_admin|tojson }}', '{{ usuario.nome|tojson }}');"> {# CORRIGIDO AQUI! Chamando a função JS #}
+                                    <button type="submit" class="btn btn-sm btn-{{ 'danger' if usuario.is_admin else 'success' }}" aria-label="Alternar status administrador de {{ usuario.nome }}">
+                                        <i class="fas fa-user-cog me-1"></i> {{ 'Rebaixar' if usuario.is_admin else 'Promover' }}
+                                    </button>
+                                </form>
+                                {% else %}
+                                    <small class="text-muted">O seu próprio utilizador</small>
+                                {% endif %}
+                                
+                                {# Link para ver pedidos do utilizador (opcional, se admin_pedidos aceitar user_id) #}
+                                <a href="{{ url_for('admin.admin_pedidos') }}?user_id={{ usuario.id }}" class="btn btn-sm btn-info ms-2" aria-label="Ver pedidos de {{ usuario.nome }}">
+                                    <i class="fas fa-shopping-bag me-1"></i> Ver Pedidos
+                                </a>
+                                
+                                {# Pode adicionar um botão para excluir utilizador aqui também, com admin_required #}
+                                {# <form action="{{ url_for('admin.excluir_utilizador', id=usuario.id) }}" method="POST" class="d-inline" onsubmit="return confirm('Tem certeza que deseja excluir este utilizador?');">
+                                    <button type="submit" class="btn btn-sm btn-danger ms-2" aria-label="Excluir utilizador {{ usuario.nome }}">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form> #}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center py-4">Nenhum utilizador registado.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 {% endblock %}

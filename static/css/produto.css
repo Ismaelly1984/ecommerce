@@ -1,53 +1,53 @@
 /* produto.css */
 
-/* Main content adjustments for this page */
-.main {
-    padding-top: var(--spacing-xl); /* Space below header */
-    padding-bottom: var(--spacing-xl);
-    flex-grow: 1; /* Allows main to take available space */
-}
-
+/* Contêiner principal para os detalhes do produto */
+/* As propriedades `background-color`, `border-radius` e `box-shadow` são específicas */
+/* para este cartão de detalhes do produto e seu destaque visual, sendo mantidas. */
 .product-detail {
-    display: flex;
-    flex-wrap: wrap; /* Allows wrapping on smaller screens */
-    gap: var(--spacing-lg);
+    display: flex; /* Habilita layout flexbox */
+    flex-wrap: wrap; /* Permite que os elementos quebrem a linha em telas menores */
+    gap: var(--spacing-lg); /* Espaçamento entre os itens (imagem e informações) */
     background-color: white;
     border-radius: var(--border-radius-lg);
     box-shadow: 0 8px 25px var(--shadow-light);
     padding: var(--spacing-xl);
-    align-items: flex-start; /* Align content to the top */
+    align-items: flex-start; /* Alinha o conteúdo ao topo do contêiner */
 }
 
+/* Seção da Imagem do Produto */
 .product-image {
-    flex: 1 1 450px; /* Allows image to grow/shrink, with a preferred width of 450px */
-    max-width: 550px; /* Cap the max width for larger screens */
+    flex: 1 1 450px; /* Permite que a imagem cresça/diminua, com largura preferencial de 450px */
+    max-width: 550px; /* Limita a largura máxima em telas maiores */
     border-radius: var(--border-radius-md);
-    overflow: hidden; /* Ensures image corners are rounded */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Subtle shadow for the image container */
+    overflow: hidden; /* Garante que os cantos da imagem sejam arredondados */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Sombra sutil para o contêiner da imagem */
 }
 
+/* Imagem dentro do contêiner do produto */
+/* Removido: `width: 100%; height: auto; display: block;` são estilos genéricos */
+/* para imagens e deveriam ser definidos em `global.css`. */
 .product-image img {
-    width: 100%;
-    height: auto; /* Maintain aspect ratio */
-    display: block;
-    object-fit: cover; /* Ensures image covers area without distortion */
+    object-fit: cover; /* Garante que a imagem cubra a área sem distorção, cortando se necessário */
 }
 
+/* Seção de Informações do Produto */
 .product-info {
-    flex: 1 1 350px; /* Allows info to grow/shrink, with a preferred width of 350px */
-    padding-left: var(--spacing-md); /* Add some space from the image */
+    flex: 1 1 350px; /* Permite que as informações cresçam/diminuam, com largura preferencial de 350px */
+    padding-left: var(--spacing-md); /* Adiciona espaço à esquerda da imagem */
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Organiza os elementos verticalmente */
 }
 
+/* Título do Produto (H1) */
 .product-info h1 {
-    font-size: 2.8rem;
+    font-size: 2.8rem; /* Tamanho da fonte específico para este título */
     color: var(--primary-color);
     margin-bottom: var(--spacing-sm);
     font-weight: 700;
     line-height: 1.2;
 }
 
+/* Preço do Produto */
 .product-info .price {
     font-size: 2.2rem;
     font-weight: 800;
@@ -55,6 +55,7 @@
     margin-bottom: var(--spacing-md);
 }
 
+/* Status do Estoque */
 .product-info .stock {
     font-size: 1.1rem;
     color: var(--text-light);
@@ -62,59 +63,63 @@
     font-weight: 500;
 }
 
+/* Descrição do Produto */
 .product-info .description {
     font-size: 1rem;
     color: var(--text-dark);
     line-height: 1.7;
     margin-bottom: var(--spacing-xl);
-    flex-grow: 1; /* Allows description to take up available space */
+    flex-grow: 1; /* Permite que a descrição ocupe o espaço disponível */
 }
 
+/* Botão "Adicionar ao Carrinho" (específico da página de detalhes) */
+/* Este botão tem estilos visivelmente diferentes do `index.css` (gradiente, padding, sombra), */
+/* por isso é mantido aqui como uma estilização específica. */
 .btn-adicionar-carrinho {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 18px 35px;
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    padding: 18px 35px; /* Padding maior para este botão */
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); /* Fundo com gradiente */
     color: white;
     border: none;
     border-radius: var(--border-radius-pill);
-    font-size: 1.2rem;
+    font-size: 1.2rem; /* Tamanho da fonte maior para este botão */
     font-weight: 600;
     cursor: pointer;
     transition: all var(--transition-speed) ease;
-    box-shadow: 0 6px 20px rgba(106, 5, 114, 0.3);
-    width: 100%; /* Make button full width of its container */
-    max-width: 350px; /* Limit max width for aesthetic */
-    margin-top: auto; /* Push to bottom of flex container */
+    box-shadow: 0 6px 20px rgba(106, 5, 114, 0.3); /* Sombra específica */
+    width: 100%; /* Faz com que o botão ocupe a largura total do seu contêiner */
+    max-width: 350px; /* Limita a largura máxima por estética */
+    margin-top: auto; /* Empurra o botão para a parte inferior do contêiner flex */
 }
 
 .btn-adicionar-carrinho:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(106, 5, 114, 0.4);
+    transform: translateY(-3px); /* Move ligeiramente para cima no hover */
+    box-shadow: 0 8px 25px rgba(106, 5, 114, 0.4); /* Sombra mais pronunciada no hover */
 }
 
-/* --- Responsive Adjustments --- */
+/* --- Ajustes Responsivos --- */
 @media (max-width: 992px) {
     .product-detail {
         padding: var(--spacing-lg);
-        flex-direction: column; /* Stack image and info vertically */
-        align-items: center; /* Center items when stacked */
+        flex-direction: column; /* Empilha imagem e informações verticalmente */
+        align-items: center; /* Centraliza os itens quando empilhados */
     }
 
     .product-image,
     .product-info {
-        flex: 1 1 100%; /* Take full width when stacked */
-        max-width: 100%; /* Allow full width */
+        flex: 1 1 100%; /* Ocupa a largura total quando empilhado */
+        max-width: 100%; /* Permite largura total */
     }
 
     .product-image {
-        margin-bottom: var(--spacing-lg);
+        margin-bottom: var(--spacing-lg); /* Adiciona espaço abaixo da imagem */
     }
 
     .product-info {
-        padding-left: 0; /* Remove left padding when stacked */
-        text-align: center; /* Center text content */
+        padding-left: 0; /* Remove padding esquerdo quando empilhado */
+        text-align: center; /* Centraliza o conteúdo de texto */
     }
 
     .product-info h1 {
@@ -126,16 +131,14 @@
     }
 
     .btn-adicionar-carrinho {
-        max-width: 100%; /* Allow button to stretch */
+        max-width: 100%; /* Permite que o botão se estenda por toda a largura */
     }
 }
 
 @media (max-width: 768px) {
-    .main {
-        padding-top: var(--spacing-lg);
-        padding-bottom: var(--spacing-lg);
-    }
-
+    /* Removido: `padding-top` e `padding-bottom` de `main` se já estiverem em `global.css` */
+    /* ou se o `main` estiver com flexbox global que centraliza/espaça. */
+    /* Deixei apenas o essencialmente específico. */
     .product-detail {
         padding: var(--spacing-md);
     }

@@ -1,43 +1,59 @@
 /* index.css */
 
-
-/* Main Content - Product Grid */
+/* Seção de Conteúdo Principal - Grade de Produtos */
+/* O padding principal para 'main' já é definido em global.css. */
 .main {
-  padding: var(--spacing-xl) 0;
-  background-color: #fcfcfc; /* Slightly different background for main */
+  background-color: #fcfcfc; /* Fundo específico para o conteúdo principal da página inicial */
+}
+
+/* Novo: Título da Seção de Produtos na Página Inicial */
+.section-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+  padding-top: var(--spacing-md); /* Espaçamento da parte superior do conteúdo */
 }
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--spacing-lg);
-  justify-content: center;
-  padding: var(--spacing-lg) 0;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Layout de grade responsivo */
+  gap: var(--spacing-lg); /* Espaçamento entre os cartões de produto */
+  justify-content: center; /* Centraliza os cartões na grade */
+  padding: var(--spacing-lg) 0; /* Espaçamento interno da grade */
 }
 
+/* Cartão de Produto Individual */
 .product-card {
   background-color: white;
   border-radius: var(--border-radius-lg);
-  box-shadow: 0 8px 25px var(--shadow-light);
-  overflow: hidden;
+  box-shadow: 0 8px 25px var(--shadow-light); /* Sombra para o cartão */
+  overflow: hidden; /* Garante cantos arredondados */
   display: flex;
   flex-direction: column;
   position: relative;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  outline: none; /* Remove o contorno de foco padrão do navegador */
 }
 
-.product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 30px var(--shadow-medium);
+/* Novo: Estado de Foco e Hover para o Cartão de Produto (para navegação via teclado) */
+.product-card:hover,
+.product-card:focus {
+  transform: translateY(-5px); /* Move ligeiramente para cima no hover/foco */
+  box-shadow: 0 12px 30px var(--shadow-medium); /* Sombra mais profunda */
+  outline: 2px solid var(--primary-color); /* Destaque com a cor primária no foco */
+  outline-offset: 3px; /* Pequeno espaçamento para o contorno de foco */
 }
 
 .product-card img {
   width: 100%;
-  height: 220px;
-  object-fit: cover;
-  border-bottom: 1px solid var(--border-color);
+  height: 220px; /* Altura fixa para a imagem do produto */
+  object-fit: cover; /* Garante que a imagem cubra a área sem distorção */
+  border-bottom: 1px solid var(--border-color); /* Borda inferior da imagem */
 }
 
+/* Selo de "Últimas Unidades" */
 .product-badge {
   position: absolute;
   top: var(--spacing-sm);
@@ -49,13 +65,14 @@
   font-size: 0.8rem;
   font-weight: 600;
   z-index: 5;
+  line-height: 1; /* Melhor alinhamento vertical do texto */
 }
 
 .product-info {
   padding: var(--spacing-md);
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* Ensures content pushes buttons to bottom */
+  flex-grow: 1; /* Permite que ocupe o espaço restante */
 }
 
 .product-title {
@@ -70,7 +87,15 @@
   font-size: 0.95rem;
   color: var(--text-light);
   margin-bottom: var(--spacing-sm);
-  flex-grow: 1; /* Allows description to take available height */
+  flex-grow: 1;
+  min-height: 40px; /* Garante que a descrição ocupe um espaço, mesmo se curta/vazia */
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limita a 2 linhas para texto truncado */
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .product-meta {
@@ -90,6 +115,8 @@
 .product-rating {
   font-size: 0.95rem;
   color: var(--accent-color);
+  display: flex;
+  align-items: center; /* Alinha ícone e texto verticalmente */
 }
 
 .product-rating i {
@@ -100,15 +127,16 @@
 .product-actions {
   display: flex;
   gap: var(--spacing-xs);
-  margin-top: auto; /* Pushes actions to the bottom */
+  margin-top: auto; /* Empurra os botões para baixo */
 }
 
 .product-actions .btn {
-  flex: 1; /* Makes buttons take equal width */
+  flex: 1; /* Faz com que os botões compartilhem o espaço igualmente */
   font-size: 0.9rem;
   padding: 10px 15px;
 }
 
+/* Botão "Adicionar ao Carrinho" (específico da página inicial e detalhes do produto) */
 .btn-adicionar-carrinho {
   background-color: var(--primary-color);
   color: white;
@@ -119,8 +147,8 @@
   font-weight: 600;
   cursor: pointer;
   transition: background-color var(--transition-speed) ease;
-  flex: 1;
-  display: inline-flex;
+  flex: 1; /* Faz com que o botão ocupe o espaço disponível */
+  display: inline-flex; /* Permite alinhamento de ícone/texto */
   justify-content: center;
   align-items: center;
 }
@@ -130,107 +158,26 @@
 }
 
 
-/* Load More Button */
+/* Contêiner do Botão "Carregar Mais Produtos" */
 .load-more-container {
   text-align: center;
   margin-top: var(--spacing-xl);
   margin-bottom: var(--spacing-xl);
 }
 
-/* Footer Styles */
-.footer {
-  background-color: var(--bg-dark);
-  color: #ecf0f1;
-  padding: var(--spacing-xl) 0 0;
-  font-size: 0.95rem;
-  margin-top: auto; /* Push footer to the bottom */
-  padding-bottom: 0%;
+/* Ajustes Responsivos Específicos da Página Inicial */
+@media (max-width: 480px) {
+  .section-title {
+      font-size: 1.8rem;
+  }
+  .product-title {
+      font-size: 1.1rem;
+  }
+  .product-price {
+      font-size: 1.2rem;
+  }
+  .product-actions .btn, .btn-adicionar-carrinho {
+      font-size: 0.85rem;
+      padding: 8px 12px;
+  }
 }
-
-.footer-content {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: var(--spacing-lg);
-  padding-bottom: var(--spacing-xl);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-left: var(--spacing-md);
-  padding-right: var(--spacing-md);
-}
-
-.footer-section {
-  padding: var(--spacing-sm);
-}
-
-.footer-section h3 {
-  color: white;
-  margin-bottom: var(--spacing-md);
-  font-size: 1.2rem;
-  font-weight: 600;
-}
-
-.footer-section p {
-  margin-bottom: var(--spacing-xs);
-  line-height: 1.8;
-}
-
-.footer-section a {
-  display: block;
-  color: #bbb;
-  margin-bottom: 8px;
-  transition: color var(--transition-speed) ease;
-}
-
-.footer-section a:hover {
-  color: var(--secondary-color);
-  text-decoration: underline;
-}
-
-.newsletter-form {
-  display: flex;
-  margin-top: var(--spacing-md);
-}
-
-.newsletter-form input {
-  flex-grow: 1;
-  padding: 10px 15px;
-  border: none;
-  border-radius: var(--border-radius-pill) 0 0 var(--border-radius-pill);
-  background-color: rgba(255, 255, 255, 0.1);
-  color: white;
-}
-
-.newsletter-form input::placeholder {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.newsletter-form input:focus {
-  outline: none;
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.newsletter-form button {
-  background-color: var(--secondary-color);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 0 var(--border-radius-pill) var(--border-radius-pill) 0;
-  cursor: pointer;
-  transition: background-color var(--transition-speed) ease;
-  font-weight: 500;
-}
-
-.newsletter-form button:hover {
-  background-color: #e06d00;
-}
-
-.footer-bottom {
-  text-align: center;
-  padding: var(--spacing-md) 0;
-  background-color: #22303c;
-  color: #888;
-  font-size: 0.85rem;
-}
-
-

@@ -1,123 +1,285 @@
 /* carrinho.css */
 
-/* Main container adjustment */
-body > .container { /* Target the main container specifically */
-    padding-top: var(--spacing-xl); /* Space below the header */
-    padding-bottom: var(--spacing-xl);
-    flex-grow: 1; /* Allows the content to take available space */
-    min-height: calc(100vh - var(--header-height, 100px) - var(--footer-height, 200px)); /* Ensure it fills height */
+/* Importante: Este arquivo assume que global.css já define variáveis e estilos de header/footer/botões gerais. */
+/* Removidos estilos como 'body', 'a', '.container', '.btn-primary', '.btn-outline' e regras genéricas */
+/* de input/textarea que já estão no global.css. */
+
+/* Classe de utilidade para texto visível apenas para leitores de tela */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
 }
 
-h1 {
-    font-size: 2.5rem;
-    color: var(--primary-color);
-    text-align: center;
-    margin-bottom: var(--spacing-md);
+/* Estilização da área de conteúdo principal (main-content) */
+.main-content {
+    padding: var(--spacing-xl) 0; /* Espaçamento superior e inferior */
+    background-color: #fcfcfc; /* Cor de fundo específica para o conteúdo principal */
+    /* A linha abaixo (min-height) é útil se você não tiver certeza de que o `main` em `global.css` */
+    /* já está empurrando o footer para baixo, mas `flex-grow: 1` no `main` do global.css já faz isso. */
+    /* min-height: calc(100vh - var(--header-height) - var(--footer-height)); */
+    /* As propriedades 'display: flex' e 'flex-direction: column' para 'main-content' */
+    /* podem ser redundantes se o 'main' em global.css já for um flex container. */
+    display: flex; /* Mantido se este 'main-content' precisar de seu próprio contexto flex */
+    flex-direction: column; /* Mantido se este 'main-content' precisar de seu próprio contexto flex */
+}
+
+/* Título da Página (h1) */
+.page-title {
+    font-size: 2.5rem; /* Um pouco maior para o título principal da página */
     font-weight: 700;
+    color: var(--text-dark);
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    padding-top: var(--spacing-md);
 }
 
-.continue-shopping {
-    display: inline-block;
+/* Mensagem de Feedback (consistente com alertas gerais) */
+/* As propriedades 'padding', 'margin-bottom', 'border-radius', 'font-weight', 'text-align' */
+/* já são definidas na classe .alert do global.css, ou são sobrepostas aqui. */
+.feedback-message {
+    padding: var(--spacing-md);
     margin-bottom: var(--spacing-lg);
-    color: var(--text-light);
+    border-radius: var(--border-radius-md);
     font-weight: 500;
-    transition: color var(--transition-speed) ease;
+    text-align: center;
+    color: white; /* Cor do texto padrão para mensagens de feedback */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Sombra específica para estas mensagens */
 }
 
-.continue-shopping:hover {
-    color: var(--primary-color);
-    text-decoration: underline;
+.feedback-message.success {
+    background-color: var(--success-color); /* Assumindo que --success-color existe em global.css */
+}
+
+.feedback-message.error {
+    background-color: var(--error-color); /* Assumindo que --error-color existe em global.css */
+}
+
+
+/* Botão "Continuar Comprando" */
+.continue-shopping {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: var(--spacing-lg);
+    /* As propriedades de estilização base do botão (background-color, border, color, padding, border-radius, text-decoration, transition) */
+    /* devem vir das classes `.btn` e `.btn-outline` (ou similar) do `global.css` aplicadas no HTML. */
+    /* Se esta estilização estiver aqui, é uma sobreposição específica. */
+    /* Mantenha apenas o que não pode ser alcançado com as classes globais no HTML. */
+}
+/* Estilo específico para o ícone dentro do botão "Continuar Comprando" */
+.continue-shopping i {
+    font-size: 0.9em; /* Ajusta o tamanho do ícone */
+}
+
+
+/* Seção e Tabela do Carrinho */
+.cart-section {
+    background-color: white;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 8px 25px var(--shadow-light);
+    overflow: hidden; /* Para garantir que as bordas da tabela/sombras sejam respeitadas */
+    margin-bottom: var(--spacing-xl);
 }
 
 .cart-table {
     width: 100%;
-    border-collapse: collapse;
-    background-color: white;
-    border-radius: var(--border-radius-lg);
-    overflow: hidden; /* Ensures rounded corners apply to content */
-    box-shadow: 0 8px 25px var(--shadow-light);
-    margin-bottom: var(--spacing-xl);
-}
-
-.cart-table thead th {
-    background-color: var(--primary-color);
-    color: white;
-    padding: var(--spacing-md);
+    border-collapse: collapse; /* Remove espaço entre as células */
     text-align: left;
-    font-weight: 600;
-    font-size: 1rem;
-    text-transform: uppercase;
+    font-size: 0.95rem;
 }
 
-.cart-table tbody td {
+.cart-table thead {
+    background-color: var(--bg-light); /* Fundo claro para o cabeçalho da tabela */
+    color: var(--text-dark);
+}
+
+.cart-table th {
+    padding: var(--spacing-md);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.cart-table td {
     padding: var(--spacing-md);
     border-bottom: 1px solid var(--border-color);
+    vertical-align: middle; /* Alinha o conteúdo verticalmente */
+}
+
+/* Célula de Informações do Produto (imagem + nome) */
+.product-info-cell {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    min-width: 200px; /* Garante espaço suficiente para o nome/imagem do produto */
+}
+
+.product-thumbnail {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--border-color);
+}
+
+.product-name {
+    font-weight: 500;
     color: var(--text-dark);
-    font-size: 0.95rem;
-    vertical-align: middle; /* Vertically align content in cells */
 }
 
-.cart-table tbody tr:last-child td {
-    border-bottom: none;
-}
-
-.cart-table .product-name {
+/* Preço e Subtotal do Produto */
+.product-price,
+.product-subtotal {
     font-weight: 600;
-    color: var(--secondary-color);
+    color: var(--text-dark);
 }
 
-.cart-table .product-price,
-.cart-table .product-subtotal {
-    font-weight: 500;
-    color: var(--primary-dark);
+.product-subtotal .subtotal-value {
+    color: var(--primary-color); /* Destaca os valores de subtotal */
 }
 
-.cart-table .product-quantity {
-    font-weight: 500;
+
+/* Controles de Quantidade */
+.product-quantity-controls {
+    text-align: center; /* Centraliza o wrapper de quantidade */
 }
 
+.quantity-wrapper {
+    display: inline-flex; /* Torna-o um bloco inline para centralização */
+    align-items: center;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-pill); /* Controles arredondados */
+    overflow: hidden; /* Esconde bordas excedentes dos inputs */
+}
+
+.quantity-btn {
+    background-color: var(--bg-light);
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    color: var(--text-dark);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-btn:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.quantity-btn:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+.quantity-input {
+    width: 50px; /* Largura fixa para o input de quantidade */
+    text-align: center;
+    border: none;
+    padding: 8px 0; /* Ajusta o padding para alinhamento vertical */
+    font-size: 1rem;
+    color: var(--text-dark);
+    background-color: white;
+    -moz-appearance: textfield; /* Esconde setas para Firefox */
+    appearance: textfield; /* Aparência padrão para compatibilidade */
+}
+
+/* Esconde setas para Chrome, Safari, Edge */
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.quantity-input:focus {
+    outline: none;
+    background-color: var(--bg-light);
+}
+
+/* Botão "Remover" */
 .btn-remover-carrinho {
-    background-color: var(--danger);
+    background-color: var(--error-color); /* Vermelho para remoção */
     color: white;
     border: none;
-    padding: 8px 15px;
+    padding: 8px 12px;
     border-radius: var(--border-radius-pill);
-    font-size: 0.85rem;
     cursor: pointer;
-    transition: background-color var(--transition-speed) ease;
     font-weight: 500;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.2s ease;
 }
 
 .btn-remover-carrinho:hover {
-    background-color: #c0392b; /* Darker red */
+    background-color: var(--error-dark); /* Vermelho mais escuro no hover */
 }
 
+.btn-remover-carrinho i {
+    font-size: 0.9em;
+}
+
+
+/* Linha do Total */
 .total-row {
     background-color: var(--bg-light);
-    border-top: 2px solid var(--border-color);
+    font-size: 1.1rem;
+    border-top: 2px solid var(--primary-color); /* Separação mais forte para o total */
 }
 
-.total-row .total-label {
+.total-row td {
+    padding: var(--spacing-md);
+}
+
+.total-label {
     text-align: right;
-    font-size: 1.2rem;
-    color: var(--secondary-color);
-    padding-right: var(--spacing-md);
+    font-weight: 700;
+    color: var(--text-dark);
 }
 
-.total-row .total-value {
-    font-size: 1.4rem;
+.total-value {
     color: var(--primary-color);
+    font-size: 1.3rem;
+    font-weight: 700;
 }
 
-/* Empty Cart Message */
+/* Ações do Carrinho na Parte Inferior (Finalizar Compra) */
+.cart-actions-bottom {
+    display: flex;
+    justify-content: flex-end; /* Alinha o botão à direita */
+    padding: var(--spacing-md);
+    background-color: white; /* Combina com o fundo da tabela */
+    border-top: 1px solid var(--border-color); /* Separador da tabela */
+    border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg); /* Bordas inferiores arredondadas */
+}
+
+.btn-checkout {
+    /* As propriedades de estilização base do botão devem vir das classes `.btn` e `.btn-primary` */
+    /* do global.css aplicadas no HTML. Mantenha aqui apenas o que é específico para este botão. */
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+}
+
+/* Estado de Carrinho Vazio */
 .empty-cart {
     text-align: center;
     padding: var(--spacing-xl);
     background-color: white;
     border-radius: var(--border-radius-lg);
     box-shadow: 0 8px 25px var(--shadow-light);
-    max-width: 600px;
-    margin: var(--spacing-xl) auto;
+    margin: var(--spacing-xl) 0;
 }
 
 .empty-cart p {
@@ -127,148 +289,97 @@ h1 {
 }
 
 .empty-cart .btn {
-    padding: 15px 30px;
-    font-size: 1.1rem;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: var(--border-radius-pill);
-    transition: background-color var(--transition-speed) ease;
-}
-
-.empty-cart .btn:hover {
-    background-color: var(--primary-dark);
-    transform: none; /* Override default button hover */
-    box-shadow: none; /* Override default button hover */
-}
-
-/* Finalize purchase button alignment */
-.container > div[style="margin-top: 2rem; text-align: right;"] {
-    display: flex;
-    justify-content: flex-end; /* Pushes the button to the right */
-    padding-right: var(--spacing-md); /* Add padding for consistency with table */
-    margin-bottom: var(--spacing-xl); /* Space below the button */
-}
-
-.container > div[style="margin-top: 2rem; text-align: right;"] .btn {
-    padding: 15px 35px;
-    font-size: 1.2rem;
+    font-size: 1rem;
+    padding: 12px 25px;
 }
 
 
-/* --- Responsive Adjustments --- */
+/* Ajustes Responsivos para a Tabela do Carrinho */
 @media (max-width: 768px) {
-    h1 {
+    .page-title {
         font-size: 2rem;
     }
 
-    .cart-table thead {
-        display: none; /* Hide table headers on small screens */
+    .cart-table, .cart-table thead, .cart-table tbody, .cart-table th, .cart-table td, .cart-table tr {
+        display: block; /* Faz com que os elementos da tabela se comportem como blocos */
     }
 
-    .cart-table,
-    .cart-table tbody,
-    .cart-table tr,
-    .cart-table td {
-        display: block; /* Make table elements behave like blocks */
-        width: 100%;
+    .cart-table thead {
+        display: none; /* Esconde o cabeçalho da tabela em telas pequenas */
     }
 
     .cart-table tr {
         margin-bottom: var(--spacing-md);
         border: 1px solid var(--border-color);
         border-radius: var(--border-radius-md);
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        background-color: white;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
 
     .cart-table td {
-        text-align: right;
-        padding-left: 50%; /* Make space for pseudo-element labels */
+        border-bottom: 1px solid var(--border-color);
+        text-align: right; /* Alinha o conteúdo à direita */
         position: relative;
+        padding-left: 50%; /* Abre espaço para o data-label */
     }
 
+    .cart-table td:last-child {
+        border-bottom: none; /* Sem borda para a última célula */
+    }
+
+    /* Mostra o data-label como pseudo-elemento */
     .cart-table td::before {
-        content: attr(data-label); /* Use data-label for content */
+        content: attr(data-label);
         position: absolute;
         left: var(--spacing-md);
-        width: calc(50% - var(--spacing-md));
-        text-align: left;
+        width: calc(50% - var(--spacing-md) * 2); /* Ajusta a largura */
         font-weight: 600;
-        color: var(--secondary-color);
+        color: var(--text-dark);
+        text-align: left;
     }
 
-    .cart-table td:nth-of-type(1)::before { content: "Produto:"; }
-    .cart-table td:nth-of-type(2)::before { content: "Preço Unitário:"; }
-    .cart-table td:nth-of-type(3)::before { content: "Quantidade:"; }
-    .cart-table td:nth-of-type(4)::before { content: "Subtotal:"; }
-    .cart-table td:nth-of-type(5)::before { content: "Ações:"; }
-
-    /* Hide redundant product-name label on small screens if product name is already the main text */
-    .cart-table .product-name::before {
-        display: none;
-    }
-    
-    .cart-table .total-row {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        border-top: 2px solid var(--border-color);
-        margin-top: var(--spacing-md);
-        background-color: white; /* Ensure total row background matches other cards */
-        box-shadow: none; /* Remove extra shadow */
+    .product-info-cell {
+        flex-direction: row; /* Mantém imagem e texto lado a lado */
+        justify-content: flex-end; /* Alinha o conteúdo à direita */
     }
 
-    .cart-table .total-row td {
+    .product-info-cell::before {
+        text-align: left;
+    }
+
+    .product-quantity-controls {
         text-align: right;
-        border-bottom: none;
-        padding-left: var(--spacing-md); /* Adjust padding */
+    }
+    .quantity-wrapper {
+        display: flex; /* Mantém como flex para alinhar os botões */
+        justify-content: flex-end; /* Alinha os controles à direita */
     }
 
-    .cart-table .total-row .total-label {
-        font-size: 1.1rem;
-        padding-right: 0;
+    .cart-actions-bottom {
+        justify-content: center; /* Centraliza o botão de checkout no mobile */
+        padding: var(--spacing-lg) 0;
     }
 
-    .cart-table .total-row .total-value {
-        font-size: 1.3rem;
-    }
-
-    .container > div[style="margin-top: 2rem; text-align: right;"] {
-        justify-content: center; /* Center the button on small screens */
-        padding-right: 0;
+    .btn-checkout {
+        width: 100%; /* Botão de largura total */
+        max-width: 300px; /* Limita a largura máxima */
     }
 }
 
+/* Telas Ainda Menores */
 @media (max-width: 480px) {
-    h1 {
+    .page-title {
         font-size: 1.8rem;
     }
-
-    .cart-table td {
-        padding: 10px var(--spacing-sm);
-        font-size: 0.9rem;
+    .product-info-cell {
+        flex-direction: column; /* Empilha imagem e texto */
+        align-items: flex-end; /* Alinha o conteúdo empilhado à direita */
     }
-
-    .cart-table td::before {
-        left: var(--spacing-sm);
-        font-size: 0.85rem;
+    .product-info-cell .product-name {
+        text-align: right;
     }
-
-    .btn-remover-carrinho {
-        padding: 6px 12px;
-        font-size: 0.8rem;
-    }
-
-    .empty-cart {
-        padding: var(--spacing-lg);
-    }
-
-    .empty-cart p {
-        font-size: 1.1rem;
-    }
-
-    .empty-cart .btn {
-        padding: 12px 25px;
-        font-size: 1rem;
+    .product-info-cell img {
+        margin-bottom: var(--spacing-xs);
     }
 }

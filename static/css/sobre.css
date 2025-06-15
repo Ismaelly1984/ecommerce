@@ -1,0 +1,111 @@
+/* sobre.css */
+
+/* Ajustes principais para o layout da página "Sobre Nós" */
+/* As propriedades padding-top, padding-bottom e flex-grow para `main` */
+/* já são definidas no `global.css` para o layout padrão da página. */
+/* Se necessário, adicione aqui apenas estilos específicos que sobreponham o global. */
+.main {
+    padding-top: var(--spacing-xl); /* Ajuste específico para esta página */
+}
+
+/* Estilos para o contêiner de conteúdo da página Sobre Nós */
+/* O container já vem de global.css, aqui definimos o padding interno */
+.container {
+    padding-top: var(--spacing-xl); /* Espaço abaixo do cabeçalho */
+    padding-bottom: var(--spacing-xl); /* Espaço acima do rodapé */
+}
+
+/* Título principal da página (H1) */
+h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    font-weight: 700;
+}
+
+/* Subtítulos (H2) */
+h2 {
+    font-size: 2rem;
+    color: var(--text-dark);
+    margin-top: var(--spacing-xl);
+    margin-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color); /* Linha divisória sutil */
+    padding-bottom: var(--spacing-xs);
+}
+
+/* Parágrafos de texto */
+p {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    line-height: 1.8;
+    margin-bottom: var(--spacing-md);
+    max-width: 800px; /* Limita a largura do texto para melhor legibilidade */
+    margin-left: auto; /* Centraliza o parágrafo */
+    margin-right: auto; /* Centraliza o parágrafo */
+}
+
+/* Lista de valores */
+ul {
+    list-style: none; /* Remove o estilo de lista padrão */
+    padding-left: 0;
+    max-width: 700px; /* Limita a largura da lista */
+    margin: var(--spacing-lg) auto var(--spacing-xl) auto; /* Centraliza e adiciona margens */
+}
+
+ul li {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-sm);
+    padding-left: 25px; /* Espaço para o ícone customizado */
+    position: relative; /* Para posicionar o pseudo-elemento */
+}
+
+/* Adiciona um ícone ou marcador customizado para itens da lista */
+ul li::before {
+    content: '\f00c'; /* Ícone de checkmark (Font Awesome). Certifique-se de que Font Awesome esteja carregado. */
+    font-family: "Font Awesome 6 Free"; /* Define a família de fontes para o ícone */
+    font-weight: 900; /* Define o peso da fonte para ícones sólidos */
+    color: var(--secondary-color); /* Cor do ícone */
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+
+/* --- Ajustes Responsivos --- */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+        margin-bottom: var(--spacing-lg);
+    }
+
+    h2 {
+        font-size: 1.7rem;
+        margin-top: var(--spacing-lg);
+    }
+
+    p, ul li {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    p, ul li {
+        font-size: 0.95rem;
+        max-width: 100%; /* Remove limite de largura em telas muito pequenas */
+    }
+
+    ul li {
+        padding-left: 20px;
+    }
+}

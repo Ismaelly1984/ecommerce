@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Sobre Nós | Seu E-commerce{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sobre.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Sobre a PremiumStore</h1>
+        <p>Bem-vindo à PremiumStore, seu destino online para produtos de alta qualidade e exclusivos. Nossa missão é oferecer uma experiência de compra excepcional, com produtos selecionados que combinam inovação, design e durabilidade.</p>
+        <p>Acreditamos que a qualidade não deve ser um luxo, mas um padrão. Por isso, trabalhamos arduamente para trazer a você apenas o melhor, desde a seleção dos nossos fornecedores até o atendimento ao cliente.</p>
+        <h2>Nossa História</h2>
+        <p>Fundada em 2023, a PremiumStore nasceu da paixão por encontrar e oferecer itens que realmente fazem a diferença na vida das pessoas. Começamos pequenos, mas com uma grande visão: ser a sua loja de confiança para tudo o que é premium.</p>
+        <h2>Nossos Valores</h2>
+        <ul>
+            <li>Qualidade Inegável: Selecionamos cada produto com rigor.</li>
+            <li>Atendimento ao Cliente: Sua satisfação é nossa prioridade.</li>
+            <li>Inovação: Estamos sempre em busca das últimas tendências e tecnologias.</li>
+            <li>Transparência: Confiança construída com honestidade.</li>
+        </ul>
+        <p>Obrigado por escolher a PremiumStore. Esperamos que você ame sua experiência de compra!</p>
+    </div>
+{% endblock %}

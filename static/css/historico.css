@@ -1,14 +1,18 @@
+/* historico.css */
 
- /* historico.css */
-
-/* Main content adjustments for this page */
+/* Ajustes principais para o layout da página de histórico */
+/* Propriedades como `padding-top`, `padding-bottom` e `flex-grow` para `main` */
+/* já são definidas no `global.css`. Aqui, mantemos o `min-height` se ele for específico */
+/* para garantir que o conteúdo empurre o rodapé para baixo. */
 main.container {
-    padding-top: var(--spacing-xl); /* Ensure space below header */
-    padding-bottom: var(--spacing-xl);
-    min-height: calc(100vh - var(--header-height, 100px) - var(--footer-height, 200px)); /* Adjust heights as needed */
-    flex-grow: 1; /* Allows main to take available space */
+    /* min-height é mantido para garantir que o conteúdo principal ocupe o espaço necessário, */
+    /* considerando a altura do cabeçalho e do rodapé. */
+    min-height: calc(100vh - var(--header-height, 100px) - var(--footer-height, 200px));
 }
 
+/* Título principal da página (H1) */
+/* As propriedades `font-size`, `color`, `text-align`, `margin-bottom` e `font-weight` */
+/* são específicas para este título H1 na página de histórico. */
 h1 {
     font-size: 2.5rem;
     color: var(--primary-color);
@@ -17,28 +21,34 @@ h1 {
     font-weight: 700;
 }
 
+/* Lista de Pedidos */
 .pedidos-list {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-lg); /* Space between order cards */
-    max-width: 800px; /* Constrain width for better readability */
-    margin: 0 auto;
+    gap: var(--spacing-lg); /* Espaço entre os cartões de pedido */
+    max-width: 800px; /* Limita a largura para melhor legibilidade */
+    margin: 0 auto; /* Centraliza a lista na página */
 }
 
+/* Estilo do Cartão de Pedido Individual */
+/* As propriedades `background-color`, `border-radius` e `box-shadow` são tipicamente */
+/* definidas em estilos globais para cartões, mas são mantidas aqui para especificidade ou sobreposição. */
 .pedido-card {
     background-color: white;
     border-radius: var(--border-radius-lg);
     box-shadow: 0 5px 20px var(--shadow-light);
     padding: var(--spacing-lg);
-    border-left: 5px solid var(--primary-color); /* Highlight with primary color */
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-left: 5px solid var(--primary-color); /* Destaque com a cor primária na esquerda */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Transição suave para hover */
 }
 
+/* Efeito de hover no cartão de pedido */
 .pedido-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px var(--shadow-medium);
+    transform: translateY(-3px); /* Move ligeiramente para cima */
+    box-shadow: 0 8px 25px var(--shadow-medium); /* Sombra mais pronunciada no hover */
 }
 
+/* Título dentro do Cartão de Pedido (H3) */
 .pedido-card h3 {
     font-size: 1.6rem;
     color: var(--text-dark);
@@ -50,36 +60,41 @@ h1 {
 }
 
 .pedido-card h3::after {
-    content: ''; /* No content, used for alignment or future icon */
+    content: ''; /* Usado para alinhamento ou para um futuro ícone, sem conteúdo visual */
 }
 
+/* Parágrafos dentro do Cartão de Pedido */
 .pedido-card p {
     font-size: 1rem;
     color: var(--text-light);
     margin-bottom: var(--spacing-xs);
 }
 
-.pedido-card p:last-of-type { /* Style for the total */
+/* Estilo para o parágrafo que mostra o total (último parágrafo do tipo) */
+.pedido-card p:last-of-type {
     font-weight: 600;
     color: var(--primary-color);
     font-size: 1.1rem;
     margin-bottom: var(--spacing-md);
 }
 
+/* Subtítulo de Itens dentro do Cartão de Pedido (H4) */
 .pedido-card h4 {
     font-size: 1.2rem;
     color: var(--secondary-color);
     margin-top: var(--spacing-md);
     margin-bottom: var(--spacing-sm);
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color); /* Linha divisória */
     padding-bottom: var(--spacing-xs);
 }
 
+/* Lista de Itens do Pedido */
 .pedido-card ul {
-    list-style: none; /* Remove default list style */
-    padding-left: 0;
+    list-style: none; /* Remove o estilo de lista padrão */
+    padding-left: 0; /* Remove o padding padrão da lista */
 }
 
+/* Item individual da Lista de Pedidos */
 .pedido-card ul li {
     background-color: var(--bg-light);
     padding: 10px 15px;
@@ -90,14 +105,15 @@ h1 {
     align-items: center;
     font-size: 0.95rem;
     color: var(--text-dark);
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-color); /* Borda sutil para cada item */
 }
 
 .pedido-card ul li:last-child {
-    margin-bottom: 0;
+    margin-bottom: 0; /* Remove margem do último item da lista */
 }
 
-/* No orders message */
+/* Mensagem quando não há pedidos */
+/* Este é um estilo específico para um parágrafo que é filho direto do `main.container`. */
 main.container > p {
     text-align: center;
     font-size: 1.2rem;
@@ -113,7 +129,7 @@ main.container > p {
 }
 
 
-/* --- Responsive Adjustments --- */
+/* --- Ajustes Responsivos --- */
 @media (max-width: 768px) {
     h1 {
         font-size: 2rem;
@@ -148,7 +164,7 @@ main.container > p {
     }
 
     .pedido-card h3 {
-        flex-direction: column; /* Stack order ID and status */
+        flex-direction: column; /* Empilha o ID do pedido e o status */
         align-items: flex-start;
         gap: 5px;
         font-size: 1.3rem;

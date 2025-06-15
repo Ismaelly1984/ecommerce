@@ -1,0 +1,197 @@
+/* contato.css */
+
+/* Ajustes principais para o layout da página de Contato */
+/* As propriedades padding-top, padding-bottom e flex-grow para `main` */
+/* já são definidas no `global.css` para o layout padrão da página. */
+/* Se necessário, adicione aqui apenas estilos específicos que sobreponham o global. */
+/* Exemplo: Se precisar de um padding ligeiramente diferente para esta página: */
+/* .main { padding-top: var(--spacing-xxl); } */
+
+/* Estilos para o contêiner de conteúdo da página de Contato */
+/* O container já vem de global.css, aqui definimos o padding interno */
+.container {
+    padding-top: var(--spacing-xl); /* Espaço abaixo do cabeçalho */
+    padding-bottom: var(--spacing-xl); /* Espaço acima do rodapé */
+}
+
+/* Título principal da página (H1) */
+h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: var(--spacing-md);
+    font-weight: 700;
+}
+
+/* Parágrafo de introdução */
+.container > p {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    text-align: center;
+    line-height: 1.6;
+    margin-bottom: var(--spacing-xl);
+    max-width: 700px; /* Limita a largura para melhor legibilidade */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Informações de Contato (E-mail, WhatsApp, Endereço) */
+.contact-info {
+    background-color: var(--bg-light); /* Fundo sutil para o bloco de informações */
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 4px 15px var(--shadow-light);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+    max-width: 600px; /* Limita a largura */
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.contact-info p {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    margin-bottom: var(--spacing-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centraliza o conteúdo dentro do parágrafo */
+}
+
+.contact-info p:last-child {
+    margin-bottom: 0; /* Remove margem do último item */
+}
+
+.contact-info i {
+    color: var(--secondary-color); /* Cor dos ícones */
+    margin-right: 10px;
+    font-size: 1.3rem;
+}
+
+.contact-info a {
+    color: var(--primary-color); /* Cor dos links */
+    text-decoration: none;
+    transition: color var(--transition-speed) ease;
+}
+
+.contact-info a:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+/* Formulário de Contato */
+.contact-form {
+    background-color: white;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 8px 25px var(--shadow-light);
+    padding: var(--spacing-xl);
+    max-width: 700px; /* Limita a largura do formulário */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.form-group label {
+    display: block;
+    font-size: 1rem;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    font-size: 1rem;
+    color: var(--text-dark);
+    outline: none;
+    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    background-color: white;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(106, 5, 114, 0.15); /* Sombra suave no foco */
+}
+
+.form-group textarea {
+    resize: vertical; /* Permite redimensionar apenas verticalmente */
+    min-height: 120px; /* Altura mínima para a área de texto */
+}
+
+/* Botão de Envio (o estilo .btn .btn-primary já deve vir de global.css) */
+.contact-form .btn {
+    width: auto; /* Permite que o botão se ajuste ao conteúdo */
+    min-width: 180px; /* Largura mínima para o botão */
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    display: block; /* Ocupa a largura total do elemento pai */
+    margin: var(--spacing-md) auto 0 auto; /* Centraliza o botão */
+}
+
+/* --- Ajustes Responsivos --- */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .container > p,
+    .contact-info p,
+    .form-group label,
+    .form-group input,
+    .form-group textarea {
+        font-size: 1rem;
+    }
+
+    .contact-info,
+    .contact-form {
+        padding: var(--spacing-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .container > p,
+    .contact-info p {
+        font-size: 0.95rem;
+    }
+
+    .contact-info i {
+        font-size: 1.1rem;
+    }
+
+    .contact-info,
+    .contact-form {
+        padding: var(--spacing-md);
+        margin-left: var(--spacing-sm);
+        margin-right: var(--spacing-sm);
+    }
+
+    .contact-info p {
+        flex-direction: column; /* Empilha ícone e texto */
+        align-items: center;
+        gap: 5px; /* Espaço entre o ícone e o texto empilhados */
+    }
+
+    .contact-info i {
+        margin-right: 0; /* Remove margem lateral do ícone quando empilhado */
+        margin-bottom: 5px; /* Adiciona margem inferior */
+    }
+
+    .contact-form .btn {
+        width: 100%; /* Botão ocupa 100% da largura em telas muito pequenas */
+        font-size: 1rem;
+        padding: 10px 15px;
+    }
+}

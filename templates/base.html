@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Seu E-commerce{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="theme-color" content="#3498db">
+    
+    {# Bloco para CSS/JS adicionais no <head> de páginas específicas #}
+    {% block head %}{% endblock %} 
+</head>
+
+<body>
+    {# HEADER #}
+    <header class="header">
+        <div class="container">
+            <a href="{{ url_for('main.home') }}" class="logo" aria-label="Voltar para a página inicial da PremiumStore">
+                <i class="fas fa-crown"></i>
+                <span>PremiumStore</span>
+            </a>
+            <button class="menu-toggle" aria-label="Abrir ou fechar menu de navegação" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <div class="page-header">
+                <div class="search-container">
+                    <form action="{{ url_for('main.buscar_produtos') }}" method="GET" class="search-form" role="search">
+                        <label for="search-input" class="sr-only">Buscar produtos</label>
+                        <input type="text" id="search-input" name="q" placeholder="Pesquisar por nome de produto..." class="search-input" value="{{ request.args.get('q', '') }}">
+                        <button type="submit" class="search-button" aria-label="Realizar busca">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <nav class="nav" aria-label="Navegação principal">
+                <a href="{{ url_for('main.home') }}" class="nav-link"> {# Adicionado link Home aqui para acessibilidade #}
+                    <i class="fas fa-home"></i> Home
+                </a>
+                {% if 'usuario_id' in session %}
+                <a href="{{ url_for('cart.ver_carrinho') }}" class="nav-link" aria-label="Ver carrinho de compras">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">{{ total_itens|default(0) }}</span>
+                    <span class="sr-only">itens no carrinho</span>
+                </a>
+                <div class="user-dropdown">
+                    <button class="user-avatar" aria-label="Abrir menu do usuário" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user-circle"></i>
+                    </button>
+                    <div class="dropdown-menu" role="menu">
+                        <a href="{{ url_for('user.historico_pedidos') }}" role="menuitem">Meus pedidos</a>
+                        <a href="{{ url_for('auth.logout') }}" role="menuitem">Sair</a>
+                    </div>
+                </div>
+                {% else %}
+                <a href="{{ url_for('auth.login') }}" class="nav-link" aria-label="Ir para a página de Login">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    {# Bloco principal de conteúdo que será preenchido por cada página #}
+    <main class="main">
+        <div class="container"> {# Este container envolve o bloco de flash messages e o bloco de conteúdo #}
+            {# Mensagens flash - AGORA COM AS CLASSES BOOTSTRAP PARA DISMISS #}
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flashes mt-3"> {# Você pode remover esta div 'flashes' se preferir, já que o container está fora #}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            
+            {% block content %}{% endblock %} {# O conteúdo específico da página vai aqui #}
+        </div>
+    </main>
+
+    {# FOOTER #}
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Sobre Nós</h3>
+                <p>Somos uma loja comprometida com qualidade, confiança e atendimento excepcional aos nossos
+                    clientes.
+                </p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Links Rápidos</h3>
+                <a href="{{ url_for('main.home') }}">Início</a>
+                <a href="{{ url_for('main.buscar_produtos') }}">Produtos</a> {# Aponta para a rota de busca geral #}
+                <a href="{{ url_for('main.contato') }}">Contato</a>    
+                <a href="{{ url_for('main.sobre') }}">Sobre</a>        
+            </div>
+
+            <div class="footer-section">
+                <h3>Fale Conosco</h3>
+                <p>WhatsApp: <a href="https://wa.me/5599999999999" target="_blank" rel="noopener noreferrer">(99) 99999-9999</a></p>
+                <p>Email: <a href="mailto:contato@exemplo.com">contato@exemplo.com</a></p>
+                <p>Endereço: Rua Exemplo, 123 - Cidade</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            &copy; 2025 PremiumStore. Todos os direitos reservados.
+        </div>
+    </footer>
+
+    {# SCRIPTS GLOBAIS #}
+    <script>
+        const menuToggleButton = document.querySelector('.menu-toggle');
+        const navMenu = document.querySelector('.nav');
+        const userDropdownButton = document.querySelector('.user-avatar');
+        const userDropdownMenu = document.querySelector('.user-dropdown .dropdown-menu');
+
+        // Toggle do menu de navegação (hambúrguer)
+        if (menuToggleButton) {
+            menuToggleButton.addEventListener('click', () => {
+                const isExpanded = menuToggleButton.getAttribute('aria-expanded') === 'true';
+                navMenu.classList.toggle('open');
+                menuToggleButton.setAttribute('aria-expanded', !isExpanded);
+            });
+        }
+
+        // Toggle do dropdown do usuário
+        if (userDropdownButton) {
+            userDropdownButton.addEventListener('click', () => {
+                const isExpanded = userDropdownButton.getAttribute('aria-expanded') === 'true';
+                userDropdownMenu.classList.toggle('open');
+                userDropdownButton.setAttribute('aria-expanded', !isExpanded);
+            });
+
+            // Fechar dropdown ao clicar fora
+            document.addEventListener('click', (event) => {
+                if (!userDropdownButton.contains(event.target) && !userDropdownMenu.contains(event.target)) {
+                    if (userDropdownMenu.classList.contains('open')) {
+                        userDropdownMenu.classList.remove('open');
+                        userDropdownButton.setAttribute('aria-expanded', 'false');
+                    }
+                }
+            });
+        }
+    </script>
+            
+    {# Bloco para scripts adicionais no final do <body> de páginas específicas #}
+    {% block scripts %}{% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

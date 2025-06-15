@@ -1,161 +1,79 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmação de Pedido | Seu E-commerce</title>
+{% extends 'base.html' %}
+
+{% block title %}Confirmação de Pedido | Seu E-commerce{% endblock %}
+
+{# Include only the CSS specific to the order confirmation page within the 'head' block #}
+{% block head %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/confirmacao_pedido.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
+{% endblock %}
 
-<body>
-    <header class="header">
-        <div class="container">
-            <a href="{{ url_for('main.home') }}" class="logo"> {# CORRECTED: Added 'main.' prefix #}
-                <i class="fas fa-crown"></i>
-                <span>PremiumStore</span>
-            </a>
-            <button class="menu-toggle" aria-label="Abrir menu">
-                <i class="fas fa-bars"></i>
-            </button>
-
-            <div class="page-header">
-                <div class="search-container">
-                    <form action="{{ url_for('main.buscar_produtos') }}" method="GET" class="search-form"> {# CORRECTED: Added 'main.' prefix #}
-                        <input type="text" name="q" placeholder="Buscar produtos premium..." class="search-input">
-                        <button type="submit" class="search-button">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </form>
-                </div>
+{% block content %}
+    {# The main content of your order confirmation page #}
+    <div class="container">
+        <div class="confirmation-container">
+            <div class="confirmation-header">
+                <i class="fas fa-check-circle"></i>
+                <h1>Compra realizada com sucesso!</h1>
+                <p>Obrigado por comprar conosco. Aqui estão os detalhes do seu pedido.</p>
             </div>
-            <nav class="nav">
 
-                {% if 'usuario_id' in session %}
-                <a href="{{ url_for('cart.ver_carrinho') }}" class="nav-link"> {# CORRECTED: Added 'cart.' prefix #}
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count">{{ total_itens|default(0) }}</span>
-
-                </a>
-                <div class="user-dropdown">
-                    <button class="user-avatar">
-                        <i class="fas fa-user-circle"></i>
-                    </button>
-                    <div class="dropdown-menu">
-                        <a href="{{ url_for('user.historico_pedidos') }}">Meus pedidos</a> {# CORRECTED: Added 'user.' prefix #}
-                        <a href="{{ url_for('auth.logout') }}">Sair</a> {# CORRECTED: Added 'auth.' prefix #}
+            <div class="order-details">
+                <div class="order-summary">
+                    <h3>Resumo do Pedido</h3>
+                    <div class="detail">
+                        <span>Número do Pedido:</span>
+                        <strong>#{{ pedido.id }}</strong>
                     </div>
-                </div>
-                {% else %}
-                <a href="{{ url_for('auth.login') }}" class="nav-link"> {# CORRECTED: Added 'auth.' prefix #}
-                    <i class="fas fa-sign-in-alt"></i> Login
-                </a>
-                {% endif %}
-            </nav>
-        </div>
-    </header>
-    <main class="main">
-        <div class="container">
-            <div class="confirmation-container">
-                <div class="confirmation-header">
-                    <i class="fas fa-check-circle"></i>
-                    <h1>Compra realizada com sucesso!</h1>
-                    <p>Obrigado por comprar conosco. Aqui estão os detalhes do seu pedido.</p>
-                </div>
-
-                <div class="order-details">
-                    <div class="order-summary">
-                        <h3>Resumo do Pedido</h3>
-                        <div class="detail">
-                            <span>Número do Pedido:</span>
-                            <strong>#{{ pedido.id }}</strong>
-                        </div>
-                        <div class="detail">
-                            <span>Data:</span>
-                            <strong>{{ pedido.data }}</strong>
-                        </div>
-                        <div class="detail">
-                            <span>Status:</span>
-                            <span class="status {{ pedido.status|lower }}">{{ pedido.status }}</span>
-                        </div>
-                        <div class="detail">
-                            <span>Total:</span>
-                            <strong>R$ {{ "%.2f"|format(pedido.total) }}</strong>
-                        </div>
+                    <div class="detail">
+                        <span>Data:</span>
+                        <strong>{{ pedido.data }}</strong>
                     </div>
-
-                    <div class="order-items">
-                        <h3>Itens do Pedido</h3>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Produto   </th>
-                                    <th>Quantidade</th>
-                                    <th>Preço Unitario</th>
-                                    <th>Subtotal</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for item in pedido.itens %}
-                                <tr>
-                                    <td data-label="Produto:">{{ item[2] }}</td>
-                                    <td data-label="Quantidade:">{{ item[0] }}</td>
-                                    <td data-label="Preço Unitário:">R$ {{ "%.2f"|format(item[1]) }}</td>
-                                    <td data-label="Subtotal:">R$ {{ "%.2f"|format(item[0] * item[1]) }}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                    <div class="detail">
+                        <span>Status:</span>
+                        <span class="status {{ pedido.status|lower }}">{{ pedido.status }}</span>
+                    </div>
+                    <div class="detail">
+                        <span>Total:</span>
+                        <strong>R$ {{ "%.2f"|format(pedido.total) }}</strong>
                     </div>
                 </div>
 
-                <div class="confirmation-actions">
-                    <a href="{{ url_for('main.home') }}" class="btn btn-primary">Continuar Comprando</a> {# CORRECTED: Added 'main.' prefix #}
-                    <a href="{{ url_for('user.historico_pedidos') }}" class="btn btn-outline">Ver Histórico</a> {# CORRECTED: Added 'user.' prefix #}
+                <div class="order-items">
+                    <h3>Itens do Pedido</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Quantidade</th>
+                                <th>Preço Unitário</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {# Assuming 'item' is a list/tuple, item[2] is product name, item[0] is quantity, item[1] is unit price #}
+                            {% for item in pedido.itens %}
+                            <tr>
+                                <td data-label="Produto:">{{ item[2] }}</td>
+                                <td data-label="Quantidade:">{{ item[0] }}</td>
+                                <td data-label="Preço Unitário:">R$ {{ "%.2f"|format(item[1]) }}</td>
+                                <td data-label="Subtotal:">R$ {{ "%.2f"|format(item[0] * item[1]) }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
+
+            <div class="confirmation-actions">
+                <a href="{{ url_for('main.home') }}" class="btn btn-primary">Continuar Comprando</a>
+                <a href="{{ url_for('user.historico_pedidos') }}" class="btn btn-outline">Ver Histórico</a>
+            </div>
         </div>
-    </main>
+    </div>
+{% endblock %}
 
-    <footer class="footer">
-        <div class="footer-content">
-
-            <div class="footer-section">
-                <h3>Sobre Nós</h3>
-                <p>Somos uma loja comprometida com qualidade, confiança e atendimento excepcional aos nossos clientes.</p>
-            </div>
-
-            <div class="footer-section">
-                <h3>Links Rápidos</h3>
-                <a href="{{ url_for('main.home') }}">Início</a> {# CORRECTED: Added 'main.' prefix #}
-                {# For these, if they are Flask routes, they also need blueprint prefixes. Otherwise, keep them as direct paths if they are static or handled differently. #}
-                <a href="/produtos">Produtos</a>
-                <a href="/contato">Contato</a>
-                <a href="/sobre">Sobre</a>
-            </div>
-
-            <div class="footer-section">
-                <h3>Fale Conosco</h3>
-                <p>WhatsApp: (99) 99999-9999</p>
-                <p>Email: contato@exemplo.com</p>
-                <p>Endereço: Rua Exemplo, 123 - Cidade</p>
-            </div>
-
-            <div class="footer-section">
-                <h3>Newsletter</h3>
-                <form class="newsletter-form" action="/newsletter" method="POST"> {# For this, if it's a Flask route, it needs a blueprint prefix. #}
-                    <input type="email" name="email" placeholder="Seu e-mail" required>
-                    <button type="submit">Inscrever</button>
-                </form>
-            </div>
-
-        </div>
-
-        <div class="footer-bottom">
-            &copy; 2025 Sua Loja. Todos os direitos reservados.
-        </div>
-      </footer>
-</body>
-</html>
+{# No need for a 'scripts' block here unless you have JS specifically for this page #}
+{# If you do have additional scripts here, place them inside: #}
+{# {% block scripts %} #}
+{#    #}
+{# {% endblock %} #}

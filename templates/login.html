@@ -1,29 +1,31 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Seu E-commerce</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+{% block title %}Login - Seu E-commerce{% endblock %}
+
+{# Include only the CSS specific to the login page within the 'head' block #}
+{% block head %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    {# Font Awesome and Google Fonts are already in base.html, so they're not needed here. #}
+{% endblock %}
 
-</head>
-
-<body>
+{% block content %}
+    {# The main content of your login page, wrapped in a container that fits your design #}
     <div class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
                 <div class="logo">
+                    {# This logo might be different from the main site logo, so keeping it here is fine. #}
                     <i class="fas fa-shopping-bag"></i>
                     <span>Seu E-commerce</span>
                 </div>
                 <h1>Bem-vindo de volta</h1>
                 <p>Faça login para acessar sua conta</p>
             </div>
+
+            {# Flash messages are handled in base.html, which is generally where you want them. #}
+            {# However, if you have specific alert styling for this auth card, you might consider #}
+            {# placing the flash message block directly here if you remove it from base.html's main content area. #}
+            {# For now, rely on base.html to show flashes. #}
 
             <form method="POST" class="auth-form">
                 <div class="form-group">
@@ -37,7 +39,8 @@
                     <label for="senha"><i class="fas fa-lock"></i> Senha:</label>
                     <div class="input-with-icon">
                         <input type="password" id="senha" name="senha" placeholder="••••••••" required>
-                        <i class="fas fa-eye toggle-password" onclick="togglePassword()"></i>
+                        {# Use a data attribute and JavaScript listener for robustness #}
+                        <i class="fas fa-eye toggle-password" data-target="senha"></i>
                     </div>
                 </div>
 
@@ -46,7 +49,8 @@
                         <input type="checkbox" name="remember">
                         <span>Lembrar-me</span>
                     </label>
-                    <a href="#" class="forgot-password">Esqueceu a senha?</a> {# If this is a Flask route, it needs url_for as well. E.g., url_for('auth.forgot_password') #}
+                    {# Corrected: If 'forgot_password' is a Flask route, it needs url_for #}
+                    <a href="{{ url_for('auth.forgot_password') }}" class="forgot-password">Esqueceu a senha?</a>
                 </div>
 
                 <button type="submit" class="auth-btn">
@@ -56,24 +60,31 @@
             </form>
 
             <div class="auth-footer">
-                <p>Não tem uma conta? <a href="{{ url_for('auth.cadastro') }}">Cadastre-se</a></p> {# CORRECTED: Added 'auth.' prefix #}
+                <p>Não tem uma conta? <a href="{{ url_for('auth.cadastro') }}">Cadastre-se</a></p>
             </div>
         </div>
     </div>
+{% endblock %}
 
+{# Scripts specific to the login page #}
+{% block scripts %}
     <script>
-        function togglePassword() {
-            const password = document.getElementById('senha');
-            const icon = document.querySelector('.toggle-password');
-            if (password.type === 'password') {
-                password.type = 'text';
-                icon.classList.replace('fa-eye', 'fa-eye-slash');
-            } else {
-                password.type = 'password';
-                icon.classList.replace('fa-eye-slash', 'fa-eye');
-            }
-        }
-    </script>
-</body>
+        document.addEventListener('DOMContentLoaded', () => {
+            const togglePasswordIcon = document.querySelector('.toggle-password');
+            if (togglePasswordIcon) {
+                togglePasswordIcon.addEventListener('click', () => {
+                    const passwordInputId = togglePasswordIcon.dataset.target;
+                    const passwordInput = document.getElementById(passwordInputId);
 
-</html>
+                    if (passwordInput.type === 'password') {
+                        passwordInput.type = 'text';
+                        togglePasswordIcon.classList.replace('fa-eye', 'fa-eye-slash');
+                    } else {
+                        passwordInput.type = 'password';
+                        togglePasswordIcon.classList.replace('fa-eye-slash', 'fa-eye');
+                    }
+                });
+            }
+        });
+    </script>
+{% endblock %}

@@ -1,134 +1,44 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+{% extends 'base.html' %} {# Assumindo que você tem um base.html #}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Histórico de Pedidos</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/historico.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
+{% block title %}Meus Pedidos - PremiumStore{% endblock %}
 
-<body>
-    <header class="header">
-        <div class="container">
-            <a href="{{ url_for('main.home') }}" class="logo"> {# CORRECTED: Added 'main.' prefix #}
-                <i class="fas fa-crown"></i>
-                <span>PremiumStore</span>
-            </a>
-            <button class="menu-toggle" aria-label="Abrir menu">
-                <i class="fas fa-bars"></i>
-            </button>
+{% block content %}
+<section class="pedidos-section py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Meu Histórico de Pedidos</h2>
 
-            <div class="page-header">
-                <div class="search-container">
-                    {# CORRECTED: Added 'main.' prefix for buscar_produtos #}
-                    <form action="{{ url_for('main.buscar_produtos') }}" method="GET" class="search-form">
-                        <input type="text" name="q" placeholder="Buscar produtos premium..." class="search-input">
-                        <button type="submit" class="search-button">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </form>
+        {% if pedidos %}
+            {% for pedido in pedidos %}
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        Pedido #{{ pedido.id }} - Data: {{ pedido.data.strftime('%d/%m/%Y %H:%M') }} - Status: {{ pedido.status }}
+                    </h5>
+                    <p class="mb-0">Total: R$ {{ "%.2f"|format(pedido.total) }}</p>
                 </div>
-            </div>
-            <nav class="nav">
-
-                {% if 'usuario_id' in session %}
-                {# CORRECTED: Added 'cart.' prefix for ver_carrinho #}
-                <a href="{{ url_for('cart.ver_carrinho') }}" class="nav-link">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count">{{ total_itens|default(0) }}</span>
-
-                </a>
-                <div class="user-dropdown">
-                    <button class="user-avatar">
-                        <i class="fas fa-user-circle"></i>
-                    </button>
-                    <div class="dropdown-menu">
-                        {# CORRECTED: Added 'user.' prefix for historico_pedidos #}
-                        <a href="{{ url_for('user.historico_pedidos') }}">Meus pedidos</a>
-                        {# CORRECTED: Added 'auth.' prefix for logout #}
-                        <a href="{{ url_for('auth.logout') }}">Sair</a>
-                    </div>
+                <div class="card-body">
+                    <h6>Itens do Pedido:</h6>
+                    <ul class="list-group list-group-flush">
+                        {% for item in pedido.itens %} {# <-- AQUI! Agora estamos iterando sobre 'item' #}
+                        <li class="list-group-item d-flex align-items-center">
+                            <img src="{{ url_for('static', filename='uploads/' + item.imagem) }}" alt="{{ item.nome }}" class="img-fluid rounded me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                            <div>
+                                <p class="mb-0 fw-bold">{{ item.nome }}</p>
+                                <small class="text-muted">{{ item.quantidade }} x R$ {{ "%.2f"|format(item.preco_unitario) }}</small>
+                            </div>
+                            <span class="ms-auto fw-bold">R$ {{ "%.2f"|format(item.quantidade * item.preco_unitario) }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
                 </div>
-                {% else %}
-                {# CORRECTED: Added 'auth.' prefix for login #}
-                <a href="{{ url_for('auth.login') }}" class="nav-link">
-                    <i class="fas fa-sign-in-alt"></i> Login
-                </a>
-                {% endif %}
-            </nav>
-        </div>
-    </header>
-
-    <main class="container">
-
-        <h1>Seu Histórico de Pedidos</h1>
-        {% if historico %}
-        <div class="pedidos-list">
-            {% for pedido in historico %}
-            <div class="pedido-card">
-                <h3>Pedido #{{ pedido.id }} - {{ pedido.status }}</h3>
-                <p>Data: {{ pedido.data }}</p>
-                <p>Total: R$ {{ "%.2f"|format(pedido.total) }}</p>
-
-                <h4>Itens:</h4>
-                <ul>
-                    {% for item in pedido.itens %}
-                    <li>
-                        {{ item.quantidade }}x {{ item.nome }} -
-                        R$ {{ "%.2f"|format(item.preco_unitario) }}
-                    </li>
-                    {% endfor %}
-                </ul>
             </div>
             {% endfor %}
-        </div>
         {% else %}
-        <p>Nenhum pedido encontrado.</p>
+            <div class="alert alert-info text-center" role="alert">
+                Você ainda não fez nenhum pedido.
+                <a href="{{ url_for('main.home') }}" class="alert-link">Comece a comprar agora!</a>
+            </div>
         {% endif %}
-    </main>
-
-    <footer class="footer">
-        <div class="footer-content">
-
-            <div class="footer-section">
-                <h3>Sobre Nós</h3>
-                <p>Somos uma loja comprometida com qualidade, confiança e atendimento excepcional aos nossos clientes.
-                </p>
-            </div>
-
-            <div class="footer-section">
-                <h3>Links Rápidos</h3>
-                <a href="{{ url_for('main.home') }}">Início</a> {# CORRECTED: Added 'main.' prefix #}
-                <a href="/produtos">Produtos</a> {# Consider changing to url_for if this is a Flask route #}
-                <a href="/contato">Contato</a> {# Consider changing to url_for if this is a Flask route #}
-                <a href="/sobre">Sobre</a> {# Consider changing to url_for if this is a Flask route #}
-            </div>
-
-            <div class="footer-section">
-                <h3>Fale Conosco</h3>
-                <p>WhatsApp: (99) 99999-9999</p>
-                <p>Email: contato@exemplo.com</p>
-                <p>Endereço: Rua Exemplo, 123 - Cidade</p>
-            </div>
-
-            <div class="footer-section">
-                <h3>Newsletter</h3>
-                <form class="newsletter-form" action="/newsletter" method="POST"> {# Consider changing to url_for if this is a Flask route #}
-                    <input type="email" name="email" placeholder="Seu e-mail" required>
-                    <button type="submit">Inscrever</button>
-                </form>
-            </div>
-
-        </div>
-
-        <div class="footer-bottom">
-            &copy; 2025 Sua Loja. Todos os direitos reservados.
-        </div>
-    </footer>
-</body>
-
-</html>
+    </div>
+</section>
+{% endblock %}

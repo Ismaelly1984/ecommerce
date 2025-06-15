@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Contato | Seu E-commerce{% endblock %}
+
+{% block head %}
+    {# Adicione aqui qualquer CSS específico para a página de contato, se houver #}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/contato.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Entre em Contato Conosco</h1>
+        <p>Tem alguma dúvida, sugestão ou precisa de ajuda? Preencha o formulário abaixo ou utilize nossos canais de atendimento.</p>
+
+        <div class="contact-info">
+            <p><i class="fas fa-envelope"></i> E-mail: <a href="mailto:contato@exemplo.com">contato@exemplo.com</a></p>
+            <p><i class="fab fa-whatsapp"></i> WhatsApp: <a href="https://wa.me/5599999999999" target="_blank" rel="noopener noreferrer">(99) 99999-9999</a></p>
+            <p><i class="fas fa-map-marker-alt"></i> Endereço: Rua Exemplo, 123 - Centro, Cidade - UF</p>
+        </div>
+
+        <form action="{{ url_for('main.enviar_contato') }}" method="POST" class="contact-form">
+            <div class="form-group">
+                <label for="nome">Seu Nome:</label>
+                <input type="text" id="nome" name="nome" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Seu Email:</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="mensagem">Sua Mensagem:</label>
+                <textarea id="mensagem" name="mensagem" rows="5" class="form-control" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
+        </form>        
+    </div>
+{% endblock %}

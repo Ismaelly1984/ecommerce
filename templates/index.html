@@ -1,159 +1,51 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produtos Premium | Seu E-commerce</title>
+{% block title %}Produtos Premium | Seu E-commerce{% endblock %}
+
+{# Inclua apenas o CSS específico para a página index dentro do bloco 'head' #}
+{% block head %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
+{% endblock %}
 
-<body>
-    <header class="header">
-        <div class="container">
-            <a href="{{ url_for('main.home') }}" class="logo"> {# CORRECTED: Added 'main.' prefix #}
-                <i class="fas fa-crown"></i>
-                <span>PremiumStore</span>
-            </a>
-            <button class="menu-toggle" aria-label="Abrir menu">
-                <i class="fas fa-bars"></i>
-            </button>
-
-            <div class="page-header">
-                <div class="search-container">
-                    {# Corrected: Assuming 'buscar_produtos' is in 'main' blueprint #}
-                    <form action="{{ url_for('main.buscar_produtos') }}" method="GET" class="search-form">
-                        <input type="text" name="q" placeholder="Buscar produtos premium..." class="search-input">
-                        <button type="submit" class="search-button">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-            <nav class="nav">
-                {% if 'usuario_id' in session %}
-                {# Corrected: Assuming 'ver_carrinho' is in 'cart' blueprint #}
-                <a href="{{ url_for('cart.ver_carrinho') }}" class="nav-link">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count">{{ total_itens|default(0) }}</span>
-                </a>
-                <div class="user-dropdown">
-                    <button class="user-avatar">
-                        <i class="fas fa-user-circle"></i>
-                    </button>
-                    <div class="dropdown-menu">
-                        {# Corrected: Assuming 'historico_pedidos' is in 'user' blueprint #}
-                        <a href="{{ url_for('user.historico_pedidos') }}">Meus pedidos</a>
-                        {# Corrected: Assuming 'logout' is in 'auth' blueprint #}
-                        <a href="{{ url_for('auth.logout') }}">Sair</a>
-                    </div>
-                </div>
-                {% else %}
-                {# Corrected: Assuming 'login' is in 'auth' blueprint #}
-                <a href="{{ url_for('auth.login') }}" class="nav-link">
-                    <i class="fas fa-sign-in-alt"></i> Login
-                </a>
+{% block content %}
+    <div class="container">
+        <h1 class="section-title">Nossos Produtos Premium</h1>
+        <div class="products-grid">
+            {% for produto in produtos %}
+            <div class="product-card" tabindex="0">
+                {% if produto[3] < 10 %}
+                <span class="product-badge" aria-label="Últimas unidades em estoque">Últimas unidades</span>
                 {% endif %}
-            </nav>
-        </div>
-    </header>
+                <img src="{{ url_for('static', filename='uploads/' + produto.imagem) }}" alt="{{ produto.nome }}">
 
-    <main class="main">
-        <div class="container">
-            <div class="products-grid">
-                {% for produto in produtos %}
-                <div class="product-card">
-                    {% if produto[3] < 10 %}
-                    <span class="product-badge">Últimas unidades</span>
-                    {% endif %}
-                    <img src="{{ url_for('static', filename='uploads/' + produto.imagem) if produto.imagem else url_for('static', filename='images/produtos/default.jpg') }}"
-                        alt="{{ produto.nome }}" class="img-fluid">
-
-                    <div class="product-info">
-                        <h3 class="product-title">{{ produto[1] }}</h3>
-                        <p class="product-description">{{ produto[4] | default('') | truncate(100) }}</p>
-                        <div class="product-meta">
-                            <span class="product-price">R$ {{ "%.2f"|format(produto[2]) }}</span>
-                            <span class="product-rating">
-                                <i class="fas fa-star"></i> 4.8
-                            </span>
-                        </div>
-                        <div class="product-actions">
-                            {# Corrected: Assuming 'detalhes_produto' is in 'main' blueprint #}
-                            <a href="{{ url_for('main.detalhes_produto', id=produto[0]) }}" class="btn btn-outline">
-                                <i class="fas fa-eye"></i> Detalhes
-                            </a>
-                            {# Corrected: Assuming 'adicionar_ao_carrinho' is in 'cart' blueprint #}
-                            <form action="{{ url_for('cart.adicionar_ao_carrinho', produto_id=produto.id) }}"
-                                method="POST">
-                                <button type="submit" class="btn-adicionar-carrinho">Adicionar ao Carrinho</button>
-                            </form>
-                        </div>
+                <div class="product-info">
+                    <h3 class="product-title">{{ produto[1] }}</h3>
+                    <p class="product-description">{{ produto[4] | default('Produto de alta qualidade.') | truncate(100, True, '...') }}</p>
+                    <div class="product-meta">
+                        <span class="product-price">R$ {{ "%.2f"|format(produto[2]) }}</span>
+                        <span class="product-rating" aria-label="Avaliação do produto: 4.8 de 5 estrelas">
+                            <i class="fas fa-star"></i> 4.8
+                        </span>
+                    </div>
+                    <div class="product-actions">
+                        <a href="{{ url_for('main.detalhes_produto', id=produto[0]) }}" class="btn btn-outline" aria-label="Ver detalhes do produto {{ produto[1] }}">
+                            <i class="fas fa-eye"></i> Detalhes
+                        </a>
+                        <form action="{{ url_for('cart.adicionar_ao_carrinho', produto_id=produto.id) }}"
+                            method="POST">
+                            <button type="submit" class="btn-adicionar-carrinho" aria-label="Adicionar {{ produto[1] }} ao carrinho">Adicionar ao Carrinho</button>
+                        </form>
                     </div>
                 </div>
-                {% endfor %}
             </div>
+            {% endfor %}
         </div>
-        {% if tem_mais %}
-        <div class="load-more-container">
-            {# Corrected: Added 'main.' prefix #}
-            <a href="{{ url_for('main.home') }}?pagina={{ pagina + 1 }}" class="btn btn-primary">
-                Ver Mais 10 Produtos
-            </a>
-        </div>
-        {% endif %}
-    </main>
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Sobre Nós</h3>
-                <p>Somos uma loja comprometida com qualidade, confiança e atendimento excepcional aos nossos
-                    clientes.
-                </p>
-            </div>
-
-            <div class="footer-section">
-                <h3>Links Rápidos</h3>
-                {# Corrected: Added 'main.' prefix for home #}
-                <a href="{{ url_for('main.home') }}">Início</a>
-                {# Assuming /produtos, /contato, /sobre are also in 'main' or are static routes #}
-                {# If they are separate routes not yet in blueprints, keep as /produtos, /contato, /sobre #}
-                {# If they will be in 'main' blueprint, change to url_for('main.produtos') etc. #}
-                <a href="/produtos">Produtos</a>
-                <a href="/contato">Contato</a>
-                <a href="/sobre">Sobre</a>
-            </div>
-
-            <div class="footer-section">
-                <h3>Fale Conosco</h3>
-                <p>WhatsApp: (99) 99999-9999</p>
-                <p>Email: contato@exemplo.com</p>
-                <p>Endereço: Rua Exemplo, 123 - Cidade</p>
-            </div>
-
-            <div class="footer-section">
-                <h3>Newsletter</h3>
-                <form class="newsletter-form" action="/newsletter" method="POST">
-                    <input type="email" name="email" placeholder="Seu e-mail" required>
-                    <button type="submit">Inscrever</button>
-                </form>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            &copy; 2025 Sua Loja. Todos os direitos reservados.
-        </div>
-    </footer>
-</body>
-<script>
-    const toggleButton = document.querySelector('.menu-toggle');
-    const navMenu = document.querySelector('.nav');
-
-    toggleButton.addEventListener('click', () => {
-        navMenu.classList.toggle('open');
-    });
-</script>
-</html>
+    </div>
+    {% if tem_mais %}
+    <div class="load-more-container">
+        <a href="{{ url_for('main.home') }}?pagina={{ pagina + 1 }}" class="btn btn-primary" aria-label="Carregar mais 10 produtos">
+            Ver Mais 10 Produtos
+        </a>
+    </div>
+    {% endif %}
+{% endblock %}

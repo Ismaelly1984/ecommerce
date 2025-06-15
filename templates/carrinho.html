@@ -1,156 +1,239 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrinho de Compras</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/carrinho.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
+{% block title %}Seu Carrinho de Compras - PremiumStore{% endblock %}
 
-<body>
-    <header class="header">
-        <div class="container">
-            <a href="{{ url_for('main.home') }}" class="logo"> {# CORRECTED: Added 'main.' prefix #}
-                <i class="fas fa-crown"></i>
-                <span>PremiumStore</span>
-            </a>
-            <button class="menu-toggle" aria-label="Abrir menu">
-                <i class="fas fa-bars"></i>
-            </button>
-
-            <div class="page-header">
-                <div class="search-container">
-                    <form action="{{ url_for('main.buscar_produtos') }}" method="GET" class="search-form"> {# CORRECTED: Added 'main.' prefix #}
-                        <input type="text" name="q" placeholder="Buscar produtos premium..." class="search-input">
-                        <button type="submit" class="search-button">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-            <nav class="nav">
-                <a href="{{ url_for('main.home') }}" class="nav-link active"> {# CORRECTED: Added 'main.' prefix #}
-                    <i class="fas fa-home"></i> Home
-                </a>
-
-                {% if 'usuario_id' in session %}
-                <a href="{{ url_for('cart.ver_carrinho') }}" class="nav-link"> {# CORRECTED: Added 'cart.' prefix #}
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count">{{ total_itens|default(0) }}</span>
-
-                </a>
-                <div class="user-dropdown">
-                    <button class="user-avatar">
-                        <i class="fas fa-user-circle"></i>
-                    </button>
-                    <div class="dropdown-menu">
-                        <a href="{{ url_for('user.historico_pedidos') }}">Meus pedidos</a> {# CORRECTED: Added 'user.' prefix #}
-                        <a href="{{ url_for('auth.logout') }}">Sair</a> {# CORRECTED: Added 'auth.' prefix #}
-                    </div>
-                </div>
-                {% else %}
-                <a href="{{ url_for('auth.login') }}" class="nav-link"> {# CORRECTED: Added 'auth.' prefix #}
-                    <i class="fas fa-sign-in-alt"></i> Login
-                </a>
-                {% endif %}
-            </nav>
-        </div>
-    </header>
-
+{% block content %}
+<section class="cart-section py-5">
     <div class="container">
-        <h1>Seu Carrinho</h1>
-        <a href="{{ url_for('main.home') }}" class="continue-shopping">Continuar comprando</a> {# CORRECTED: Added 'main.' prefix #}
+        <h2 class="text-center mb-4">Seu Carrinho de Compras</h2>
 
-        {% if carrinho %}
-        <table class="cart-table">
-            <thead>
-                <tr>
-                    <th>Produto</th>
-                    <th>Preço Unitário</th>
-                    <th>Quantidade</th>
-                    <th>Subtotal</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in carrinho %}
-                <tr>
-                    <td class="product-name" data-label="Produto:">{{ item['nome'] }}</td>
-                    <td class="product-price" data-label="Preço Unitário:">R$ {{ "%.2f"|format(item['preco']) }}</td>
-                    <td class="product-quantity" data-label="Quantidade:">{{ item['quantidade'] }}</td>
-                    <td class="product-subtotal" data-label="Subtotal:">R$ {{ "%.2f"|format(item['preco'] *
-                        item['quantidade']) }}</td>
-                    <td data-label="Ações:">
-                        <form action="{{ url_for('cart.remover_do_carrinho', produto_id=item.id) }}" method="POST"> {# CORRECTED: Added 'cart.' prefix #}
-                            <button type="submit" class="btn-remover-carrinho">Remover</button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-                <tr class="total-row">
-                    <td colspan="3" class="total-label"><strong>Total:</strong></td>
-                    <td class="total-value"><strong>R$ {{ "%.2f"|format(total) }}</strong></td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div style="margin-top: 2rem; text-align: right;">
-            <form action="{{ url_for('checkout.finalizar_compra') }}" method="POST"> {# CORRECTED: Added 'checkout.' prefix #}
-                <button type="submit" class="btn btn-primary">Finalizar Compra</button>
-            </form>
+        {% if carrinho %} {# A variável passada é 'carrinho', não 'itens_carrinho' #}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">Produto</th>
+                        <th scope="col">Preço Unitário</th>
+                        <th scope="col">Quantidade</th>
+                        <th scope="col">Subtotal</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="cart-items-body">
+                    {% for item in carrinho %} {# <-- AQUI! Use 'item' para cada produto no loop #}
+                    <tr id="cart-item-{{ item.id }}">
+                        <td>
+                            <div class="d-flex align-items-center">
+                                {# <-- AQUI! Use 'item.imagem' e 'item.nome' #}
+                                <img src="{{ url_for('static', filename='uploads/' + item.imagem) }}" alt="{{ item.nome }}" class="img-fluid rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;">
+                                <span class="fw-bold">{{ item.nome }}</span>
+                            </div>
+                        </td>
+                        <td>R$ <span class="product-price">{{ "%.2f"|format(item.preco) }}</span></td>
+                        <td>
+                            <input type="number" 
+                                   data-product-id="{{ item.id }}" 
+                                   data-current-stock="{{ item.estoque }}" 
+                                   value="{{ item.quantidade }}" 
+                                   min="0" 
+                                   max="{{ item.estoque }}"
+                                   class="form-control quantity-input" 
+                                   style="width: 80px;">
+                        </td>
+                        <td>R$ <span class="item-subtotal">{{ "%.2f"|format(item.preco * item.quantidade) }}</span></td>
+                        <td>
+                            <button type="button" 
+                                    class="btn btn-danger btn-sm remove-item-btn" 
+                                    data-product-id="{{ item.id }}" 
+                                    aria-label="Remover {{ item.nome }} do carrinho">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
+
+        <div class="d-flex justify-content-end align-items-center mt-4">
+            {# A variável total é 'total', não 'total_carrinho' #}
+            <h4 class="mb-0">Total do Carrinho: <span class="text-success" id="cart-total-display">R$ {{ "%.2f"|format(total) }}</span></h4>
+        </div>
+
+        <div class="text-end mt-3">
+            <a href="{{ url_for('main.home') }}" class="btn btn-secondary me-2">Continuar Comprando</a>
+            <a href="{{ url_for('checkout.finalizar_compra') }}" class="btn btn-success">Finalizar Compra</a> {# Supondo uma rota de checkout #}
+        </div>
+
         {% else %}
-        <div class="empty-cart">
-            <p>Seu carrinho está vazio.</p>
-            <a href="{{ url_for('main.home') }}" class="btn">Ver Produtos</a> {# CORRECTED: Added 'main.' prefix #}
+        <div class="alert alert-info text-center" role="alert">
+            Seu carrinho está vazio. <a href="{{ url_for('main.home') }}" class="alert-link">Comece a comprar agora!</a>
         </div>
         {% endif %}
     </div>
+</section>
+{% endblock %}
 
-    <footer class="footer">
-        <div class="footer-content">
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const cartItemsBody = document.getElementById('cart-items-body');
+        const cartTotalDisplay = document.getElementById('cart-total-display');
+        const cartCountDisplay = document.querySelector('.cart-count'); // Assumindo que este é o elemento para o contador global do carrinho
 
-            <div class="footer-section">
-                <h3>Sobre Nós</h3>
-                <p>Somos uma loja comprometida com qualidade, confiança e atendimento excepcional aos nossos clientes.
-                </p>
-            </div>
+        // Função para exibir mensagens flash (simplificada para JS)
+        function showFlashMessage(message, type) {
+            const flashesDiv = document.querySelector('.flashes');
+            if (flashesDiv) {
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+                alertDiv.setAttribute('role', 'alert');
+                alertDiv.innerHTML = `${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`;
+                flashesDiv.prepend(alertDiv); // Adiciona no início para aparecer primeiro
+                // Opcional: remover a mensagem após alguns segundos
+                setTimeout(() => {
+                    alertDiv.classList.remove('show');
+                    alertDiv.classList.add('fade');
+                    alertDiv.remove();
+                }, 5000);
+            }
+        }
 
-            <div class="footer-section">
-                <h3>Links Rápidos</h3>
-                <a href="{{ url_for('main.home') }}">Início</a> {# CORRECTED: Added 'main.' prefix #}
-                {# For these, if they are Flask routes, they also need blueprint prefixes. Otherwise, keep them as direct paths if they are static or handled differently. #}
-                <a href="/produtos">Produtos</a>
-                <a href="/contato">Contato</a>
-                <a href="/sobre">Sobre</a>
-            </div>
+        // Listener para alterações de quantidade
+        cartItemsBody.addEventListener('change', async function(event) {
+            if (event.target.classList.contains('quantity-input')) {
+                const input = event.target;
+                const productId = input.dataset.productId;
+                let newQuantity = parseInt(input.value);
+                const currentStock = parseInt(input.dataset.currentStock);
+                const itemRow = input.closest('tr');
+                const itemSubtotalSpan = itemRow.querySelector('.item-subtotal');
+                const productPrice = parseFloat(itemRow.querySelector('.product-price').textContent.replace('R$', '').replace(',', '.').trim());
 
-            <div class="footer-section">
-                <h3>Fale Conosco</h3>
-                <p>WhatsApp: (99) 99999-9999</p>
-                <p>Email: contato@exemplo.com</p>
-                <p>Endereço: Rua Exemplo, 123 - Cidade</p>
-            </div>
 
-            <div class="footer-section">
-                <h3>Newsletter</h3>
-                <form class="newsletter-form" action="/newsletter" method="POST"> {# For this, if it's a Flask route, it needs a blueprint prefix. #}
-                    <input type="email" name="email" placeholder="Seu e-mail" required>
-                    <button type="submit">Inscrever</button>
-                </form>
-            </div>
+                if (isNaN(newQuantity) || newQuantity < 0) {
+                    showFlashMessage('Quantidade inválida.', 'danger');
+                    // Recarrega o valor original do input se a entrada for inválida
+                    input.value = input.defaultValue; 
+                    return;
+                }
 
-        </div>
+                if (newQuantity > currentStock) {
+                    showFlashMessage(`Não há estoque suficiente para ${newQuantity} unidades. Disponível: ${currentStock}.`, 'warning');
+                    newQuantity = currentStock; // Ajusta a quantidade para o máximo disponível
+                    input.value = newQuantity; // Atualiza o input com a quantidade corrigida
+                    if (newQuantity === 0) { // Se o estoque for 0, remove o item
+                         handleRemoveItem(productId, itemRow);
+                         return;
+                    }
+                }
+                
+                // Se a quantidade for 0, tratamos como remoção
+                if (newQuantity === 0) {
+                    const confirmRemove = confirm('Você realmente deseja remover este item do carrinho?');
+                    if (confirmRemove) {
+                        handleRemoveItem(productId, itemRow);
+                    } else {
+                        // Se o usuário cancelar, restaura a quantidade anterior
+                        input.value = input.defaultValue; 
+                    }
+                    return;
+                }
 
-        <div class="footer-bottom">
-            &copy; 2025 Sua Loja. Todos os direitos reservados.
-        </div>
-    </footer>
-</body>
 
-</html>
+                try {
+                    const response = await fetch('/atualizar_quantidade', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest' // Indica que é uma requisição AJAX
+                        },
+                        body: JSON.stringify({ product_id: productId, quantidade: newQuantity })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        itemSubtotalSpan.textContent = data.item_subtotal.toFixed(2).replace('.', ',');
+                        cartTotalDisplay.textContent = 'R$ ' + data.cart_total.toFixed(2).replace('.', ',');
+                        if (cartCountDisplay) {
+                            cartCountDisplay.textContent = data.total_itens;
+                        }
+                        input.defaultValue = newQuantity; // Atualiza o valor padrão do input
+                        showFlashMessage(data.message, data.type);
+                    } else {
+                        showFlashMessage(data.message || 'Erro ao atualizar quantidade.', data.type || 'danger');
+                        input.value = input.defaultValue; // Reverte o valor do input em caso de erro
+                        if (data.current_stock !== undefined) {
+                             input.setAttribute('max', data.current_stock); // Atualiza o max se o backend retornar estoque
+                        }
+                    }
+                } catch (error) {
+                    console.error('Erro de rede ou servidor:', error);
+                    showFlashMessage('Erro de conexão ao servidor.', 'danger');
+                    input.value = input.defaultValue; // Reverte o valor do input
+                }
+            }
+        });
+
+        // Listener para o botão de remover
+        cartItemsBody.addEventListener('click', async function(event) {
+            if (event.target.classList.contains('remove-item-btn') || event.target.closest('.remove-item-btn')) {
+                const button = event.target.closest('.remove-item-btn');
+                const productId = button.dataset.productId;
+                const itemRow = button.closest('tr');
+
+                const confirmRemove = confirm('Você realmente deseja remover este item do carrinho?');
+                if (!confirmRemove) {
+                    return;
+                }
+                
+                handleRemoveItem(productId, itemRow);
+            }
+        });
+
+        // Função auxiliar para lidar com a remoção de itens
+        async function handleRemoveItem(productId, itemRow) {
+            try {
+                const response = await fetch(`/remover_do_carrinho/${productId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    itemRow.remove(); // Remove a linha da tabela
+                    cartTotalDisplay.textContent = 'R$ ' + data.cart_total.toFixed(2).replace('.', ',');
+                    if (cartCountDisplay) {
+                        cartCountDisplay.textContent = data.total_itens;
+                    }
+                    showFlashMessage(data.message, data.type);
+
+                    // Se o carrinho ficar vazio, exibe a mensagem de carrinho vazio
+                    if (data.total_itens === 0) {
+                        const container = document.querySelector('.container');
+                        if (container) {
+                            container.innerHTML = `
+                                <h2 class="text-center mb-4">Seu Carrinho de Compras</h2>
+                                <div class="alert alert-info text-center" role="alert">
+                                    Seu carrinho está vazio. <a href="{{ url_for('main.home') }}" class="alert-link">Comece a comprar agora!</a>
+                                </div>
+                            `;
+                        }
+                    }
+                } else {
+                    showFlashMessage(data.message || 'Erro ao remover item.', data.type || 'danger');
+                }
+            } catch (error) {
+                console.error('Erro de rede ou servidor ao remover:', error);
+                showFlashMessage('Erro de conexão ao servidor ao remover item.', 'danger');
+            }
+        }
+    });
+</script>
+{% endblock %}

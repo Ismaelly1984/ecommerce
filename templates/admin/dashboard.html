@@ -1,124 +1,130 @@
-{% extends "admin/base.html" %}
+{% extends "base_admin.html" %}{# CORRIGIDO AQUI! Estender base_admin.html #}
 
-{% block title %}Dashboard Admin{% endblock %}
-{% block page_title %}Dashboard{% endblock %}
+{% block title %}Dashboard Admin - PremiumStore{% endblock %}
 
-{% block content %}
-<div class="row mb-4">
-    <!-- Cartões de Estatísticas -->
-    <div class="col-md-3 mb-4">
-        <div class="card stat-card bg-primary text-white h-100">
-            <div class="card-body">
-                <h5 class="card-title">Produtos</h5>
-                <h2 class="card-text">{{ total_produtos }}</h2>
-                <i class="fas fa-box-open float-end fs-1 opacity-50"></i>
+{% block admin_content %}
+<div class="row g-4"> {# Usar g-4 para espaçamento entre colunas e linhas #}
+    <div class="col-md-4">
+        <div class="card text-center bg-info text-white h-100 d-flex flex-column justify-content-center"> {# h-100 e d-flex para altura igual e alinhamento #}
+            <div class="card-body py-4"> {# Aumentar padding vertical #}
+                <i class="fas fa-users fa-4x mb-3 animate__animated animate__fadeInDown"></i> {# Ícone maior e animação #}
+                <h5 class="card-title mb-2">Total de Utilizadores</h5>
+                <p class="card-text fs-1 fw-bold animate__animated animate__fadeInUp">{{ total_usuarios }}</p> {# Fonte maior e animação #}
             </div>
         </div>
     </div>
-    
-    <div class="col-md-3 mb-4">
-        <div class="card stat-card bg-success text-white h-100">
-            <div class="card-body">
-                <h5 class="card-title">Usuários</h5>
-                <h2 class="card-text">{{ total_usuarios }}</h2>
-                <i class="fas fa-users float-end fs-1 opacity-50"></i>
+    <div class="col-md-4">
+        <div class="card text-center bg-success text-white h-100 d-flex flex-column justify-content-center">
+            <div class="card-body py-4">
+                <i class="fas fa-box-open fa-4x mb-3 animate__animated animate__fadeInDown"></i>
+                <h5 class="card-title mb-2">Total de Produtos</h5>
+                <p class="card-text fs-1 fw-bold animate__animated animate__fadeInUp">{{ total_produtos }}</p>
             </div>
         </div>
     </div>
-    
-    <div class="col-md-3 mb-4">
-        <div class="card stat-card bg-info text-white h-100">
-            <div class="card-body">
-                <h5 class="card-title">Pedidos</h5>
-                <h2 class="card-text">{{ total_pedidos }}</h2>
-                <i class="fas fa-shopping-bag float-end fs-1 opacity-50"></i>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-md-3 mb-4">
-        <div class="card stat-card bg-warning text-dark h-100">
-            <div class="card-body">
-                <h5 class="card-title">Vendas Totais</h5>
-                <h2 class="card-text">R$ {{ "%.2f"|format(vendas_totais) }}</h2>
-                <i class="fas fa-dollar-sign float-end fs-1 opacity-50"></i>
+    <div class="col-md-4">
+        <div class="card text-center bg-warning text-white h-100 d-flex flex-column justify-content-center">
+            <div class="card-body py-4">
+                <i class="fas fa-shopping-bag fa-4x mb-3 animate__animated animate__fadeInDown"></i>
+                <h5 class="card-title mb-2">Pedidos Hoje</h5>
+                <p class="card-text fs-1 fw-bold animate__animated animate__fadeInUp">{{ pedidos_hoje }}</p>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row">
-    <!-- Últimos Pedidos -->
-    <div class="col-md-8 mb-4">
-        <div class="card h-100">
-            <div class="card-header">
-                <h5 class="mb-0">Últimos Pedidos</h5>
+<div class="row mt-5 g-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Estatísticas de Vendas</h5>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Cliente</th>
-                                <th>Data</th>
-                                <th>Total</th>
-                                <th>Status</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                <div class="mb-3">
+                    <h6 class="fw-bold text-primary">Vendas Mensais:</h6>
+                    <p class="fs-4 mb-0">R$ {{ "%.2f"|format(vendas_mensais) }}</p>
+                </div>
+                <div>
+                    <h6 class="fw-bold text-secondary">Vendas Totais:</h6>
+                    <p class="fs-4 mb-0">R$ {{ "%.2f"|format(vendas_totais) }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Produtos com Stock Baixo (< 10)</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                {% if estoque_baixo %}
+                    {% for produto in estoque_baixo %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="fw-bold">{{ produto.nome }}</span>
+                        <span class="badge bg-danger rounded-pill fs-6">{{ produto.estoque }}</span> {# Badge maior #}
+                    </li>
+                    {% endfor %}
+                {% else %}
+                    <li class="list-group-item text-center text-muted py-3">Nenhum produto com stock baixo.</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0"><i class="fas fa-history me-2"></i>Últimos Pedidos</h5>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>ID do Pedido</th>
+                            <th>Cliente</th>
+                            <th>Data</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if ultimos_pedidos %}
                             {% for pedido in ultimos_pedidos %}
                             <tr>
-                                <td>#{{ pedido['id'] }}</td>
-                                <td>{{ pedido['nome'] }}</td>
-                                <td>{{ pedido['data'] }}</td>
-                                <td>R$ {{ "%.2f"|format(pedido['total']) }}</td>
+                                <td><a href="{{ url_for('admin.detalhes_pedido', id=pedido.id) }}" class="text-primary fw-bold">#{{ pedido.id }}</a></td>
+                                <td>{{ pedido.cliente }}</td>
+                                <td>{{ pedido.data.strftime('%d/%m/%Y %H:%M') }}</td>
+                                <td>R$ {{ "%.2f"|format(pedido.total) }}</td>
                                 <td>
-                                    <span class="badge bg-{{ 'success' if pedido['status'] == 'Entregue' else 'warning' }}">
-                                        {{ pedido['status'] }}
-                                    </span>
+                                    {% set status_class = {
+                                        'Pendente': 'warning',
+                                        'Processando': 'info',
+                                        'Concluído': 'success',
+                                        'Cancelado': 'danger'
+                                    }[pedido.status] | default('secondary') %}
+                                    <span class="badge bg-{{ status_class }}">{{ pedido.status }}</span>
                                 </td>
                                 <td>
-                                    <a href="{{ url_for('detalhes_pedido', id=pedido['id']) }}" 
-                                       class="btn btn-sm btn-outline-primary">
-                                        <i class="fas fa-eye"></i>
+                                    <a href="{{ url_for('admin.detalhes_pedido', id=pedido.id) }}" class="btn btn-sm btn-info" aria-label="Ver detalhes do pedido {{ pedido.id }}">
+                                        <i class="fas fa-eye"></i> Ver
                                     </a>
                                 </td>
                             </tr>
                             {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                        {% else %}
+                            <tr>
+                                <td colspan="6" class="text-center py-4 text-muted">Nenhum pedido recente.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
             </div>
             <div class="card-footer text-end">
-                <a href="{{ url_for('admin_pedidos') }}" class="btn btn-sm btn-primary">
-                    Ver Todos <i class="fas fa-arrow-right ms-1"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Produtos com Estoque Baixo -->
-    <div class="col-md-4 mb-4">
-        <div class="card h-100">
-            <div class="card-header">
-                <h5 class="mb-0">Produtos com Estoque Baixo</h5>
-            </div>
-            <div class="card-body">
-                <div class="list-group">
-                    {% for produto in produtos_estoque_baixo %}
-                    <a href="{{ url_for('editar_produto', id=produto['id']) }}" 
-                       class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                        {{ produto['nome'] }}
-                        <span class="badge bg-danger rounded-pill">{{ produto['estoque'] }}</span>
-                    </a>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="card-footer text-end">
-                <a href="{{ url_for('admin_produtos') }}" class="btn btn-sm btn-primary">
-                    Ver Todos <i class="fas fa-arrow-right ms-1"></i>
+                <a href="{{ url_for('admin.admin_pedidos') }}" class="btn btn-primary btn-sm">
+                    Ver Todos os Pedidos <i class="fas fa-arrow-circle-right ms-2"></i>
                 </a>
             </div>
         </div>

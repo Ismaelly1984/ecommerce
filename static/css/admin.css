@@ -1,0 +1,380 @@
+/* Estilos específicos para o painel de administração */
+body {
+    background-color: #f0f2f5; /* Fundo mais claro e suave */
+    font-family: 'Inter', sans-serif; /* Fonte moderna */
+    margin: 0;
+    padding: 0;
+    line-height: 1.6; /* Melhorar legibilidade do texto */
+    color: #333; /* Cor de texto padrão mais escura */
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #e0e0e0; /* Cor mais suave para a pista */
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background: #999; /* Tom cinza médio */
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #666; /* Escurecer no hover */
+}
+
+/* Estilos da Sidebar */
+.admin-sidebar {
+    background-color: #2a3d4f; /* Tom de azul escuro profissional */
+    color: #f8f9fa; /* Branco suave para o texto */
+    min-height: 100vh;
+    padding-top: 25px; /* Mais padding no topo */
+    transition: all 0.3s ease;
+    box-shadow: 3px 0 10px rgba(0,0,0,0.1); /* Sombra mais suave */
+}
+
+#wrapper.toggled .admin-sidebar {
+    margin-left: -250px;
+}
+
+.admin-sidebar .sidebar-heading {
+    border-bottom: 1px solid rgba(255,255,255,0.15); /* Linha divisória ligeiramente mais visível */
+    margin-bottom: 25px; /* Mais margem */
+    padding-bottom: 20px; /* Mais padding */
+    font-size: 1.8em; /* Título maior */
+    font-weight: 700; /* Mais negrito */
+    color: #ffffff;
+}
+
+.admin-sidebar .list-group-item {
+    background-color: transparent;
+    border: none;
+    padding: 0; /* Remover padding padrão para controlar via .nav-link */
+}
+
+.admin-sidebar .nav-link {
+    color: #dde1e6; /* Cor de texto padrão dos links */
+    padding: 14px 20px; /* Padding generoso para a área clicável */
+    border-radius: 10px; /* Cantos mais arredondados */
+    margin-bottom: 10px; /* Mais espaço entre os links */
+    transition: all 0.3s ease; /* Transição mais suave */
+    display: flex;
+    align-items: center;
+    font-weight: 500; /* Levemente mais negrito */
+}
+.admin-sidebar .nav-link:hover {
+    background-color: #3b5a7a; /* Cor de fundo no hover */
+    color: #ffffff;
+    transform: translateY(-2px); /* Efeito de elevação sutil */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra no hover */
+}
+.admin-sidebar .nav-link.active {
+    background-color: #007bff; /* Cor primária para o item ativo */
+    color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3); /* Sombra mais pronunciada para ativo */
+    transform: translateY(-1px); /* Pequena elevação para o ativo */
+}
+.admin-sidebar .nav-link i {
+    margin-right: 15px; /* Mais margem do ícone */
+    font-size: 1.2em; /* Ícone ligeiramente maior */
+}
+
+/* Conteúdo Principal */
+#page-content-wrapper {
+    transition: all 0.3s ease;
+    background-color: #f0f2f5; /* Fundo do conteúdo */
+}
+#wrapper.toggled #page-content-wrapper {
+    margin-left: 0;
+}
+.admin-content {
+    padding: 30px; /* Mais padding geral do conteúdo */
+}
+
+/* Navbar */
+.navbar {
+    background-color: #ffffff !important; /* Navbar branca */
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Sombra mais visível */
+    padding: 15px 25px; /* Mais padding na navbar */
+}
+.navbar-brand {
+    font-weight: 700; /* Mais negrito */
+    color: #2a3d4f !important; /* Cor da marca para combinar com a sidebar */
+    font-size: 1.5em;
+}
+.navbar-text {
+    font-weight: 600;
+    color: #555;
+    font-size: 0.95em;
+}
+.navbar .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+.navbar .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+
+/* Cards */
+.card {
+    border-radius: 15px; /* Cantos mais arredondados */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Sombra mais pronunciada e suave */
+    border: none;
+    overflow: hidden; /* Garante que o border-radius funcione com o header */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transição para hover */
+}
+.card:hover {
+    transform: translateY(-3px); /* Leve elevação no hover */
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15); /* Sombra maior no hover */
+}
+.card-header {
+    background-color: #3b5a7a; /* Cor de cabeçalho que combina com a sidebar */
+    color: #ffffff;
+    border-top-left-radius: 15px; /* Cantos arredondados para o header */
+    border-top-right-radius: 15px;
+    padding: 18px 25px; /* Mais padding no cabeçalho */
+    font-size: 1.25em; /* Fonte maior */
+    font-weight: 700; /* Mais negrito */
+    display: flex;
+    align-items: center;
+}
+.card-header i {
+    margin-right: 10px;
+}
+.card-body {
+    padding: 30px; /* Mais padding interno dos cards */
+}
+.card .list-group-item {
+    border-color: rgba(0,0,0,0.08); /* Bordas mais visíveis */
+    padding: 15px 25px;
+}
+.card .list-group-item:last-child {
+    border-bottom-left-radius: 15px; /* Arredondar último item da lista */
+    border-bottom-right-radius: 15px;
+}
+
+/* Tabelas */
+.table {
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+}
+.table thead th {
+    background-color: #e9ecef; /* Fundo mais claro e cinza */
+    color: #495057; /* Texto mais escuro */
+    font-weight: 600;
+    border-bottom: 2px solid #dee2e6;
+    padding: 15px 20px; /* Mais padding */
+    text-align: left;
+}
+.table tbody tr td {
+    padding: 15px 20px; /* Mais padding nas células */
+    vertical-align: middle;
+    border-top: 1px solid #e9ecef; /* Borda superior para cada linha */
+}
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f8f9fa; /* Listras mais claras */
+}
+.table-hover tbody tr:hover {
+    background-color: #f1f3f6; /* Efeito hover mais suave */
+    cursor: pointer;
+}
+.table img {
+    border-radius: 10px; /* Cantos mais arredondados */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra mais visível */
+    width: 60px; /* Tamanho fixo para imagens de produtos nas tabelas */
+    height: 60px;
+    object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
+}
+.table a {
+    color: #007bff; /* Links em tabelas com cor primária */
+    text-decoration: none;
+    font-weight: 500;
+}
+.table a:hover {
+    text-decoration: underline;
+}
+
+/* Botões */
+.btn {
+    border-radius: 10px; /* Cantos mais arredondados */
+    font-weight: 600; /* Mais negrito */
+    padding: 12px 25px; /* Padding generoso */
+    transition: all 0.3s ease; /* Transição mais suave */
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1); /* Sombra mais pronunciada */
+    text-transform: uppercase; /* Texto em maiúsculas */
+    letter-spacing: 0.5px; /* Espaçamento entre letras */
+}
+.btn:hover {
+    transform: translateY(-2px); /* Efeito de elevação mais notável */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15); /* Sombra maior no hover */
+}
+/* Cores dos botões mais vibrantes e consistentes */
+.btn-primary { background-color: #007bff; border-color: #007bff; }
+.btn-primary:hover { background-color: #0056b3; border-color: #0056b3; }
+.btn-success { background-color: #28a745; border-color: #28a745; }
+.btn-success:hover { background-color: #218838; border-color: #218838; }
+.btn-danger { background-color: #dc3545; border-color: #dc3545; }
+.btn-danger:hover { background-color: #c82333; border-color: #c82333; }
+.btn-warning { background-color: #ffc107; border-color: #ffc107; color: #333;}
+.btn-warning:hover { background-color: #e0a800; border-color: #e0a800; }
+.btn-info { background-color: #17a2b8; border-color: #17a2b8; }
+.btn-info:hover { background-color: #138496; border-color: #138496; }
+.btn-secondary { background-color: #6c757d; border-color: #6c757d; }
+.btn-secondary:hover { background-color: #5a6268; border-color: #5a6268; }
+
+/* Badges de Status */
+.badge {
+    padding: 0.6em 1em; /* Aumentar padding do badge */
+    border-radius: 0.75rem; /* Cantos mais arredondados */
+    font-size: 0.9em; /* Tamanho da fonte ligeiramente maior */
+    font-weight: 700; /* Mais negrito */
+    text-transform: uppercase; /* Texto em maiúsculas */
+    letter-spacing: 0.5px;
+}
+
+/* Formulários */
+.form-control, .form-select, .form-check-input {
+    border-radius: 10px; /* Cantos mais arredondados */
+    border: 1px solid #ced4da;
+    padding: 0.7em 1em; /* Mais padding */
+    transition: all 0.3s ease-in-out;
+    background-color: #ffffff; /* Fundo branco para inputs */
+}
+.form-control:focus, .form-select:focus {
+    border-color: #007bff; /* Borda primária no foco */
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25); /* Sombra de foco */
+    background-color: #ffffff;
+}
+.form-label {
+    font-weight: 600; /* Mais negrito */
+    margin-bottom: 0.6rem; /* Mais espaço abaixo da label */
+    color: #444; /* Cor mais escura */
+    font-size: 0.95em;
+}
+textarea.form-control {
+    min-height: 100px; /* Altura mínima para textareas */
+}
+
+
+/* Mensagens Flash */
+.flashes {
+    position: sticky;
+    top: 20px;
+    left: 0;
+    right: 0;
+    z-index: 1050;
+    margin-top: 0 !important;
+    padding: 0 30px; /* Padding para alinhar com o novo admin-content */
+}
+.alert {
+    border-radius: 10px; /* Cantos mais arredondados */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Sombra mais pronunciada */
+    margin-bottom: 20px; /* Mais espaço entre alertas */
+    padding: 1em 1.5em; /* Mais padding dentro dos alertas */
+    font-size: 0.95em;
+}
+.alert .btn-close {
+    font-size: 0.9em;
+    padding: 0.5em;
+}
+
+/* Estilos para o link de "ver todos os pedidos" no dashboard */
+.card-footer {
+    background-color: #fcfcfc; /* Fundo mais claro */
+    border-top: 1px solid rgba(0,0,0,0.08); /* Borda superior ligeiramente mais escura */
+    padding: 18px 25px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.card-footer .btn {
+    margin-left: 15px; /* Espaço entre botões no footer */
+}
+
+/* Media Queries para Responsividade */
+@media (max-width: 992px) { /* Ajustar breakpoint para tablets */
+    .admin-sidebar {
+        margin-left: -250px;
+        position: fixed; /* Fixa a sidebar em telas menores */
+        z-index: 1000; /* Acima do conteúdo */
+    }
+    #wrapper.toggled .admin-sidebar {
+        margin-left: 0;
+    }
+    #page-content-wrapper {
+        width: 100%;
+    }
+    .admin-content {
+        padding: 20px;
+    }
+    .navbar-brand {
+        font-size: 1.3em;
+    }
+    .navbar-text {
+        font-size: 0.9em;
+    }
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+    .card-header {
+        font-size: 1.1em;
+        padding: 12px 20px;
+    }
+    .card-body {
+        padding: 20px;
+    }
+    .table thead th, .table tbody tr td {
+        padding: 10px 15px;
+    }
+    .table img {
+        width: 40px;
+        height: 40px;
+    }
+    .form-control, .form-select {
+        padding: 0.5em 0.8em;
+    }
+}
+
+@media (max-width: 576px) { /* Ajustar para telemóveis */
+    .admin-content {
+        padding: 15px;
+    }
+    .navbar-brand {
+        font-size: 1.2em;
+    }
+    .navbar-text {
+        display: none; /* Esconder texto de boas-vindas em ecrãs muito pequenos */
+    }
+    .btn {
+        width: 100%; /* Botões ocupam largura total */
+        margin-bottom: 10px;
+    }
+    .d-grid.gap-2.d-md-block .btn {
+        margin-bottom: 10px;
+    }
+    .card-body {
+        padding: 15px;
+    }
+    .table thead th, .table tbody tr td {
+        font-size: 0.85em;
+        padding: 8px 10px;
+    }
+    .table img {
+        width: 40px;
+        height: 40px;
+    }
+    .form-control, .form-select {
+        padding: 0.5em 0.8em;
+    }
+}

@@ -1,69 +1,81 @@
-{% extends "admin/base.html" %}
+{% extends "base_admin.html" %}
 
-{% block title %}Detalhes do Pedido #{{ pedido[0] }}{% endblock %}
-{% block page_title %}Detalhes do Pedido #{{ pedido[0] }}{% endblock %}
-
-{% block content %}
+{% block title %}Detalhes do Pedido #{{ pedido.id }}{% endblock %} {# Corrigido: use pedido.id #}
+{% block admin_content %} {# Corrigido: use admin_content #}
 <div class="row">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Itens do Pedido</h3>
+    <div class="col-md-8 mb-4"> {# Adicionado mb-4 para espaçamento #}
+        <div class="card shadow-sm"> {# Adicionado shadow-sm #}
+            <div class="card-header bg-dark text-white"> {# Estilo para cabeçalho #}
+                <h3 class="card-title mb-0">Itens do Pedido</h3> {# Adicionado mb-0 #}
             </div>
             <div class="card-body">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>Produto</th>
-                            <th>Quantidade</th>
-                            <th>Preço Unitário</th>
-                            <th>Subtotal</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in itens %}
-                        <tr>
-                            <td><a href="{{ url_for('detalhes_produto', id=item[3]) }}">{{ item[2] }}</a></td>
-                            <td>{{ item[0] }}</td>
-                            <td>R$ {{ "%.2f"|format(item[1]) }}</td>
-                            <td>R$ {{ "%.2f"|format(item[0] * item[1]) }}</td>
-                        </tr>
-                        {% endfor %}
-                        <tr>
-                            <td colspan="3" class="text-right"><strong>Total:</strong></td>
-                            <td><strong>R$ {{ "%.2f"|format(pedido[3]) }}</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive"> {# Tabela responsiva #}
+                    <table class="table table-striped table-hover align-middle"> {# Corrigido para classes Bootstrap #}
+                        <thead>
+                            <tr>
+                                <th scope="col">Produto</th> {# Usar scope #}
+                                <th scope="col">Quantidade</th>
+                                <th scope="col">Preço Unitário</th>
+                                <th scope="col">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in itens %}
+                            <tr>
+                                {# Corrigido: url_for para main.detalhes_produto e use item.id, item.nome #}
+                                <td><a href="{{ url_for('main.detalhes_produto', id=item.id) }}">{{ item.nome }}</a></td>
+                                <td>{{ item.quantidade }}</td>
+                                <td>R$ {{ "%.2f"|format(item.preco_unitario) }}</td>
+                                <td>R$ {{ "%.2f"|format(item.quantidade * item.preco_unitario) }}</td>
+                            </tr>
+                            {% endfor %}
+                            <tr>
+                                <td colspan="3" class="text-end"><strong>Total:</strong></td> {# Corrigido: text-right para text-end #}
+                                <td><strong>R$ {{ "%.2f"|format(pedido.total) }}</strong></td> {# Corrigido: use pedido.total #}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
     
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Informações do Pedido</h3>
+    <div class="col-md-4 mb-4"> {# Adicionado mb-4 #}
+        <div class="card shadow-sm"> {# Adicionado shadow-sm #}
+            <div class="card-header bg-dark text-white"> {# Estilo para cabeçalho #}
+                <h3 class="card-title mb-0">Informações do Pedido</h3> {# Adicionado mb-0 #}
             </div>
             <div class="card-body">
-                <p><strong>Cliente:</strong> {{ pedido[4] }}</p>
-                <p><strong>Email:</strong> {{ pedido[5] }}</p>
-                <p><strong>Data:</strong> {{ pedido[1] }}</p>
-                <p><strong>Status:</strong> 
-                    <span class="badge badge-{{ pedido[2].lower() }}">
-                        {{ pedido[2] }}
+                <p class="mb-2"><strong>ID do Pedido:</strong> #{{ pedido.id }}</p> {# Novo campo #}
+                <p class="mb-2"><strong>Cliente:</strong> {{ pedido.nome }}</p> {# Corrigido: use pedido.nome #}
+                <p class="mb-2"><strong>Email:</strong> {{ pedido.email }}</p> {# Corrigido: use pedido.email #}
+                {# Corrigido: use pedido.data (assumindo datetime object do backend) e formatação #}
+                <p class="mb-2"><strong>Data:</strong> {{ pedido.data.strftime('%d/%m/%Y %H:%M:%S') }}</p>
+                <p class="mb-2"><strong>Status:</strong> 
+                    {# Lógica para cores do badge baseada no status #}
+                    {% set status_class = {
+                        'Pendente': 'warning',
+                        'Processando': 'info',
+                        'Concluído': 'success',
+                        'Cancelado': 'danger'
+                    }[pedido.status] | default('secondary') %}
+                    <span class="badge bg-{{ status_class }}"> {# Corrigido: use bg- prefixo para Bootstrap 5 #}
+                        {{ pedido.status }}
                     </span>
                 </p>
                 
                 <hr>
                 
-                <form method="POST" action="{{ url_for('atualizar_status_pedido', id=pedido[0]) }}">
-                    <div class="form-group">
-                        <label class="form-label">Alterar Status</label>
-                        <select class="form-control" name="status">
-                            <option value="Pendente" {% if pedido[2] == 'Pendente' %}selected{% endif %}>Pendente</option>
-                            <option value="Processando" {% if pedido[2] == 'Processando' %}selected{% endif %}>Processando</option>
-                            <option value="Enviado" {% if pedido[2] == 'Enviado' %}selected{% endif %}>Enviado</option>
-                            <option value="Entregue" {% if pedido[2] == 'Entregue' %}selected{% endif %}>Entregue</option>
+                {# Corrigido: use admin.atualizar_status_pedido e pedido.id #}
+                <form method="POST" action="{{ url_for('admin.atualizar_status_pedido', id=pedido.id) }}">
+                    <div class="mb-3"> {# Corrigido de form-group para mb-3 #}
+                        <label for="status" class="form-label">Alterar Status</label> {# Adicionado for e id #}
+                        <select class="form-select" id="status" name="status"> {# Corrigido para form-select #}
+                            <option value="Pendente" {% if pedido.status == 'Pendente' %}selected{% endif %}>Pendente</option>
+                            <option value="Processando" {% if pedido.status == 'Processando' %}selected{% endif %}>Processando</option>
+                            <option value="Enviado" {% if pedido.status == 'Enviado' %}selected{% endif %}>Enviado</option>
+                            <option value="Concluído" {% if pedido.status == 'Concluído' %}selected{% endif %}>Concluído</option> {# Corrigido para Concluído #}
+                            <option value="Cancelado" {% if pedido.status == 'Cancelado' %}selected{% endif %}>Cancelado</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Atualizar Status</button>

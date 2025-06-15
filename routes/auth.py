@@ -64,3 +64,9 @@ def logout():
     session.clear()
     flash('Você saiu da sua conta.', 'info')
     return redirect(url_for('auth.login')) # Redirecionar para rota do blueprint
+
+
+@auth_bp.route('/forgot-password')
+def forgot_password():
+    # Você criaria um template específico para a recuperação de senha
+    return render_template('forgot_password.html')

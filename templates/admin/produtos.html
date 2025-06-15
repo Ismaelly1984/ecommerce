@@ -1,48 +1,69 @@
-{% extends "admin/base.html" %}
+{% extends "base_admin.html" %}
 
-{% block title %}Gerenciar Produtos{% endblock %}
-{% block page_title %}Gerenciar Produtos{% endblock %}
+{% block title %}Gerenciar Produtos - Admin{% endblock %}
 
-{% block content %}
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title">Todos os Produtos</h3>
-        <a href="{{ url_for('novo_produto') }}" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Novo Produto
-        </a>
+{% block admin_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Gerenciar Produtos</h2>
+    <a href="{{ url_for('admin.novo_produto') }}" class="btn btn-primary"><i class="fas fa-plus-circle me-2"></i> Adicionar Novo Produto</a> {# CORRIGIDO AQUI! #}
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-dark text-white">
+        Lista de Produtos
     </div>
     <div class="card-body">
-        <table class="admin-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Preço</th>
-                    <th>Estoque</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for produto in produtos %}
-                <tr>
-                    <td>{{ produto[0] }}</td>
-                    <td>{{ produto[1] }}</td>
-                    <td>R$ {{ "%.2f"|format(produto[2]) }}</td>
-                    <td>{{ produto[3] }}</td>
-                    <td>
-                        <a href="{{ url_for('editar_produto', id=produto[0]) }}" class="btn btn-sm btn-primary">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <form action="{{ url_for('excluir_produto', id=produto[0]) }}" method="POST" style="display: inline;">
-                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja excluir este produto?')">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Imagem</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Preço</th>
+                        <th scope="col">Estoque</th>
+                        <th scope="col">Descrição</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if produtos %}
+                        {% for produto in produtos %}
+                        <tr>
+                            <td>{{ produto.id }}</td>
+                            <td>
+                                {% if produto.imagem %}
+                                <img src="{{ url_for('static', filename='uploads/' + produto.imagem) }}" alt="{{ produto.nome }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
+                                {% else %}
+                                <i class="fas fa-image text-muted" style="font-size: 30px;"></i>
+                                {% endif %}
+                            </td>
+                            <td>{{ produto.nome }}</td>
+                            <td>R$ {{ "%.2f"|format(produto.preco) }}</td>
+                            <td>
+                                <span class="badge bg-{{ 'danger' if produto.estoque < 10 else 'success' }}">{{ produto.estoque }}</span>
+                            </td>
+                            <td>{{ produto.descricao | truncate(50) }}</td>
+                            <td>
+                                <a href="{{ url_for('admin.editar_produto', id=produto.id) }}" class="btn btn-sm btn-warning me-2" aria-label="Editar {{ produto.nome }}">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="{{ url_for('admin.excluir_produto', id=produto.id) }}" method="POST" class="d-inline" onsubmit="return confirm('Tem certeza que deseja excluir este produto?');">
+                                    <button type="submit" class="btn btn-sm btn-danger" aria-label="Excluir {{ produto.nome }}">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="7" class="text-center py-4">Nenhum produto cadastrado.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 {% endblock %}
