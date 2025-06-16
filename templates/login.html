@@ -1,20 +1,27 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Seu E-commerce</title>
 
-{% block title %}Login - Seu E-commerce{% endblock %}
+    {# Bootstrap CSS via CDN #}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    {# Font Awesome para ícones #}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-{# Include only the CSS specific to the login page within the 'head' block #}
-{% block head %}
+    {# Inclui o CSS global e específico da página de login #}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
-    {# Font Awesome and Google Fonts are already in base.html, so they're not needed here. #}
-{% endblock %}
 
-{% block content %}
+</head>
+<body>
     {# The main content of your login page, wrapped in a container that fits your design #}
     <div class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
                 <div class="logo">
-                    {# This logo might be different from the main site logo, so keeping it here is fine. #}
                     <i class="fas fa-shopping-bag"></i>
                     <span>Seu E-commerce</span>
                 </div>
@@ -22,10 +29,19 @@
                 <p>Faça login para acessar sua conta</p>
             </div>
 
-            {# Flash messages are handled in base.html, which is generally where you want them. #}
-            {# However, if you have specific alert styling for this auth card, you might consider #}
-            {# placing the flash message block directly here if you remove it from base.html's main content area. #}
-            {# For now, rely on base.html to show flashes. #}
+            {# Mensagens flash, se houver #}
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flashes mt-3">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
 
             <form method="POST" class="auth-form">
                 <div class="form-group">
@@ -64,10 +80,11 @@
             </div>
         </div>
     </div>
-{% endblock %}
 
-{# Scripts specific to the login page #}
-{% block scripts %}
+    {# Bootstrap JS e dependências via CDN #}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    {# Scripts específicos para a página de login #}
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const togglePasswordIcon = document.querySelector('.toggle-password');
@@ -87,4 +104,5 @@
             }
         });
     </script>
-{% endblock %}
+</body>
+</html>

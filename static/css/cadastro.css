@@ -1,228 +1,279 @@
-/* cadastro.css */
 
 /* Container principal para formulários de autenticação (login/cadastro) */
 body {
-    /* Estas propriedades são específicas para centralizar o formulário de cadastro na página. */
-    /* Outras propriedades de 'body' (cor do texto, background-color, min-height, display, flex-direction) */
-    /* já são definidas no global.css e não precisam ser repetidas aqui. */
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh; /* Garante que o corpo ocupe a altura total para a centralização */
-    /* A font-family 'Poppins' é uma sobreposição da font 'Inter' definida no global.css, específica para esta página */
-    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-light); /* Fundo consistente */
+    font-family: 'Poppins', sans-serif; /* Usar Poppins conforme especificado nos templates */
+    color: var(--text-dark); /* Cor de texto padrão */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Garante que padding não adicione largura extra */
 }
 
-/* Reutilizando estilos de contêiner de autenticação para consistência com o login */
-.container_cadastro { /* Este é o seu contêiner principal do card */
-    padding: var(--spacing-xl); /* Usado para o preenchimento geral interno do card */
+/* Card principal de autenticação */
+.auth-card {
+    padding: var(--spacing-md); /* Padding ajustado para o card ser menor */
     width: 100%;
-    max-width: 450px; /* Largura máxima para o card, consistente com o login */
+    max-width: 380px; /* LARGURA MÁXIMA AJUSTADA PARA SER MENOR */
     background-color: white;
     border-radius: var(--border-radius-lg);
-    box-shadow: 0 10px 30px var(--shadow-light);
+    box-shadow: 0 10px 30px var(--shadow-medium); /* Sombra mais pronunciada */
     text-align: center;
-    position: relative; /* Para potencial posicionamento absoluto de alertas */
-    overflow: hidden; /* Garante que sombras e bordas arredondadas sejam respeitadas */
+    position: relative;
+    overflow: hidden; /* Garante que bordas arredondadas e sombras internas sejam respeitadas */
+    margin: var(--spacing-md); /* Adiciona margem para pequenas telas */
 }
 
-/* Cabeçalho da página de Cadastro */
-.container_cadastro h1 {
-    font-size: 2.2rem;
-    color: var(--primary-dark);
-    margin-bottom: var(--spacing-md);
+/* Cabeçalho do card de autenticação */
+.auth-header {
+    margin-bottom: var(--spacing-lg);
+}
+
+.auth-header .logo {
+    display: flex;
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: center; /* Centraliza horizontalmente */
+    font-size: 1.6rem; /* Ajustado para caber melhor no card menor */
     font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: var(--spacing-sm);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.05); /* Sutil sombra no texto do logo */
+}
+
+.auth-header .logo i {
+    color: var(--secondary-color);
+    margin-right: var(--spacing-sm);
+    font-size: 1.8rem; /* Ajustado */
+}
+
+.auth-header h1 {
+    font-size: 1.8rem; /* Título principal ajustado */
+    color: var(--primary-dark);
+    margin-bottom: var(--spacing-xs);
+    font-weight: 700;
+}
+
+.auth-header p {
+    font-size: 0.9rem; /* Ajustado */
+    color: var(--text-light);
+    margin-bottom: 0;
+}
+
+/* Estilização de Mensagens Flash (Bootstrap Alerts) */
+.flashes {
+    position: relative; /* Ajusta posicionamento para dentro do card */
+    margin-bottom: var(--spacing-md);
+    text-align: left;
+    width: calc(100% - (var(--spacing-md) * 2)); /* Ajusta a largura para o padding do card */
+    left: var(--spacing-md);
+}
+
+.alert {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 10px; /* Espaço entre o ícone e o texto */
-}
-
-.container_cadastro h1 i {
-    font-size: 2rem;
-    color: var(--secondary-color);
-}
-
-
-/* Estilização de Mensagens de Alerta (consistente com login.css) */
-/* As propriedades 'display', 'align-items', 'margin-bottom', 'border-radius', 'font-size' e 'gap' */
-/* já são definidas na classe .alert do global.css. Mantemos apenas as específicas/sobreposições. */
-.alert {
-    justify-content: center; /* Centraliza o conteúdo do alerta */
-    text-align: left; /* Alinha o texto à esquerda dentro do alerta */
-    border: 1px solid transparent; /* Adiciona uma borda transparente por padrão */
+    margin-bottom: var(--spacing-sm);
+    border-radius: var(--border-radius-md);
+    font-size: 0.85rem; /* Ajustado */
+    padding: 10px 12px; /* Padding interno do alerta ajustado */
+    border: 1px solid transparent; /* Bordas transparentes padrão */
 }
 
 .alert-success {
-    background-color: #e6ffed; /* Fundo verde claro */
-    color: #1a7e37; /* Texto verde escuro */
-    border-color: #b3f0c3; /* Borda verde */
+    background-color: #d4edda; /* Fundo verde claro */
+    color: #155724; /* Texto verde escuro */
+    border-color: #c3e6cb; /* Borda verde */
 }
 
-.alert-success .fas {
-    color: #28a745; /* Cor do ícone verde mais profunda */
+.alert-danger {
+    background-color: #f8d7da; /* Fundo vermelho claro */
+    color: #721c24; /* Texto vermelho escuro */
+    border-color: #f5c6cb; /* Borda vermelha */
 }
 
-/* Estilização do Grupo de Formulário (consistente com login.css) */
+.alert .btn-close {
+    font-size: 0.7rem; /* Ajustado */
+    margin-left: auto; /* Empurra o botão para a direita */
+}
+
+/* Formulário de autenticação */
+.auth-form {
+    text-align: left;
+}
+
 .form-group {
     margin-bottom: var(--spacing-md);
-    text-align: left;
-    position: relative; /* Adicionado para posicionamento de ícone */
+    position: relative; /* Para posicionar ícones */
 }
 
 .form-group label {
-    display: block; /* Garante que o label ocupe sua própria linha */
-    font-size: 0.9rem;
+    display: block;
+    font-size: 0.85rem; /* Ajustado */
     color: var(--text-dark);
     margin-bottom: 6px;
     font-weight: 500;
 }
 
-/* Ícones dentro dos labels para a página de Cadastro */
-.form-group label .fas {
-    margin-right: 8px; /* Espaço entre o ícone e o texto do label */
-    color: var(--text-light);
-    font-size: 1rem;
-}
-
-
-/* Estilização de Input */
-/* Muitas propriedades de input são definidas no global.css. */
-/* Aqui, sobrescrevemos o padding e border-radius se forem diferentes do global, */
-/* e adicionamos o padding-left específico para o ícone. */
-.form-group input[type="text"],
+/* Estilização de Inputs com ícone inicial */
+.form-group input[type="text"], /* Adicionado 'text' para o campo de nome no cadastro */
 .form-group input[type="email"],
 .form-group input[type="password"] {
-    padding: 12px 15px; /* Padding ligeiramente diferente do global, mantido */
-    border-radius: var(--border-radius-md); /* Menos arredondado que o global, mantido */
-    /* As propriedades 'width', 'border', 'font-size', 'color', 'outline', 'transition', 'background-color' */
-    /* já estão no global.css e foram removidas daqui. */
-    padding-left: 45px; /* Específico para o ícone inicial do campo */
+    width: 100%;
+    padding: 10px 12px 10px 40px; /* Padding-left para o ícone, ajustado */
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    font-size: 0.95rem; /* Ajustado */
+    color: var(--text-dark);
+    outline: none;
+    transition: all 0.3s ease;
+    background-color: var(--background-light);
 }
 
-/* A regra de foco para inputs já está no global.css, não precisa ser repetida aqui */
+.form-group input:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    background-color: white;
+}
 
-
-/* Posicionamento para os ícones iniciais dentro do form-group */
-.form-group > .fas { /* Alvo: o ícone .fas que é diretamente filho de .form-group */
+/* Ícones dentro do form-group (para email e nome no cadastro) */
+.form-group > .fas {
     position: absolute;
-    left: 15px;
-    top: calc(50% + 10px); /* Ajuste para centralizar verticalmente com o input, considerando o label */
-    transform: translateY(-50%);
+    left: 12px; /* Ajustado */
+    top: 50%; /* Alinha verticalmente com o input, ajuste conforme necessário */
+    transform: translateY(calc(-50% + 14px)); /* Ajusta para ficar no centro do input */
     color: var(--text-light);
-    font-size: 1rem;
-    z-index: 2; /* Garante que o ícone esteja acima do input */
+    font-size: 0.9rem; /* Ajustado */
+    z-index: 2;
 }
-
 
 /* Contêiner de Senha para o ícone de toggle */
 .password-container {
     position: relative;
-    display: flex; /* Para controlar o layout interno do input e ícone */
-    align-items: center; /* Alinha o ícone verticalmente */
+    display: flex;
+    align-items: center; /* Alinha o input e os ícones verticalmente */
 }
 
 .password-container input {
-    padding-right: 45px; /* Abre espaço para o ícone de toggle */
+    width: 100%; /* Garante que o input preenche o container */
+    padding-left: 40px; /* Para o ícone de cadeado, ajustado */
+    padding-right: 40px; /* Para o ícone de toggle, ajustado */
+    /* Outros estilos de input já definidos acima se aplicam */
 }
 
+/* Ícone de cadeado dentro do password-container */
+.password-container > .fas {
+    position: absolute;
+    left: 12px; /* Ajustado */
+    color: var(--text-light);
+    font-size: 0.9rem; /* Ajustado */
+    z-index: 2;
+}
+
+/* Ícone de toggle password */
 .password-container .toggle-password {
     position: absolute;
-    right: 15px;
+    right: 12px; /* Ajustado */
     cursor: pointer;
     color: var(--text-light);
     transition: color 0.2s ease;
-    z-index: 3; /* Garante que esteja acima do input */
+    z-index: 3;
 }
 
 .password-container .toggle-password:hover {
     color: var(--secondary-color);
 }
 
-/* Estilização do Botão de Envio (consistente com auth-btn do login.css) */
-/* As propriedades de background, cor do texto, borda, border-radius (se for pill), */
-/* font-size, font-weight, cursor e transition podem ser herdadas das classes .btn e .btn-primary */
-/* do global.css se o botão usar essas classes no HTML. */
-/* Mantemos as propriedades específicas de layout e tamanho. */
-button[type="submit"] {
+
+/* Estilização do Botão de Autenticação */
+.auth-btn {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-    padding: 15px 20px; /* Padding específico para este botão */
-    border-radius: var(--border-radius-pill); /* Mantido para garantir o arredondamento */
-    font-size: 1.1rem; /* Tamanho da fonte específico */
-    font-weight: 600; /* Peso da fonte específico */
-    gap: 10px; /* Espaço entre ícone e texto */
-    margin-top: var(--spacing-lg); /* Espaço acima do botão */
-    /* Propriedades de background, cor do texto, borda, box-shadow e transition */
-    /* são melhor controladas pelas classes .btn e .btn-primary no HTML. */
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); /* Mantido para o gradiente específico */
-    color: white; /* Mantido para a cor do texto específica */
-    border: none; /* Mantido para remover borda */
-    box-shadow: 0 6px 20px rgba(106, 5, 114, 0.3); /* Sombra específica */
+    padding: 12px 15px; /* Padding ajustado */
+    border-radius: var(--border-radius-pill);
+    font-size: 1rem; /* Ajustado */
+    font-weight: 600;
+    gap: 8px; /* Ajustado */
+    margin-top: var(--spacing-lg);
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    border: none;
+    box-shadow: 0 6px 20px rgba(106, 5, 114, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
-button[type="submit"]:hover {
+.auth-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(106, 5, 114, 0.4);
 }
 
-/* Link do Rodapé (consistente com login.css) */
-.container_cadastro p {
-    font-size: 0.9rem;
+/* Rodapé do card de autenticação */
+.auth-footer {
+    font-size: 0.85rem; /* Ajustado */
     color: var(--text-light);
     margin-top: var(--spacing-xl);
     margin-bottom: 0;
 }
 
-.container_cadastro p a {
+.auth-footer a {
     color: var(--secondary-color);
     text-decoration: none;
     font-weight: 600;
     transition: color 0.2s ease;
 }
 
-.container_cadastro p a:hover {
+.auth-footer a:hover {
     color: var(--primary-dark);
     text-decoration: underline;
 }
 
-
 /* --- Ajustes Responsivos --- */
 @media (max-width: 576px) {
-    .container_cadastro {
-        padding: var(--spacing-lg);
-        margin: var(--spacing-md); /* Adiciona margem em telas muito pequenas */
+    .auth-card { /* Usar .auth-card para o card principal */
+        padding: var(--spacing-md);
+        margin: var(--spacing-md);
+        max-width: 90%; /* Ajuste para telas muito pequenas */
     }
 
-    .container_cadastro h1 {
-        font-size: 1.8rem;
+    .auth-header h1 {
+        font-size: 1.6rem;
     }
 
-    .container_cadastro h1 i {
-        font-size: 1.8rem;
+    .auth-header .logo {
+        font-size: 1.4rem;
     }
 
-    button[type="submit"] {
-        font-size: 1rem;
-        padding: 12px 15px;
+    .auth-header .logo i {
+        font-size: 1.6rem;
+    }
+
+    .auth-btn {
+        font-size: 0.9rem;
+        padding: 10px 12px;
     }
 
     .form-group label,
-    .container_cadastro p {
-        font-size: 0.85rem;
+    .auth-footer p {
+        font-size: 0.8rem;
     }
 
-    /* Ajusta o posicionamento do ícone para telas menores, se necessário */
-    .form-group > .fas {
-        left: 10px; /* Padding ligeiramente menor em telas menores */
-    }
-
-    /* Ajusta o padding do input para o ícone inicial */
     .form-group input[type="text"],
     .form-group input[type="email"],
     .form-group input[type="password"] {
-        padding-left: 40px;
+        padding: 8px 10px 8px 35px; /* Reduz padding para telas menores */
+    }
+
+    .form-group > .fas,
+    .password-container > .fas {
+        left: 10px; /* Ajusta a posição do ícone para o padding menor */
+        font-size: 0.8rem;
+    }
+
+    .password-container .toggle-password {
+        right: 10px; /* Ajusta a posição do ícone de toggle */
     }
 }
