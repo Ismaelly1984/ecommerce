@@ -64,11 +64,12 @@ body {
 
 /* Estilização de Mensagens Flash (Bootstrap Alerts) */
 .flashes {
-    position: relative; /* Ajusta posicionamento para dentro do card */
+    position: relative;
     margin-bottom: var(--spacing-md);
     text-align: left;
-    width: calc(100% - (var(--spacing-md) * 2)); /* Ajusta a largura para o padding do card */
-    left: var(--spacing-md);
+    /* Ajusta a largura para o padding do card - use 'auth-card' ou 'container_cadastro' */
+    width: calc(100% - (var(--spacing-md) * 2)); 
+    left: var(--spacing-md); /* Posiciona em relação ao padding do card */
 }
 
 .alert {
@@ -79,6 +80,7 @@ body {
     font-size: 0.85rem; /* Ajustado */
     padding: 10px 12px; /* Padding interno do alerta ajustado */
     border: 1px solid transparent; /* Bordas transparentes padrão */
+    box-shadow: 0 2px 5px var(--shadow-light); /* Sombra sutil para alertas */
 }
 
 .alert-success {
@@ -117,7 +119,6 @@ body {
 }
 
 /* Estilização de Inputs com ícone inicial */
-.form-group input[type="text"], /* Adicionado 'text' para o campo de nome no cadastro */
 .form-group input[type="email"],
 .form-group input[type="password"] {
     width: 100%;
@@ -127,22 +128,22 @@ body {
     font-size: 0.95rem; /* Ajustado */
     color: var(--text-dark);
     outline: none;
-    transition: all 0.3s ease;
-    background-color: var(--background-light);
+    transition: all var(--transition-speed) ease; /* Transição suave para todas as propriedades */
+    background-color: white; /* Fundo branco para inputs */
 }
 
 .form-group input:focus {
     border-color: var(--secondary-color);
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Sombra mais suave no foco */
     background-color: white;
 }
 
-/* Ícones dentro do form-group (para email e nome no cadastro) */
+/* Ícones dentro do form-group (para email no login) */
 .form-group > .fas {
     position: absolute;
     left: 12px; /* Ajustado */
     top: 50%; /* Alinha verticalmente com o input, ajuste conforme necessário */
-    transform: translateY(calc(-50% + 14px)); /* Ajusta para ficar no centro do input */
+    transform: translateY(calc(-50% + 14px)); /* Ajusta para ficar no centro do input, considerando o label */
     color: var(--text-light);
     font-size: 0.9rem; /* Ajustado */
     z-index: 2;
@@ -177,7 +178,7 @@ body {
     right: 12px; /* Ajustado */
     cursor: pointer;
     color: var(--text-light);
-    transition: color 0.2s ease;
+    transition: color var(--transition-speed) ease;
     z-index: 3;
 }
 
@@ -201,14 +202,14 @@ body {
     background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
     color: white;
     border: none;
-    box-shadow: 0 6px 20px rgba(106, 5, 114, 0.3);
-    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(106, 5, 114, 0.3); /* Sombra mais viva */
+    transition: all var(--transition-speed) ease;
     cursor: pointer;
 }
 
 .auth-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(106, 5, 114, 0.4);
+    transform: translateY(-3px); /* Efeito de elevação */
+    box-shadow: 0 8px 25px rgba(106, 5, 114, 0.4); /* Sombra mais intensa no hover */
 }
 
 /* Rodapé do card de autenticação */
@@ -223,7 +224,7 @@ body {
     color: var(--secondary-color);
     text-decoration: none;
     font-weight: 600;
-    transition: color 0.2s ease;
+    transition: color var(--transition-speed) ease;
 }
 
 .auth-footer a:hover {
@@ -233,7 +234,7 @@ body {
 
 /* --- Ajustes Responsivos --- */
 @media (max-width: 576px) {
-    .auth-card { /* Usar .auth-card para o card principal */
+    .auth-card {
         padding: var(--spacing-md);
         margin: var(--spacing-md);
         max-width: 90%; /* Ajuste para telas muito pequenas */
@@ -260,10 +261,9 @@ body {
     .auth-footer p {
         font-size: 0.8rem;
     }
-
-    .form-group input[type="text"],
     .form-group input[type="email"],
-    .form-group input[type="password"] {
+    .form-group input[type="password"],
+    .form-group input[type="text"] { /* Add this line */
         padding: 8px 10px 8px 35px; /* Reduz padding para telas menores */
     }
 
